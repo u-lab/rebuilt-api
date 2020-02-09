@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\SnsAccount;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\UserSnsAccount
@@ -20,5 +23,36 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserSnsAccount extends Model
 {
-    //
+    use SoftDeletes;
+
+    /**
+     * 複数代入する属性
+     *
+     * @var array
+     */
+    protected $fillable = ['user_id', 'sns_id', 'sns_url'];
+
+    /**
+     * ネイティブなタイプへキャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id'      => 'integer',
+        'user_id' => 'integer',
+        'sns_id'  => 'integer',
+        'sns_url' => 'string'
+    ];
+
+    /**
+     * 日付へキャストする属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
+    public function sns_account(): HasOne
+    {
+        return $this->hasOne(SnsAccount::class, 'sns_id', 'sns_id');
+    }
 }

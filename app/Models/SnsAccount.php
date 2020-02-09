@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\SnsAccount
@@ -20,5 +21,37 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SnsAccount extends Model
 {
-    //
+    use SoftDeletes;
+
+    /**
+     * テーブルの主キー
+     *
+     * @var string
+     */
+    protected $primaryKey = 'sns_id';
+
+    /**
+     * 複数代入する属性
+     *
+     * @var array
+     */
+    protected $fillable = ['sns_name', 'sns_top_url'];
+
+    /**
+     * ネイティブなタイプへキャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sns_id'      => 'integer',
+        'sns_name'    => 'string',
+        'sns_top_url' => 'string'
+    ];
+
+    /**
+     * 日付へキャストする属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 }

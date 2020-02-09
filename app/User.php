@@ -7,6 +7,7 @@ use App\Models\UserRole;
 use App\Models\UserProfile;
 use App\Models\UserPortfolio;
 use App\Models\OAuthProvider;
+use App\Models\UserSnsAccount;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
@@ -172,5 +173,10 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function user_portfolio(): HasOne
     {
         return $this->hasOne(UserPortfolio::class);
+    }
+
+    public function user_sns_accounts(): HasMany
+    {
+        return $this->hasMany(UserSnsAccount::class);
     }
 }

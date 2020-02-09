@@ -14,7 +14,10 @@ class CreateSnsAccountsTable extends Migration
     public function up()
     {
         Schema::create('sns_accounts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('sns_id');
+            $table->string('sns_name', '100')->comment('SNSサービス名');
+            $table->string('sns_top_url', '255')->nullable()->comment('SNSのURL');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
