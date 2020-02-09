@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\UserRole
@@ -20,5 +22,32 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserRole extends Model
 {
-    //
+    /**
+     * テーブルの主キー
+     *
+     * @var string
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
+     * 複数代入する属性
+     *
+     * @var array
+     */
+    protected $fillable = ['user_id', 'role_id'];
+
+    /**
+     * ネイティブなタイプへキャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+        'role_id' => 'integer'
+    ];
+
+    public function role(): HasOne
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
 }
