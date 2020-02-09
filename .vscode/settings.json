@@ -1,0 +1,18 @@
+{
+  "files.insertFinalNewline": true,
+  "php-cs-fixer.executablePath": "${extensionPath}\\php-cs-fixer.phar",
+  "php-cs-fixer.rules": "@PSR2",
+  "php-cs-fixer.formatHtml": true,
+  "php-cs-fixer.onsave": true,
+  "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}",
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+  },
+}
