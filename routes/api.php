@@ -47,19 +47,17 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['prefix' => 'users'], function () {
             // ユーザー削除
-            Route::delete('', 'Users\UserController@delete');
+            Route::delete('', 'Users\UserController@destory');
             // 作品の一覧・追加・取得・編集・削除
             Route::apiResource('storage', 'Users\StorageController');
 
             // 自分のプロフィール取得・編集
-            Route::resource('profile', 'Users\ProfileController', ['only' => [
-                'index', 'update'
-            ]]);
+            Route::get('profile', 'Users\ProfileController@show');
+            Route::patch('profile', 'Users\ProfileController@update');
 
             // 自分のポートフォリオ取得・編集
-            Route::resource('page', 'Users\PageController', ['only' => [
-                'index', 'update'
-            ]]);
+            Route::get('page', 'Users\PageController@show');
+            Route::patch('page', 'Users\PageController@update');
 
             // TODO 必要ないと判断できたら削除
             Route::patch('settings/profile', 'Settings\ProfileController@update');
