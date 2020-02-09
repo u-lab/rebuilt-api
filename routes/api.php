@@ -43,7 +43,7 @@ Route::group(['prefix' => 'v1'], function () {
         // プロフィール一覧
         Route::get('profiles', 'Pages\ProfileController@index');
         // ストレージ一覧
-        Route::get('storages', 'Pages\StorageController@index');
+        Route::get('storages', 'Pages\StorageController@all');
 
         Route::group(['prefix' => 'users'], function () {
             // ユーザー削除
