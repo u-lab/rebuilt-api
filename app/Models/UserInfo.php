@@ -20,5 +20,38 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserInfo extends Model
 {
-    //
+    /**
+     * テーブルの主キー
+     *
+     * @var string
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
+     * 複数代入する属性
+     *
+     * @var array
+     */
+    protected $fillable = ['user_id', 'first_name', 'last_name', 'school_name', 'birthday', 'prefecture', 'city', 'street'];
+
+    /**
+     * ネイティブなタイプへキャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'integer',
+        'first_name' => 'string',
+        'last_name' => 'string',
+        'school_name' => 'string',
+        'birthday' => 'date',
+        'prefecture' => 'string',
+        'city' => 'string',
+        'street'=> 'string'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $dates = ['birthday', 'created_at', 'updated_at'];
 }

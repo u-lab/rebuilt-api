@@ -14,7 +14,14 @@ class CreateUserInfosTable extends Migration
     public function up()
     {
         Schema::create('user_infos', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('last_name', '50')->comment('性');
+            $table->string('first_name', '50')->comment('名');
+            $table->string('school_name', '100')->comment('学校名');
+            $table->date('birthday')->comment('誕生日');
+            $table->string('prefecture', '20')->comment('都道府県');
+            $table->string('city', '100')->comment('市区町村');
+            $table->string('street', '100')->comment('その他、アパート等');
             $table->timestamps();
         });
     }
