@@ -2,10 +2,16 @@
 
 namespace App;
 
+use App\Models\UserInfo;
+use App\Models\UserRole;
+use App\Models\UserProfile;
+use App\Models\UserPortfolio;
 use App\Models\OAuthProvider;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -84,7 +90,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      *
      * @return string
      */
-    public function getPhotoUrlAttribute()
+    public function getPhotoUrlAttribute(): string
     {
         return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->email)).'.jpg?s=200&d=mm';
     }
@@ -94,7 +100,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function oauthProviders()
+    public function oauthProviders(): HasMany
     {
         return $this->hasMany(OAuthProvider::class);
     }
@@ -105,7 +111,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @param  string  $token
      * @return void
      */
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
     }
@@ -115,7 +121,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      *
      * @return void
      */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail);
     }
@@ -123,7 +129,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     /**
      * @return int
      */
-    public function getJWTIdentifier()
+    public function getJWTIdentifier(): int
     {
         return $this->getKey();
     }
@@ -131,8 +137,40 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     /**
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_role(): HasOne
+    {
+        return $this->hasOne(UserRole::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_info(): HasOne
+    {
+        return $this->hasOne(UserInfo::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_profile(): HasOne
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_portfolio(): HasOne
+    {
+        return $this->hasOne(UserPortfolio::class);
     }
 }
