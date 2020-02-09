@@ -15,28 +15,71 @@ use Illuminate\Http\Request;
 
 
 Route::group(['prefix' => 'v1'], function () {
+    // パンくずリスト
+    Route::get('breadcrumbs', 'BreadcrumbsController@index');
+    // サイトマップ
+    Route::get('sitemap', 'SitemapController@index');
+
+    // pages
+    Route::group(['prefix' => 'pages'], function () {
+        // 個人ページ
+        Route::get('{user}', 'Pages\PageController@show');
+        // 作品一覧
+        Route::get('{user}/storages', 'Pages\StorageController@index');
+        // 作品ページ
+        Route::get('{user}/storages/{storage_id}', 'Pages\StorageController@show');
+    });
+
+    // 認証に通った場合
     Route::group(['middleware' => 'auth:api'], function () {
+        // ログアウト
         Route::post('logout', 'Auth\LoginController@logout');
 
+        // TODO 必要ないと判断できたら削除
         Route::get('/user', function (Request $request) {
             return $request->user();
         });
 
-        Route::patch('settings/profile', 'Settings\ProfileController@update');
-        Route::patch('settings/password', 'Settings\PasswordController@update');
-    });
+        // プロフィール一覧
+        Route::get('profiles', 'Pages\ProfileController@index');
+        // ストレージ一覧
+        Route::get('storages', 'Pages\StorageController@index');
 
-    Route::group(['middleware' => 'guest:api'], function () {
-        Route::post('login', 'Auth\LoginController@login');
-        Route::post('register', 'Auth\RegisterController@register');
+        Route::group(['prefix' => 'users'], function () {
+            // ユーザー削除
+            Route::delete('', 'Users\UserController@delete');
+            // 作品の一覧・追加・取得・編集・削除
+            Route::apiResource('storage', 'Users\StorageController');
 
-        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-        Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+            // 自分のプロフィール取得・編集
+            Route::resource('profile', 'Users\ProfileController', ['only' => [
+                'index', 'update'
+            ]]);
 
-        Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
-        Route::post('email/resend', 'Auth\VerificationController@resend');
+            // 自分のポートフォリオ取得・編集
+            Route::resource('page', 'Users\PageController', ['only' => [
+                'index', 'update'
+            ]]);
 
-        Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
-        Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+            // TODO 必要ないと判断できたら削除
+            Route::patch('settings/profile', 'Settings\ProfileController@update');
+            // TODO 必要ないと判断できたら削除
+            Route::patch('settings/password', 'Settings\PasswordController@update');
+        });
+
+        // 未認証の場合
+        Route::group(['middleware' => 'guest:api'], function () {
+            Route::post('login', 'Auth\LoginController@login');
+            Route::post('register', 'Auth\RegisterController@register');
+
+            Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+            Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+            Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
+            Route::post('email/resend', 'Auth\VerificationController@resend');
+
+            Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
+            Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+        });
     });
 });
