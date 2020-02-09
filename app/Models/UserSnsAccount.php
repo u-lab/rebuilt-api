@@ -20,6 +20,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property int $sns_id SNSのID
+ * @property string $sns_url SNSのURL
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\SnsAccount $sns_account
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserSnsAccount onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereSnsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereSnsUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserSnsAccount withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\UserSnsAccount withoutTrashed()
  */
 class UserSnsAccount extends Model
 {

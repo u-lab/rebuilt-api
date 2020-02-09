@@ -17,6 +17,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property int $masterpiece_storage_id 代表作品
+ * @property string $long_comment 本文
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereLongComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereMasterpieceStorageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereUserId($value)
  */
 class UserPortfolio extends Model
 {

@@ -19,6 +19,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property int $role_id
+ * @property-read \App\Models\Role $role
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole whereUserId($value)
  */
 class UserRole extends Model
 {

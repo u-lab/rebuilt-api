@@ -17,6 +17,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $user_id
+ * @property string $nick_name あだ名
+ * @property string $job_name 肩書き
+ * @property string $hobby 趣味
+ * @property string $description 一言コメント
+ * @property string $icon_image_url ユーザーアイコン
+ * @property string $web_address ユーザーサイト
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereHobby($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereIconImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereJobName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereNickName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereWebAddress($value)
  */
 class UserProfile extends Model
 {

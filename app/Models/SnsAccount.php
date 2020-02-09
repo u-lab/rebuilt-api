@@ -18,6 +18,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $sns_id
+ * @property string $sns_name SNSサービス名
+ * @property string|null $sns_top_url SNSのURL
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\SnsAccount onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereSnsId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereSnsName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SnsAccount whereSnsTopUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\SnsAccount withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\SnsAccount withoutTrashed()
  */
 class SnsAccount extends Model
 {
