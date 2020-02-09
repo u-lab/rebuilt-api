@@ -20,5 +20,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UserPortfolio extends Model
 {
-    //
+    /**
+     * テーブルの主キー
+     *
+     * @var string
+     */
+    protected $primaryKey = 'user_id';
+
+    /**
+     * 複数代入する属性
+     *
+     * @var array
+     */
+    protected $fillable = ['user_id', 'masterpiece_storage_id', 'long_text'];
+
+    /**
+     * ネイティブなタイプへキャストする属性
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id'                => 'integer',
+        'masterpiece_storage_id' => 'integer',
+        'long_text'              => 'string'
+    ];
 }

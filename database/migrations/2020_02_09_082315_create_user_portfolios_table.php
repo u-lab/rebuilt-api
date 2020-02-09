@@ -14,7 +14,9 @@ class CreateUserPortfoliosTable extends Migration
     public function up()
     {
         Schema::create('user_portfolios', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('masterpiece_storage_id')->comment('代表作品');
+            $table->longText('long_comment')->comment('本文');
             $table->timestamps();
         });
     }
