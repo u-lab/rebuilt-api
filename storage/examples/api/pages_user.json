@@ -1,0 +1,38 @@
+{
+  "data": {
+    "id": 1,
+    "name": "admin",
+    "created_at": "2020-02-10T06:21:12.000000Z",
+    "updated_at": "2020-02-10T06:21:12.000000Z",
+    "user_info": {
+      "user_id": 1,
+      "last_name": "\u52a0\u85e4",
+      "first_name": "\u3042\u3059\u304b",
+      "school_name": "\u4f50\u3005\u6728\u5e02\u5b66\u6821",
+      "birthday": "1951-09-05 00:00:00",
+      "prefecture": "\u6771\u4eac\u90fd",
+      "city": "\u4e95\u9ad8\u5e02",
+      "street": "\u9ad8\u6a4b\u753a\u6850\u5c719-4-1",
+      "created_at": "2020-02-10 15:21:12",
+      "updated_at": "2020-02-10 15:21:12"
+    },
+    "user_profile": {
+      "user_id": 1,
+      "nick_name": "nhirokawa",
+      "job_name": "ut",
+      "hobby": "quia",
+      "description": "Sit in.",
+      "icon_image_url": "http://sasaki.info/magnam-deleniti-ipsam-sint-placeat",
+      "web_address": "http://hamada.info/numquam-similique-earum-commodi-corrupti-qui-sed.html",
+      "created_at": "2020-02-10 15:21:12",
+      "updated_at": "2020-02-10 15:21:12"
+    },
+    "user_portfolio": {
+      "user_id": 1,
+      "masterpiece_storage_id": 1,
+      "long_comment": "Iure porro expedita in omnis sed. Et perspiciatis officia et est accusantium officia corrupti. Repellendus ratione laborum magnam et vel nam.",
+      "created_at": "2020-02-10 15:21:12",
+      "updated_at": "2020-02-10 15:21:12"
+    }
+  }
+}
