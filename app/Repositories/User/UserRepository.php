@@ -3,7 +3,6 @@
 namespace App\Repositories\User;
 
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\User\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -17,5 +16,10 @@ class UserRepository implements UserRepositoryInterface
         $user = User::whereName($user_name)->first();
 
         return $user;
+    }
+
+    public function get_user_id(string $user_name): int
+    {
+        return $this->get_user_by_name($user_name)->id;
     }
 }
