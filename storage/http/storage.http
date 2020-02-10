@@ -1,0 +1,3 @@
+GET http://localhost:8000/api/v1/pages/admin/storages
+
+GET http://localhost:8000/api/v1/pages/admin/storages/1581315433ra05d0
