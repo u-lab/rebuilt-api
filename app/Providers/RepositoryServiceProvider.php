@@ -11,6 +11,8 @@ use App\Repositories\User\UserPortfolioRepository;
 use App\Repositories\User\UserPortfolioRepositoryInterface;
 use App\Repositories\User\UserProfileRepository;
 use App\Repositories\User\UserProfileRepositoryInterface;
+use App\Repositories\Storage\StorageRepository;
+use App\Repositories\Storage\StorageRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -39,6 +41,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             UserRepositoryInterface::class,
             UserRepository::class
+        );
+
+        $this->app->bind(
+            StorageRepositoryInterface::class,
+            StorageRepository::class
         );
     }
 
