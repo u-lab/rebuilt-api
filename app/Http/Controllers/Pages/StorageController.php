@@ -56,6 +56,6 @@ class StorageController extends Controller
      */
     public function show(ShowStorageRequest $request, string $user, string $storage_id)
     {
-        return $this->_service->get_user_storage($request);
+        return $this->_service->get_user_storage($request, $user, $storage_id);
     }
 }
