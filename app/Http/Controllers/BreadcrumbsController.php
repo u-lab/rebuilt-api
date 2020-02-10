@@ -18,7 +18,7 @@ class BreadcrumbsController extends Controller
         $this->_service = $service;
     }
 
-    public function index(BreadcrumbsFormRequest $request): JsonResponse
+    public function index(BreadcrumbsFormRequest $request)
     {
         return $this->_service->render($request);
     }
