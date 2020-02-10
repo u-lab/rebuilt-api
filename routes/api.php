@@ -70,20 +70,20 @@ Route::group(['prefix' => 'v1'], function () {
             // TODO 必要ないと判断できたら削除
             Route::patch('settings/password', 'Settings\PasswordController@update');
         });
+    });
 
-        // 未認証の場合
-        Route::group(['middleware' => 'guest:api'], function () {
-            Route::post('login', 'Auth\LoginController@login')->name('login');
-            Route::post('register', 'Auth\RegisterController@register')->name('register');
+    // 未認証の場合
+    Route::group(['middleware' => 'guest:api'], function () {
+        Route::post('login', 'Auth\LoginController@login')->name('login');
+        Route::post('register', 'Auth\RegisterController@register')->name('register');
 
-            Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-            Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+        Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+        Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-            Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
-            Route::post('email/resend', 'Auth\VerificationController@resend');
+        Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
+        Route::post('email/resend', 'Auth\VerificationController@resend');
 
-            Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
-            Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
-        });
+        Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
+        Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
     });
 });

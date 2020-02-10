@@ -1,11 +1,10 @@
 {
-  "name": "cretueusebiu/laravel-nuxt",
-  "description": "A Laravel-Nuxt starter project template.",
+  "name": "u-lab/rebuilt-api",
+  "description": "rebuilt rest api",
   "keywords": [
     "laravel",
-    "nuxt",
-    "vue",
-    "ssr"
+    "rebuilt",
+    "api"
   ],
   "license": "MIT",
   "type": "project",

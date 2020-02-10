@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\BreadcrumbsFormRequest;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
+use App\Http\Resources\Breadcrumbs as BreadcrumbsResource;
 
 class BreadcrumbsService
 {
@@ -12,12 +13,10 @@ class BreadcrumbsService
      * パンくずリストを生成する
      *
      * @param BreadcrumbsFormRequest $request
-     * @return JsonResponse
+     * @return mixed
      */
-    public function render(BreadcrumbsFormRequest $request): JsonResponse
+    public function render(BreadcrumbsFormRequest $request)
     {
-        $breadcrumbs_html_string = Breadcrumbs::view('breadcrumbs::json-ld', 'blog');
-        // <script type="application/ld+json"></script>を削除
-        return response()->json(strip_tags($breadcrumbs_html_string));
+        return new BreadcrumbsResource(Breadcrumbs::generate('blog'));
     }
 }
