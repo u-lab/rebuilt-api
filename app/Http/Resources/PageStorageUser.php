@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\PageStorageUser as PageStorageUserResource;
+use App\Http\Resources\PageUserProfile as PageUserProfileResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PageStorage extends JsonResource
+class PageStorageUser extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,8 @@ class PageStorage extends JsonResource
     public function toArray($request)
     {
         return [
-            "data" => parent::toArray($request),
-            "user" => new PageStorageUserResource($this->user)
+            'name' => $this->name,
+            'user_profile' => new PageUserProfileResource($this->user_profile)
         ];
     }
 }
