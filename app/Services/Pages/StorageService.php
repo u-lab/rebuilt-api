@@ -8,6 +8,7 @@ use App\Http\Requests\Pages\ShowStorageRequest;
 use App\Http\Requests\Pages\IndexStorageRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Resources\PageStorage as PageStorageResource;
+use App\Http\Resources\PageUserAllStorageCollection;
 use App\Repositories\Storage\StorageRepositoryInterface;
 
 class StorageService
@@ -43,6 +44,6 @@ class StorageService
 
     public function get_user_all_storages(IndexStorageRequest $request)
     {
-        return PageStorageResource::collection(StorageModel::all());
+        return new PageUserAllStorageCollection(StorageModel::all());
     }
 }
