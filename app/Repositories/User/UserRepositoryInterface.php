@@ -2,9 +2,11 @@
 
 namespace App\Repositories\User;
 
-use App\User;
-
 interface UserRepositoryInterface
 {
-    public function get_user_page(string $user_name): array;
+    /**
+     * @param string $user_name
+     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     */
+    public function get_user_by_name(string $user_name);
 }

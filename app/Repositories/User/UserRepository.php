@@ -3,17 +3,19 @@
 namespace App\Repositories\User;
 
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\User\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function get_user_page(string $user_name): array
+    /**
+     * @param string $user_name
+     * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     */
+    public function get_user_by_name(string $user_name)
     {
-        $user = User::select(['id', 'name', 'created_at', 'updated_at'])
-            ->whereName($user_name)
-            ->with(['user_profile', 'user_portfolio'])
-            ->get();
+        $user = User::whereName($user_name)->first();
 
-        return $user->toArray();
+        return $user;
     }
 }
