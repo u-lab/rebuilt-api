@@ -1,1 +1,6 @@
+### 200が帰ってきてほしい
 GET http://localhost:8000/api/v1/breadcrumbs
+
+### 200が帰ってきてほしい
+
+GET http://localhost:8000/api/v1/breadcrumbs?url="/pages/admin"
