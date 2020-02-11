@@ -64,12 +64,12 @@ Route::group(['prefix' => 'v1'], function () {
             // 自分のポートフォリオ取得・編集
             Route::get('page', 'Users\PageController@show')->name('user.page.show');
             Route::patch('page', 'Users\PageController@update')->name('user.page.update');
-
-            // TODO 必要ないと判断できたら削除
-            Route::patch('settings/profile', 'Settings\ProfileController@update');
-            // TODO 必要ないと判断できたら削除
-            Route::patch('settings/password', 'Settings\PasswordController@update');
         });
+
+        // TODO 必要ないと判断できたら削除
+        Route::patch('settings/profile', 'Settings\ProfileController@update');
+        // TODO 必要ないと判断できたら削除
+        Route::patch('settings/password', 'Settings\PasswordController@update');
     });
 
     // 未認証の場合
