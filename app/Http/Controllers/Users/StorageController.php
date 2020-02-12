@@ -3,10 +3,22 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Users\UpdateStorageRequest;
+use App\Services\Users\StorageService;
 use Illuminate\Http\Request;
 
 class StorageController extends Controller
 {
+    /**
+     * @var \App\Services\Users\StorageService
+     */
+    private $_service;
+
+    public function __construct(StorageService $service)
+    {
+        $this->_service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,19 +48,19 @@ class StorageController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->_service->get_storage($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Users\UpdateStorageRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateStorageRequest $request, $id)
     {
-        //
+        return $this->_service->update($request, $id);
     }
 
     /**
