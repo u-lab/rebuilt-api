@@ -4,6 +4,22 @@
 
 [ポートフォリオ作成サービス](https://github.com/u-lab/rebuilt)のREST API
 
+## 環境構築
+
+```bash
+// ライブラリインストール
+$ composer install
+
+// envのコピーとkeyの生成
+$ composer clone-install
+
+// データベースのマイグレーション
+$ php artisan migrate --seed
+
+// サーバー起動
+$ php artisan serve
+```
+
 ## 環境
 
 - Laravel 6.x
