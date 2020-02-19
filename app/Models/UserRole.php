@@ -51,6 +51,11 @@ class UserRole extends Model
         'role_id' => 'integer'
     ];
 
+    /**
+     * Roleモデルへのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function role(): HasOne
     {
         return $this->hasOne(Role::class, 'id', 'role_id');

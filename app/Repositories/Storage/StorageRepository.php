@@ -7,6 +7,13 @@ use App\Repositories\Storage\StorageRepositoryInterface;
 
 class StorageRepository implements StorageRepositoryInterface
 {
+    /**
+     * 作品を取得する
+     *
+     * @param integer $user_id
+     * @param string $storage_id
+     * @return mixed
+     */
     public function get_storage(int $user_id, string $storage_id)
     {
         $storage = Storage::where('user_id', '=', $user_id)
@@ -16,6 +23,12 @@ class StorageRepository implements StorageRepositoryInterface
         return $storage;
     }
 
+    /**
+     * ユーザーIDを用いないで作品を取得する
+     *
+     * @param string $storage_id
+     * @return mixed
+     */
     public function get_storage_no_user_id(string $storage_id)
     {
         $storage = Storage::where('storage_id', '=', $storage_id)
@@ -24,7 +37,14 @@ class StorageRepository implements StorageRepositoryInterface
         return $storage;
     }
 
-
+    /**
+     * 作品の内容を更新する
+     *
+     * @param array $inserts
+     * @param integer $user_id
+     * @param string $storage_id
+     * @return mixed
+     */
     public function update(array $inserts, int $user_id, string $storage_id)
     {
         $storage = Storage::where('user_id', '=', $user_id)

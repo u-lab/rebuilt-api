@@ -65,6 +65,11 @@ class UserSnsAccount extends Model
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * SnsAccountへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function sns_account(): HasOne
     {
         return $this->hasOne(SnsAccount::class, 'sns_id', 'sns_id');

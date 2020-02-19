@@ -62,6 +62,8 @@ class Storage extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * 日付へキャストする属性
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo

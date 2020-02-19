@@ -8,6 +8,8 @@ use App\Repositories\User\UserRepositoryInterface;
 class UserRepository implements UserRepositoryInterface
 {
     /**
+     * 名前によってユーザーデータを取得する
+     *
      * @param string $user_name
      * @return \Illuminate\Database\Eloquent\Model|object|static|null
      */
@@ -18,6 +20,12 @@ class UserRepository implements UserRepositoryInterface
         return $user;
     }
 
+    /**
+     * user_idを取得する
+     *
+     * @param string $user_name
+     * @return integer
+     */
     public function get_user_id(string $user_name): int
     {
         return $this->get_user_by_name($user_name)->id;
