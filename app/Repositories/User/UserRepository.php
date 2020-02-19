@@ -8,6 +8,15 @@ use App\Repositories\User\UserRepositoryInterface;
 class UserRepository implements UserRepositoryInterface
 {
     /**
+     * @var \App\User
+     */
+    private $_user;
+
+    public function __construct(User $user)
+    {
+        $this->_user = $user;
+    }
+    /**
      * 名前によってユーザーデータを取得する
      *
      * @param string $user_name
@@ -15,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function get_user_by_name(string $user_name)
     {
-        $user = User::whereName($user_name)->first();
+        $user = $this->_user->whereName($user_name)->first();
 
         return $user;
     }
