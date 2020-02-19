@@ -18,11 +18,24 @@ class StorageService
         $this->_storageRepository = $storageRepository;
     }
 
+    /**
+     * 作品を取得する
+     *
+     * @param string $storage_id
+     * @return void
+     */
     public function get_storage(string $storage_id)
     {
         return new StorageResource($this->_storageRepository->get_storage_no_user_id($storage_id));
     }
 
+    /**
+     * 作品の内容を更新する
+     *
+     * @param UpdateStorageRequest $request
+     * @param string $storage_id
+     * @return void
+     */
     public function update(UpdateStorageRequest $request, string $storage_id)
     {
         \Log::debug($request);
