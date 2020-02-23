@@ -18,12 +18,12 @@ class Page extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'user_info' => new PageUserInfoResource($this->user_info),
-            'user_profile' => new PageUserProfileResource($this->user_profile),
+            'id'             => $this->id,
+            'name'           => $this->name,
+            'created_at'     => $this->created_at,
+            'updated_at'     => $this->updated_at,
+            'user_info'      => new PageUserInfoResource($this->user_info),
+            'user_profile'   => new PageUserProfileResource($this->user_profile),
             'user_portfolio' => new PageUserPortfolioResource($this->user_portfolio),
         ];
     }

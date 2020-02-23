@@ -16,7 +16,7 @@ class PageStorageUser extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
+            'name'         => $this->name,
             'user_profile' => new PageUserProfileResource($this->user_profile)
         ];
     }
