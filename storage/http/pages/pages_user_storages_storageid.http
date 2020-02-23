@@ -1,5 +1,8 @@
 ### 200が帰ってきてほしい
 GET http://localhost:8000/api/v1/pages/admin/storages/1581315433ra05d0
 
-### バリデーションで弾きたいやつ
+### 404を返したい
 GET http://localhost:8000/api/v1/pages/admin/storages/1
+
+### 422を返したい
+GET http://localhost:8000/api/v1/pages/aaaa/storages/1581315433ra05d0
