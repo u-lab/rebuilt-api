@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
     private function create(): void
     {
         $faker = Factory::create('ja_JP');
-        $user = User::create(['name' => 'admin', 'email' => 'admin@examle.com', 'password' => 'admin']);
+        $user = User::create(['name' => 'admin', 'email' => 'admin@example.com', 'password' => bcrypt("password")]);
         UserInfo::create([
             'user_id'     => $user->id,
             'last_name'   => $faker->lastName,
@@ -40,8 +40,8 @@ class UsersTableSeeder extends Seeder
         ]);
         UserPortfolio::create([
             'user_id'                => $user->id,
-            'masterpiece_storage_id' => 1,
-            'long_comment'           => $faker->paragraph
+            'masterpiece_storage_id' => "1581315433ra05d0",
+            'long_comment'           => $faker->sentence(3),
         ]);
         UserProfile::create([
             'user_id'        => $user->id,
