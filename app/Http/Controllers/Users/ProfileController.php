@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers\Users;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Users\ProfileService;
 
 class ProfileController extends Controller
 {
     /**
+     * @var \App\Services\Users\ProfileService
+     */
+    private $_service;
+
+    public function __construct(ProfileService $service)
+    {
+        $this->_service = $service;
+    }
+
+    /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        return $this->_service->get_user_profile($request);
     }
 
     /**
