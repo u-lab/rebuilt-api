@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\User;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -21,11 +22,11 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param string $user_name
      * @return \Illuminate\Database\Eloquent\Model|object|static|null
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_user_by_name(string $user_name)
     {
-        $user = $this->_user->whereName($user_name)->first();
-
+        $user = $this->_user->whereName($user_name)->firstOrFail();
         return $user;
     }
 
@@ -34,6 +35,7 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param string $user_name
      * @return integer
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_user_id(string $user_name): int
     {
