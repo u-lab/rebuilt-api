@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Storage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\UserPortfolio
@@ -50,4 +52,12 @@ class UserPortfolio extends Model
         'masterpiece_storage_id' => 'integer',
         'long_text'              => 'string'
     ];
+
+    /**
+     * @return HasOne
+     */
+    public function storage(): HasOne
+    {
+        return $this->hasOne(Storage::class, 'storage_id', 'masterpiece_storage_id');
+    }
 }
