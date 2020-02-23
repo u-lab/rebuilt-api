@@ -54,7 +54,9 @@ class UserPortfolio extends Model
     ];
 
     /**
-     * @return HasOne
+     * Storageへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function storage(): HasOne
     {

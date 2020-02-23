@@ -17,9 +17,17 @@ class PageService
         $this->_userPortfolioRepository = $userPortfolioRepositoryInterface;
     }
 
+    /**
+     * ユーザーの個人ページを取得する
+     *
+     * @param [type] $request
+     * @return void
+     */
     public function get_user_page($request)
     {
+        // ユーザーデータの取得
         $user = $request->user();
+        // ユーザーのポートフォリオを取得
         $user_portfolio = $this->_userPortfolioRepository->get_user_portfolio_by_id($user->id);
         return new PageResource($user_portfolio);
     }
