@@ -6,10 +6,13 @@ use App\Models\Storage as StorageModel;
 use App\Http\Requests\Pages\AllStorageRequest;
 use App\Http\Requests\Pages\ShowStorageRequest;
 use App\Http\Requests\Pages\IndexStorageRequest;
+use App\Exceptions\Pages\UserIDNotEqualException;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Resources\PageStorage as PageStorageResource;
 use App\Http\Resources\PageUserAllStorageCollection;
 use App\Repositories\Storage\StorageRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Log;
 
 class StorageService
 {
@@ -30,18 +33,54 @@ class StorageService
         $this->_storageRepository = $storageRepository;
     }
 
+    /**
+     * すべてのユーザーの作品を取得する
+     *
+     * @param AllStorageRequest $request
+     * @return void
+     */
     public function get_all_users_storage(AllStorageRequest $request)
     {
     }
 
+    /**
+     * userのs作品を取得する
+     *
+     * @param ShowStorageRequest $request
+     * @param string $user
+     * @param string $storage_id
+     * @return void
+     */
     public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id)
     {
-        $user_id = $this->_userRepository->get_user_id($user);
-        $storage = $this->_storageRepository->get_storage($user_id, $storage_id);
+        try {
+            $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
+            \Log::debug($storage);
 
-        return new PageStorageResource($storage);
+            if (strcmp($storage->user->name, $user) !== 0) {
+                throw new UserIDNotEqualException();
+            }
+
+            return new PageStorageResource($storage);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            $message = $storage_id . 'is not exsited.';
+
+            return abort(response()->json(['message' => $message], 404));
+        } catch (UserIDNotEqualException $e) {
+            Log::error($e);
+            $message = 'User ID と Storage IDの所有者が一致しませんでした。';
+
+            return abort(response()->json(['message' => $message], 422));
+        }
     }
 
+    /**
+     * Userの作品をすべて取得する
+     *
+     * @param IndexStorageRequest $request
+     * @return void
+     */
     public function get_user_all_storages(IndexStorageRequest $request)
     {
         return new PageUserAllStorageCollection(StorageModel::all());

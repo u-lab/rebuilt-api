@@ -7,16 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\UserInfo
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereUpdatedAt($value)
- * @mixin \Eloquent
  * @property int $user_id
  * @property string $last_name 性
  * @property string $first_name 名
@@ -25,14 +15,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $prefecture 都道府県
  * @property string $city 市区町村
  * @property string $street その他、アパート等
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereBirthday($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo wherePrefecture($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereSchoolName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo whereUserId($value)
+ * @mixin \Eloquent
  */
 class UserInfo extends Model
 {
@@ -67,6 +65,8 @@ class UserInfo extends Model
     ];
 
     /**
+     * 日付へキャストする属性
+     *
      * @var array
      */
     protected $dates = ['birthday', 'created_at', 'updated_at'];

@@ -18,6 +18,12 @@ class BreadcrumbsController extends Controller
         $this->_service = $service;
     }
 
+    /**
+     * パンくずリストの生成
+     *
+     * @param BreadcrumbsFormRequest $request
+     * @return void
+     */
     public function index(BreadcrumbsFormRequest $request)
     {
         return $this->_service->render($request);

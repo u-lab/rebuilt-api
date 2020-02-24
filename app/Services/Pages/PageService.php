@@ -2,10 +2,12 @@
 
 namespace App\Services\Pages;
 
+use Log;
+use Exception;
 use App\Http\Requests\Pages\ShowPageRequest;
 use App\Http\Resources\Page as PageResource;
 use App\Repositories\User\UserRepositoryInterface;
-use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PageService
 {
@@ -28,7 +30,13 @@ class PageService
      */
     public function get_user_page(ShowPageRequest $request, string $user): PageResource
     {
-        $user = $this->_userRepository->get_user_by_name($user);
-        return new PageResource($user);
+        try {
+            $user = $this->_userRepository->get_user_by_name($user);
+            return new PageResource($user);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            $message = $user . 'is not exsisted.';
+            return abort(response()->json(['message' => $message], 404));
+        }
     }
 }

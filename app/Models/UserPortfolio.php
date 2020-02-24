@@ -2,27 +2,28 @@
 
 namespace App\Models;
 
+use App\Models\Storage;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\UserPortfolio
  *
- * @property int $id
+ * @property int $user_id
+ * @property int $masterpiece_storage_id 代表作品
+ * @property string $long_comment 本文
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Storage $storage
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property int $user_id
- * @property int $masterpiece_storage_id 代表作品
- * @property string $long_comment 本文
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereLongComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereMasterpieceStorageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio whereUserId($value)
+ * @mixin \Eloquent
  */
 class UserPortfolio extends Model
 {
@@ -50,4 +51,14 @@ class UserPortfolio extends Model
         'masterpiece_storage_id' => 'integer',
         'long_text'              => 'string'
     ];
+
+    /**
+     * Storageへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function storage(): HasOne
+    {
+        return $this->hasOne(Storage::class, 'storage_id', 'masterpiece_storage_id');
+    }
 }
