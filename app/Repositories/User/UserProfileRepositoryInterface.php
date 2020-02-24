@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Models\UserProfile;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface UserProfileRepositoryInterface
 {
@@ -14,4 +15,13 @@ interface UserProfileRepositoryInterface
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_user_profile_by_id(string $user_id);
+
+    /**
+     * ユーザープロフィール一覧をページネーションでとってくる
+     *
+     * @param integer $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_user_profiles_by_pagination(int $perPage = 10): LengthAwarePaginator;
 }

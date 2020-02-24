@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserProfile
@@ -60,4 +62,14 @@ class UserProfile extends Model
         'icon_image_url' => 'string',
         'web_address'    => 'string'
     ];
+
+    /**
+     * Userモデルへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }
