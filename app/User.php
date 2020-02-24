@@ -18,22 +18,27 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * An Eloquent Model: 'User'
+ * App\User
  *
  * @property int $id
  * @property string $name
  * @property string $email
- * @property string $password
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $password
+ * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @mixin \Eloquent
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string|null $remember_token
  * @property-read string $photo_url
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OAuthProvider[] $oauthProviders
  * @property-read int|null $oauth_providers_count
+ * @property-read \App\Models\UserInfo $user_info
+ * @property-read \App\Models\UserPortfolio $user_portfolio
+ * @property-read \App\Models\UserProfile $user_profile
+ * @property-read \App\Models\UserRole $user_role
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserSnsAccount[] $user_sns_accounts
+ * @property-read int|null $user_sns_accounts_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
@@ -45,12 +50,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- * @property-read \App\Models\UserInfo $user_info
- * @property-read \App\Models\UserPortfolio $user_portfolio
- * @property-read \App\Models\UserProfile $user_profile
- * @property-read \App\Models\UserRole $user_role
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserSnsAccount[] $user_sns_accounts
- * @property-read int|null $user_sns_accounts_count
+ * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
