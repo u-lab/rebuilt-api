@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileService
 {
@@ -19,13 +20,17 @@ class ProfileService
      *
      * @return mixed
      */
-    public function get_user_profile($request)
+    public function get_user_profile($request): ProfileResource
     {
-        // ユーザーデータの取得
-        $user = $request->user();
-        // ユーザープロフィールの取得
-        $user_profile = $this->_userProfileRepository->get_user_profile_by_id($user->id);
+        try {
+            // ユーザーデータの取得
+            $user = $request->user();
+            // ユーザープロフィールの取得
+            $user_profile = $this->_userProfileRepository->get_user_profile_by_id($user->id);
 
-        return new ProfileResource($user_profile);
+            return new ProfileResource($user_profile);
+        } catch (ModelNotFoundException $e) {
+            return abort(response()->json(['message' => $e->getMessage()]), 404);
+        }
     }
 }
