@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Http\Resources\Users\Page as PageResource;
 use App\Repositories\User\UserPortfolioRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PageService
 {
@@ -21,14 +22,18 @@ class PageService
      * ユーザーの個人ページを取得する
      *
      * @param [type] $request
-     * @return void
+     * @return PageResource
      */
-    public function get_user_page($request)
+    public function get_user_page($request): PageResource
     {
-        // ユーザーデータの取得
-        $user = $request->user();
-        // ユーザーのポートフォリオを取得
-        $user_portfolio = $this->_userPortfolioRepository->get_user_portfolio_by_id($user->id);
-        return new PageResource($user_portfolio);
+        try {
+            // ユーザーデータの取得
+            $user = $request->user();
+            // ユーザーのポートフォリオを取得
+            $user_portfolio = $this->_userPortfolioRepository->get_user_portfolio_by_id($user->id);
+            return new PageResource($user_portfolio);
+        } catch (ModelNotFoundException $e) {
+            return abort(response()->json(['message' => $e->getMessage()]), 404);
+        }
     }
 }
