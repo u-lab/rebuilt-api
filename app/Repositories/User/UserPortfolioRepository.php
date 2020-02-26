@@ -18,4 +18,19 @@ class UserPortfolioRepository implements UserPortfolioRepositoryInterface
     {
         return UserPortfolio::findOrFail($user_id);
     }
+
+    /**
+     * Portfolioを更新か作成する
+     *
+     * @param string $user_id
+     * @param array $insert
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function updateOrCreate_user_portfolio(string $user_id, array $insert)
+    {
+        return UserPortfolio::updateOrCreate(
+            [ 'user_id' => $user_id ],
+            $insert
+        );
+    }
 }
