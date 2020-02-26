@@ -17,6 +17,19 @@ class UserRepository implements UserRepositoryInterface
     {
         $this->_user = $user;
     }
+
+    /**
+     * Userの削除
+     *
+     * @param string $user_id
+     * @return boolean|null
+     * @throws \Exception
+     */
+    public function delete_user(string $user_id): ?bool
+    {
+        return $this->_user->delete($user_id);
+    }
+
     /**
      * 名前によってユーザーデータを取得する
      *

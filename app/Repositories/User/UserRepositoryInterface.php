@@ -5,6 +5,15 @@ namespace App\Repositories\User;
 interface UserRepositoryInterface
 {
     /**
+     * Userの削除
+     *
+     * @param string $user_id
+     * @return boolean|null
+     * @throws \Exception
+     */
+    public function delete_user(string $user_id): ?bool;
+
+    /**
      * 名前によってユーザーデータを取得する
      *
      * @param string $user_name
