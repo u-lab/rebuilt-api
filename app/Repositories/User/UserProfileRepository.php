@@ -53,7 +53,6 @@ class UserProfileRepository implements UserProfileRepositoryInterface
      */
     public function updateOrCreate_user_profile(string $user_id, array $insert)
     {
-        \Log::debug($insert);
         return $this->_userProfile->updateOrCreate(
             [ 'user_id' => $user_id ],
             $insert
