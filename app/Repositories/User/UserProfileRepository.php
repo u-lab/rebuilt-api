@@ -43,4 +43,20 @@ class UserProfileRepository implements UserProfileRepositoryInterface
                     ->with('user')
                     ->paginate($perPage);
     }
+
+    /**
+     * ユーザープロフィールをUpdateかCreateする
+     *
+     * @param string $user_id
+     * @param array $insert
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function updateOrCreate_user_profile(string $user_id, array $insert)
+    {
+        \Log::debug($insert);
+        return $this->_userProfile->updateOrCreate(
+            [ 'user_id' => $user_id ],
+            $insert
+        );
+    }
 }

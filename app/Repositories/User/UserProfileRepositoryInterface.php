@@ -24,4 +24,13 @@ interface UserProfileRepositoryInterface
      * @throws \InvalidArgumentException
      */
     public function get_user_profiles_by_pagination(int $perPage = 10): LengthAwarePaginator;
+
+    /**
+     * ユーザープロフィールをUpdateかCreateする
+     *
+     * @param string $user_id
+     * @param array $insert
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function updateOrCreate_user_profile(string $user_id, array $insert);
 }
