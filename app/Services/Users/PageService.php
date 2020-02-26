@@ -38,8 +38,15 @@ class PageService
         }
     }
 
+    /**
+     * ユーザーページを更新する
+     *
+     * @param UpdatePageRequest $request
+     * @return PageResource
+     */
     public function update_user_page(UpdatePageRequest $request): PageResource
     {
+        // ユーザー情報を取得
         $user = $request->user();
 
         // ユーザーのポートフォリオを更新か作成
@@ -47,4 +54,5 @@ class PageService
                             ->updateOrCreate_user_portfolio($user->id, $request->all());
 
         return new PageResource($user_portfolio);
+    }
 }
