@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Users\ProfileService;
+use App\Http\Requests\Users\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -32,12 +33,11 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Users\UpdateProfileRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProfileRequest $request)
     {
-        //
+        return $this->_service->update_profile($request);
     }
 }

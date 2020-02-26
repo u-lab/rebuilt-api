@@ -2,6 +2,7 @@
 
 namespace App\Services\Users;
 
+use App\Http\Requests\Users\UpdatePageRequest;
 use App\Http\Resources\Users\Page as PageResource;
 use App\Repositories\User\UserPortfolioRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -35,5 +36,23 @@ class PageService
         } catch (ModelNotFoundException $e) {
             return abort(response()->json(['message' => $e->getMessage()]), 404);
         }
+    }
+
+    /**
+     * ユーザーページを更新する
+     *
+     * @param UpdatePageRequest $request
+     * @return PageResource
+     */
+    public function update_user_page(UpdatePageRequest $request): PageResource
+    {
+        // ユーザー情報を取得
+        $user = $request->user();
+
+        // ユーザーのポートフォリオを更新か作成
+        $user_portfolio = $this->_userPortfolioRepository
+                            ->updateOrCreate_user_portfolio($user->id, $request->all());
+
+        return new PageResource($user_portfolio);
     }
 }

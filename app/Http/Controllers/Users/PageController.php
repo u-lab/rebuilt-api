@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\Users\PageService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\ShowPageRequest;
+use App\Http\Requests\Users\UpdatePageRequest;
 
 class PageController extends Controller
 {
@@ -33,11 +34,11 @@ class PageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Users\UpdatePageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UpdatePageRequest $request)
     {
-        //
+        return $this->_service->update_user_page($request);
     }
 }

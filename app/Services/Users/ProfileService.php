@@ -2,6 +2,7 @@
 
 namespace App\Services\Users;
 
+use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -32,5 +33,21 @@ class ProfileService
         } catch (ModelNotFoundException $e) {
             return abort(response()->json(['message' => $e->getMessage()]), 404);
         }
+    }
+
+    /**
+     * Profileを更新する
+     *
+     * @param UpdateProfileRequest $request
+     * @return ProfileResource
+     */
+    public function update_profile(UpdateProfileRequest $request): ProfileResource
+    {
+        $user = $request->user();
+
+        // ユーザープロフィールを変更か更新をする。
+        $user_profile = $this->_userProfileRepository
+                            ->updateOrCreate_user_profile($user->id, $request->all());
+        return new ProfileResource($user_profile);
     }
 }

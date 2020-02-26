@@ -39,7 +39,11 @@ class UserPortfolio extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'masterpiece_storage_id', 'long_text'];
+    protected $fillable = [
+        'user_id',
+        'masterpiece_storage_id',
+        'long_comment'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -49,7 +53,7 @@ class UserPortfolio extends Model
     protected $casts = [
         'user_id'                => 'integer',
         'masterpiece_storage_id' => 'integer',
-        'long_text'              => 'string'
+        'long_comment'           => 'string'
     ];
 
     /**
