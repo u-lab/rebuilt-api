@@ -49,7 +49,8 @@ class UsersTableSeeder extends Seeder
             'job_name'       => $faker->jobTitle,
             'hobby'          => $faker->words[0],
             'description'    => $faker->sentence(3),
-            'icon_image_url' => $faker->url,
+            'icon_image_url' => "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61.jpg?s=200&d=mm
+",
             'web_address'    => $faker->url
         ]);
         UserRole::create([
