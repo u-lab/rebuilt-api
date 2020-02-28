@@ -4,6 +4,7 @@ namespace App\Repositories\Storage;
 
 use App\Models\Storage;
 use App\Repositories\Storage\StorageRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class StorageRepository implements StorageRepositoryInterface
 {
@@ -15,6 +16,18 @@ class StorageRepository implements StorageRepositoryInterface
     public function __construct(Storage $storage)
     {
         $this->_storage = $storage;
+    }
+
+    /**
+     * 全ユーザーの全作品を取得する
+     *
+     * @param integer $per_page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_all_storages(int $per_page = 15): LengthAwarePaginator
+    {
+        return $this->_storage->with('user')->paginate($per_page);
     }
 
     /**
@@ -48,6 +61,21 @@ class StorageRepository implements StorageRepositoryInterface
             ->firstOrFail();
 
         return $storage;
+    }
+
+    /**
+     * ユーザーの全作品を取得する
+     *
+     * @param string $user_id
+     * @param integer $per_page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_user_all_storages(string $user_id, int $per_page = 15): LengthAwarePaginator
+    {
+        return $this->_storage
+                ->whereUserId($user_id)
+                ->paginate($per_page);
     }
 
     /**

@@ -16,7 +16,17 @@ class PageStorage extends JsonResource
     public function toArray($request)
     {
         return [
-            "data" => parent::toArray($request),
+            "data" => [
+                "storage_id"         => $this->storage_id,
+                "title"              => $this->title,
+                "description"        => $this->description,
+                "long_comment"       => $this->long_comment,
+                "storage_url"        => $this->storage_url,
+                "eyecatch_image_url" => $this->eyecatch_image_url,
+                "web_address"        => $this->web_address,
+                "created_at"         => $this->created_at,
+                "updated_at"         => $this->updated_at,
+            ],
             "user" => new PageStorageUserResource($this->user)
         ];
     }

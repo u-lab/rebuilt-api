@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Users;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Users\UpdateStorageRequest;
-use App\Services\Users\StorageService;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Users\StorageService;
+use App\Http\Requests\Users\IndexStorageRequest;
+use App\Http\Requests\Users\UpdateStorageRequest;
 
 class StorageController extends Controller
 {
@@ -24,9 +25,9 @@ class StorageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(IndexStorageRequest $request)
     {
-        //
+        return $this->_service->get_user_all_storages($request);
     }
 
     /**

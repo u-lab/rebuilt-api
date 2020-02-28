@@ -16,9 +16,7 @@ class PageUserAllStorage extends JsonResource
     public function toArray($request)
     {
         return [
-            // "id"                 => $this->id,
             "storage_id"         => $this->storage_id,
-            // "user_id"            => $this->user_id,
             "title"              => $this->title,
             "description"        => $this->description,
             "long_comment"       => $this->long_comment,

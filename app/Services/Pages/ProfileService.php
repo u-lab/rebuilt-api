@@ -5,18 +5,18 @@ namespace App\Services\Pages;
 use Log;
 use InvalidArgumentException;
 use App\Http\Requests\Pages\IndexProfileRequest;
-use App\Repositories\User\UserProfileRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 
 class ProfileService
 {
     /**
-     * @var \App\Repositories\User\UserProfileRepositoryInterface
+     * @var \App\Repositories\User\UserRepositoryInterface
      */
-    private $_userProfileRepository;
+    private $_userRepository;
 
-    public function __construct(UserProfileRepositoryInterface $userProfileRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->_userProfileRepository = $userProfileRepository;
+        $this->_userRepository = $userRepository;
     }
 
     /**
@@ -28,7 +28,7 @@ class ProfileService
     public function get_all_users_profile(IndexProfileRequest $request)
     {
         try {
-            $user_profiles = $this->_userProfileRepository->get_user_profiles_by_pagination();
+            $user_profiles = $this->_userRepository->get_user_profiles_by_pagination();
             return $user_profiles;
         } catch (InvalidArgumentException $e) {
             Log::error($e);

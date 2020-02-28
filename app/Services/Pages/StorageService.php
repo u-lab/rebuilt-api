@@ -12,6 +12,7 @@ use App\Http\Resources\PageStorage as PageStorageResource;
 use App\Http\Resources\PageUserAllStorageCollection;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use InvalidArgumentException;
 use Log;
 
 class StorageService
@@ -20,6 +21,7 @@ class StorageService
      * @var \App\Repositories\User\UserRepositoryInterface
      */
     private $_userRepository;
+
     /**
      * @var \App\Repositories\Storage\StorageRepositoryInterface
      */
@@ -41,21 +43,26 @@ class StorageService
      */
     public function get_all_users_storage(AllStorageRequest $request)
     {
+        try {
+            return $this->_storageRepository->get_all_storages();
+        } catch (InvalidArgumentException $e) {
+            Log::error($e);
+            return abort(response()->json(['message' => $e->getMessage()], 404));
+        }
     }
 
     /**
-     * userのs作品を取得する
+     * userの作品を取得する
      *
      * @param ShowStorageRequest $request
      * @param string $user
      * @param string $storage_id
      * @return void
      */
-    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id)
+    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): PageStorageResource
     {
         try {
             $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
-            \Log::debug($storage);
 
             if (strcmp($storage->user->name, $user) !== 0) {
                 throw new UserIDNotEqualException();
@@ -83,6 +90,11 @@ class StorageService
      */
     public function get_user_all_storages(IndexStorageRequest $request)
     {
-        return new PageUserAllStorageCollection(StorageModel::all());
+        try {
+            return $this->_storageRepository->get_all_storages();
+        } catch (InvalidArgumentException $e) {
+            Log::error($e);
+            return abort(response()->json(['message' => $e->getMessage()], 404));
+        }
     }
 }
