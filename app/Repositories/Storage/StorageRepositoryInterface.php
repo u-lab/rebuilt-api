@@ -7,6 +7,15 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface StorageRepositoryInterface
 {
     /**
+     * 全ユーザーの全作品を取得する
+     *
+     * @param integer $per_page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_all_storages(int $per_page = 15): LengthAwarePaginator;
+
+    /**
      * 作品を取得する
      *
      * @param integer $user_id

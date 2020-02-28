@@ -19,6 +19,18 @@ class StorageRepository implements StorageRepositoryInterface
     }
 
     /**
+     * 全ユーザーの全作品を取得する
+     *
+     * @param integer $per_page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_all_storages(int $per_page = 15): LengthAwarePaginator
+    {
+        return $this->_storage->paginate($per_page);
+    }
+
+    /**
      * 作品を取得する
      *
      * @param integer $user_id
