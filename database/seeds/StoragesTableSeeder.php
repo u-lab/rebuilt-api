@@ -33,6 +33,28 @@ class StoragesTableSeeder extends Seeder
                 'web_address'        => $faker->url,
             ]);
         }
+
+        Storage::create([
+                'storage_id'         => "1581315433ka05d0",
+                'user_id'            => 2,
+                'title'              => 'WEBエンジニアの最高傑作',
+                'description'        => $faker->sentence(3),
+                'long_comment'       => $this->get_long_comment(),
+                'storage_url'        => $faker->url,
+                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
+                'web_address'        => $faker->url,
+            ]);
+
+        Storage::create([
+                'storage_id'         => "1581315433ja05d0",
+                'user_id'            => 3,
+                'title'              => 'ニートは頑張れる',
+                'description'        => $faker->sentence(3),
+                'long_comment'       => $this->get_long_comment(),
+                'storage_url'        => $faker->url,
+                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
+                'web_address'        => $faker->url,
+            ]);
     }
 
     private function get_long_comment(): string
