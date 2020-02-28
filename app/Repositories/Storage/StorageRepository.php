@@ -27,7 +27,7 @@ class StorageRepository implements StorageRepositoryInterface
      */
     public function get_all_storages(int $per_page = 15): LengthAwarePaginator
     {
-        return $this->_storage->paginate($per_page);
+        return $this->_storage->with('user')->paginate($per_page);
     }
 
     /**
