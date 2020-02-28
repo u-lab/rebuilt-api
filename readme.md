@@ -18,6 +18,17 @@ $ php artisan migrate --seed
 
 // サーバー起動
 $ php artisan serve
+
+```
+
+## 更新作業
+
+```bash
+// ライブラリの更新
+$ composer update
+
+// データベースの再マイグレーション
+$php artisan migrate:refresh --seed
 ```
 
 ## 環境
