@@ -90,6 +90,11 @@ class StorageService
      */
     public function get_user_all_storages(IndexStorageRequest $request)
     {
-        return new PageUserAllStorageCollection(StorageModel::all());
+        try {
+            return $this->_storageRepository->get_all_storages();
+        } catch (InvalidArgumentException $e) {
+            Log::error($e);
+            return abort(response()->json(['message' => $e->getMessage()], 404));
+        }
     }
 }
