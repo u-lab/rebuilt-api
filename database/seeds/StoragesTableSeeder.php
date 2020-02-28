@@ -29,7 +29,7 @@ class StoragesTableSeeder extends Seeder
                 'description'        => $faker->sentence(3),
                 'long_comment'       => $this->get_long_comment(),
                 'storage_url'        => $faker->url,
-                'eyecatch_imgae_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
+                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
                 'web_address'        => $faker->url,
             ]);
         }
