@@ -4,7 +4,7 @@ namespace App\Repositories\User;
 
 use App\User;
 use App\Repositories\User\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -53,5 +53,19 @@ class UserRepository implements UserRepositoryInterface
     public function get_user_id(string $user_name): int
     {
         return $this->get_user_by_name($user_name)->id;
+    }
+
+    /**
+     * ユーザープロフィール一覧をページネーションでとってくる
+     *
+     * @param integer $perPage
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_user_profiles_by_pagination(int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->_user
+                    ->with('user_profile')
+                    ->paginate($perPage);
     }
 }
