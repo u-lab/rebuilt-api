@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Storage;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+
 interface StorageRepositoryInterface
 {
     /**
@@ -20,6 +22,16 @@ interface StorageRepositoryInterface
      * @return void
      */
     public function get_storage_no_user_id(string $storage_id);
+
+    /**
+     * ユーザーの全作品を取得する
+     *
+     * @param string $user_id
+     * @param integer $per_page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \InvalidArgumentException
+     */
+    public function get_user_all_storages(string $user_id, int $per_page = 15): LengthAwarePaginator;
 
     /**
      * 作品の内容を更新する
