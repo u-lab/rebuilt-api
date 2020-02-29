@@ -8,6 +8,7 @@ use App\Http\Requests\Users\UpdateStorageRequest;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 
 class StorageService
 {
@@ -54,13 +55,33 @@ class StorageService
      *
      * @param UpdateStorageRequest $request
      * @param string $storage_id
-     * @return void
+     * @return mixed
      */
     public function update(UpdateStorageRequest $request, string $storage_id)
     {
-        \Log::debug($request);
-        $user_id = 1;
-        $inserts = $request->data;
-        return $this->_storageRepository->update($inserts, $user_id, $storage_id);
+        $user = $request->user();
+        // requestでexceptを指定するもの。
+        $request_except = [];
+
+        // アイキャッチ画像の保存
+        $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
+        $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
+        if (empty($eyecatch_image_url)) {
+            $request_except[] = 'eyecatch_image_url';
+        }
+
+        // 作品の保存
+        $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
+        $storage_url = Storage::disk('public')->url($storage_filename);
+        if (empty($storage_url)) {
+            $request_except[] = 'storage_url';
+        }
+
+        // DBに保存するデータの作成
+        $inserts = isset($request_except) ?
+                    $request->except($request_except) : $request->all();
+
+        return $this->_storageRepository
+                    ->updateOrCreate($inserts, $user->id, $storage_id);
     }
 }

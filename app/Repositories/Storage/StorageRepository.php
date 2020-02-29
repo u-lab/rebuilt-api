@@ -51,7 +51,7 @@ class StorageRepository implements StorageRepositoryInterface
      * ユーザーIDを用いないで作品を取得する
      *
      * @param string $storage_id
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model|static
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_storage_no_user_id(string $storage_id)
@@ -80,20 +80,21 @@ class StorageRepository implements StorageRepositoryInterface
     }
 
     /**
-     * 作品の内容を更新する
+     * 作品の内容を更新か作成する
      *
      * @param array $inserts
      * @param integer $user_id
      * @param string $storage_id
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model|static
      */
-    public function update(array $inserts, int $user_id, string $storage_id)
+    public function updateOrCreate(array $inserts, int $user_id, string $storage_id)
     {
         $storage = $this->_storage
-            ->where('user_id', '=', $user_id)
-            ->where('storage_id', '=', $storage_id)
-            ->update($inserts);
+            ->updateOrCreate(
+                [ 'user_id'    => $user_id, 'storage_id' => $storage_id ],
+                $inserts
+            );
 
-        return true;
+        return $storage;
     }
 }
