@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Users;
 
+use Illuminate\Http\Request;
+use App\Services\Users\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\DestroyUserRequest;
-use App\Services\Users\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
