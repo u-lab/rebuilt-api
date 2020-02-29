@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Users\StorageService;
+use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
+use App\Http\Requests\Users\StoreStorageRequest;
 use App\Http\Requests\Users\UpdateStorageRequest;
+use App\Http\Requests\Users\DestroyStorageRequest;
 
 class StorageController extends Controller
 {
@@ -33,10 +36,10 @@ class StorageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Users\StoreStorageRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreStorageRequest $request)
     {
         //
     }
@@ -44,10 +47,11 @@ class StorageController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param \App\Http\Requests\Users\ShowStorageRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowStorageRequest $request, $id)
     {
         return $this->_service->get_storage($id);
     }
@@ -70,7 +74,7 @@ class StorageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DestroyStorageRequest $request, $id)
     {
         //
     }
