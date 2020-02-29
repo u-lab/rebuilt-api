@@ -19,6 +19,17 @@ class StorageRepository implements StorageRepositoryInterface
     }
 
     /**
+     * Storageを追加する
+     *
+     * @param array $inserts
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create_storage(array $inserts)
+    {
+        return $this->_storage->create($inserts);
+    }
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page

@@ -7,6 +7,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface StorageRepositoryInterface
 {
     /**
+     * Storageを追加する
+     *
+     * @param array $inserts
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create_storage(array $inserts);
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page
@@ -14,6 +22,13 @@ interface StorageRepositoryInterface
      * @throws \InvalidArgumentException
      */
     public function get_all_storages(int $per_page = 15): LengthAwarePaginator;
+
+    /**
+     * StorageIDを取得する(1分前まで)
+     *
+     * @return void
+     */
+    public function get_storage_id_UntilOneMinuteBefore();
 
     /**
      * 作品を取得する
