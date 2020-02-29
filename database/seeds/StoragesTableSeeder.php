@@ -18,44 +18,61 @@ class StoragesTableSeeder extends Seeder
     {
         $faker = Factory::create('ja_JP');
 
-        for ($i = 0; $i < 3; $i++) {
-            $now = Carbon::now();
-
-            Storage::create([
-                'storage_id'         => $i === 0 ?
-                                            "1581315433ra05d0":
-                                            MyStorage::generateID(),
-                'user_id'            => 1,
-                'title'              => '作品' . ($i + 1) . 'かっこいいよ',
-                'description'        => $faker->sentence(3),
-                'long_comment'       => $this->get_long_comment(),
-                'storage_url'        => $faker->url,
-                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
-                'web_address'        => $faker->url,
-            ]);
-        }
+        Storage::create([
+            'storage_id'         => "1581315433ra05d0",
+            'user_id'            => 1,
+            'title'              => '作品1かっこいいよ',
+            'description'        => $faker->sentence(3),
+            'long_comment'       => $this->get_long_comment(),
+            'storage_url'        => FacadesStorage::disk('public')->url('storages/example/bunny.obj'),
+            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/bunny_eye_catch.png'),
+            'web_address'        => $faker->url,
+        ]);
 
         Storage::create([
-                'storage_id'         => MyStorage::generateID(),
-                'user_id'            => 2,
-                'title'              => 'WEBエンジニアの最高傑作',
-                'description'        => $faker->sentence(3),
-                'long_comment'       => $this->get_long_comment(),
-                'storage_url'        => $faker->url,
-                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
-                'web_address'        => $faker->url,
-            ]);
+            'storage_id'         => MyStorage::generateID(),
+            'user_id'            => 1,
+            'title'              => '作品2かっこいいよ',
+            'description'        => $faker->sentence(3),
+            'long_comment'       => $this->get_long_comment(),
+            'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.obj'),
+            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_obj_eye_catch.png'),
+            'web_address'        => $faker->url,
+        ]);
+
 
         Storage::create([
-                'storage_id'         => MyStorage::generateID(),
-                'user_id'            => 3,
-                'title'              => 'ニートは頑張れる',
-                'description'        => $faker->sentence(3),
-                'long_comment'       => $this->get_long_comment(),
-                'storage_url'        => $faker->url,
-                'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/work1.jpg'),
-                'web_address'        => $faker->url,
-            ]);
+            'storage_id'         => MyStorage::generateID(),
+            'user_id'            => 1,
+            'title'              => '作品3かっこいいよ',
+            'description'        => $faker->sentence(3),
+            'long_comment'       => $this->get_long_comment(),
+            'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.fbx'),
+            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_fbx_eye_catch.png'),
+            'web_address'        => $faker->url,
+        ]);
+
+        Storage::create([
+            'storage_id'         => MyStorage::generateID(),
+            'user_id'            => 2,
+            'title'              => 'WEBエンジニアの最高傑作',
+            'description'        => $faker->sentence(3),
+            'long_comment'       => $this->get_long_comment(),
+            'storage_url'        => FacadesStorage::disk('public')->url('storages/example/ウサギ.stl'),
+            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/ウサギ_eye_catch.png'),
+            'web_address'        => $faker->url,
+        ]);
+
+        Storage::create([
+            'storage_id'         => MyStorage::generateID(),
+            'user_id'            => 3,
+            'title'              => 'ニートは頑張れる',
+            'description'        => $faker->sentence(3),
+            'long_comment'       => $this->get_long_comment(),
+            'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.stl'),
+            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_stl_eye_catch.png'),
+            'web_address'        => $faker->url,
+        ]);
     }
 
     private function get_long_comment(): string
