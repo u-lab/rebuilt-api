@@ -54,7 +54,16 @@ class Storage extends Model
      *
      * @var array
      */
-    protected $fillable = ['storage_id', 'user_id', 'title', 'description', 'long_comment', 'storage_url', 'eyecatch_imgae_url', 'web_address'];
+    protected $fillable = [
+        'storage_id',
+        'user_id',
+        'title',
+        'description',
+        'long_comment',
+        'storage_url',
+        'eyecatch_image_url',
+        'web_address'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -69,7 +78,7 @@ class Storage extends Model
         'description'        => 'string',
         'long_comment'       => 'string',
         'storage_url'        => 'string',
-        'eyecatch_imgae_url' => 'string',
+        'eyecatch_image_url' => 'string',
         'web_address'        => 'string'
     ];
 
