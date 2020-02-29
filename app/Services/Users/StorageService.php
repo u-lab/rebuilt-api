@@ -60,6 +60,7 @@ class StorageService
 
     /**
      * 作品の内容を更新する
+     * この関数内ではfileのURLのキー名と変数名を一致させておくこと。
      *
      * @param UpdateStorageRequest $request
      * @param string $storage_id
@@ -75,7 +76,7 @@ class StorageService
         if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
             $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
             $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-            if (empty($eyecatch_image_url)) {
+            if (isset($eyecatch_image_url)) {
                 $request_except[] = 'eyecatch_image_url';
             }
         }
@@ -84,16 +85,25 @@ class StorageService
         if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
             $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
             $storage_url = Storage::disk('public')->url($storage_filename);
-            if (empty($storage_url)) {
+            if (isset($storage_url)) {
                 $request_except[] = 'storage_url';
             }
         }
 
-
         // DBに保存するデータの作成
-        $inserts = isset($request_except) ?
-                    $request->except($request_except) : $request->all();
+        if (isset($request_except)) {
+            $inserts = $request->except($request_except);
 
+            // $inserts['hoge'] = $hoge 可変変数の使用をしている。
+            foreach ($request_except as $insert_data) {
+                $inserts[$insert_data] = ${$insert_data};
+            }
+        }
+
+        // 挿入するデータが何もなかったら、$request->allする
+        $inserts = $inserts ?? $request->all();
+
+        // DBの更新
         return $this->_storageRepository
                     ->updateOrCreate($inserts, $user->id, $storage_id);
     }
