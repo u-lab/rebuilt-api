@@ -23,7 +23,7 @@ class PageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param ShowPageRequest $request
+     * @param \App\Http\Requests\Users\ShowPageRequest $request
      * @return \Illuminate\Http\Response
      */
     public function show(ShowPageRequest $request)

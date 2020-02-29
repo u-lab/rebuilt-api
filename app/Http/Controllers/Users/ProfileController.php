@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\Users\ProfileService;
+use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 
 class ProfileController extends Controller
@@ -22,10 +23,10 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request
+     * @param  \App\Http\Requests\Users\ShowProfileRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(ShowProfileRequest $request)
     {
         return $this->_service->get_user_profile($request);
     }

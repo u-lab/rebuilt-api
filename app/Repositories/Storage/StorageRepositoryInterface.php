@@ -20,7 +20,8 @@ interface StorageRepositoryInterface
      *
      * @param integer $user_id
      * @param string $storage_id
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_storage(int $user_id, string $storage_id);
 
@@ -43,12 +44,12 @@ interface StorageRepositoryInterface
     public function get_user_all_storages(string $user_id, int $per_page = 15): LengthAwarePaginator;
 
     /**
-     * 作品の内容を更新する
-     *
-     * @param array $inserts
-     * @param integer $user_id
-     * @param string $storage_id
-     * @return void
-     */
-    public function update(array $inserts, int $user_id, string $storage_id);
+      * 作品の内容を更新か作成する
+      *
+      * @param array $inserts
+      * @param integer $user_id
+      * @param string $storage_id
+      * @return \Illuminate\Database\Eloquent\Model|static
+      */
+    public function updateOrCreate(array $inserts, int $user_id, string $storage_id);
 }
