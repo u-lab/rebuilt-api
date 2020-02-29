@@ -50,8 +50,10 @@ class ProfileService
         $insert = [];
 
         // 送信されたファイルをストレージに保存
-        $filename = $request->file('icon_image')->store('/user/icon', 'public');
-        $filepath = Storage::disk('public')->url($filename); // storageのurlを取得
+        if ($request->hasFile('icon_image') && $request->file('icon_image')->isValid()) {
+            $filename = $request->file('icon_image')->store('/user/icon', 'public');
+            $filepath = Storage::disk('public')->url($filename); // storageのurlを取得
+        }
 
         if (isset($filepath)) {
             $insert = $request->except(['icon_image', 'icon_image_url']);
