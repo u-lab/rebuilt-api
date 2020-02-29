@@ -35,13 +35,14 @@ class StorageRepository implements StorageRepositoryInterface
      *
      * @param integer $user_id
      * @param string $storage_id
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_storage(int $user_id, string $storage_id)
     {
         $storage = $this->_storage->where('user_id', '=', $user_id)
             ->where('storage_id', '=', $storage_id)
-            ->first();
+            ->firstOrFail();
 
         return $storage;
     }

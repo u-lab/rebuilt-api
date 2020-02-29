@@ -20,7 +20,8 @@ interface StorageRepositoryInterface
      *
      * @param integer $user_id
      * @param string $storage_id
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_storage(int $user_id, string $storage_id);
 
