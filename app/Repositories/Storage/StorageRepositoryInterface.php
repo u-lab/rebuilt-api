@@ -7,6 +7,14 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface StorageRepositoryInterface
 {
     /**
+     * Storageを追加する
+     *
+     * @param array $inserts
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create_storage(array $inserts);
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page

@@ -2,10 +2,12 @@
 
 namespace App\Services\Users;
 
-use App\Http\Requests\Users\ShowStorageRequest;
+use App\Facades\MyStorage;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
+use App\Http\Requests\Users\StoreStorageRequest;
 use App\Http\Requests\Users\UpdateStorageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
@@ -58,6 +60,54 @@ class StorageService
         } catch (InvalidArgumentException $e) {
             return abort(response()->json(['message' => $e->getMessage()]), 404);
         }
+    }
+
+    /**
+     * 作品をDBに保存する
+     *
+     * @param StoreStorageRequest $request
+     * @return StorageResource
+     */
+    public function store(StoreStorageRequest $request): StorageResource
+    {
+        $user = $request->user();
+        // requestでexceptを指定するもの。
+        $request_except = ['user_id', 'storage_id'];
+        $user_id = $user->id;
+        $storage_id = MyStorage::generateID();
+
+        // アイキャッチ画像の保存
+        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
+            $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
+            $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
+            if (isset($eyecatch_image_url)) {
+                $request_except[] = 'eyecatch_image_url';
+            }
+        }
+
+        // 作品の保存
+        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
+            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
+            $storage_url = Storage::disk('public')->url($storage_filename);
+            if (isset($storage_url)) {
+                $request_except[] = 'storage_url';
+            }
+        }
+
+        // DBに保存するデータの作成
+        if (isset($request_except)) {
+            $inserts = $request->except($request_except);
+
+            // $inserts['hoge'] = $hoge 可変変数の使用をしている。
+            foreach ($request_except as $insert_data) {
+                $inserts[$insert_data] = ${$insert_data};
+            }
+        }
+
+        // 挿入するデータが何もなかったら、$request->allする
+        $inserts = $inserts ?? $request->all();
+
+        return new StorageResource($this->_storageRepository->create_storage($inserts));
     }
 
     /**
