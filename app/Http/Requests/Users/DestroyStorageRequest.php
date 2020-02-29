@@ -13,7 +13,7 @@ class DestroyStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
