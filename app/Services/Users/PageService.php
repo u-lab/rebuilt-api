@@ -2,6 +2,7 @@
 
 namespace App\Services\Users;
 
+use App\Http\Requests\Users\ShowPageRequest;
 use App\Http\Requests\Users\UpdatePageRequest;
 use App\Http\Resources\Users\Page as PageResource;
 use App\Repositories\User\UserPortfolioRepositoryInterface;
@@ -22,10 +23,10 @@ class PageService
     /**
      * ユーザーの個人ページを取得する
      *
-     * @param [type] $request
+     * @param \App\Http\Requests\Users\ShowPageRequest $request
      * @return PageResource
      */
-    public function get_user_page($request): PageResource
+    public function get_user_page(ShowPageRequest $request): PageResource
     {
         try {
             // ユーザーデータの取得
@@ -41,7 +42,7 @@ class PageService
     /**
      * ユーザーページを更新する
      *
-     * @param UpdatePageRequest $request
+     * @param \App\Http\Requests\Users\UpdatePageRequest $request
      * @return PageResource
      */
     public function update_user_page(UpdatePageRequest $request): PageResource

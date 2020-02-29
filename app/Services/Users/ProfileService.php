@@ -3,6 +3,7 @@
 namespace App\Services\Users;
 
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
@@ -20,9 +21,10 @@ class ProfileService
     /**
      * ユーザープロフィールを取得
      *
+     * @param \App\Http\Requests\Users\ShowProfileRequest $request
      * @return ProfileResource
      */
-    public function get_user_profile($request): ProfileResource
+    public function get_user_profile(ShowProfileRequest $request): ProfileResource
     {
         try {
             // ユーザーデータの取得

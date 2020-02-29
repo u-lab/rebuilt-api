@@ -2,6 +2,7 @@
 
 namespace App\Services\Users;
 
+use App\Http\Requests\Users\ShowStorageRequest;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Users\IndexStorageRequest;
@@ -26,10 +27,11 @@ class StorageService
     /**
      * 作品を取得する
      *
+     * @param \App\Http\Requests\Users\ShowStorageRequest $request
      * @param string $storage_id
      * @return void
      */
-    public function get_storage($request, string $storage_id)
+    public function get_storage(ShowStorageRequest $request, string $storage_id)
     {
         $user = $request->user();
 

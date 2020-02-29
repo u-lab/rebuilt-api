@@ -3,6 +3,7 @@
 namespace App\Services\Users;
 
 use Exception;
+use App\Http\Requests\Users\DestroyUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 
 class UserService
@@ -20,10 +21,10 @@ class UserService
     /**
      * User(自分)を削除する
      *
-     * @param Request $request
+     * @param \App\Http\Requests\Users\DestroyUserRequest $request
      * @return mixed
      */
-    public function delete_user($request)
+    public function delete_user(DestroyUserRequest $request)
     {
         try {
             $user = $request->user();
