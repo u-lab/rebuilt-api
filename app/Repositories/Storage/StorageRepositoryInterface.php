@@ -24,13 +24,6 @@ interface StorageRepositoryInterface
     public function get_all_storages(int $per_page = 15): LengthAwarePaginator;
 
     /**
-     * StorageIDを取得する(1分前まで)
-     *
-     * @return void
-     */
-    public function get_storage_id_UntilOneMinuteBefore();
-
-    /**
      * 作品を取得する
      *
      * @param integer $user_id

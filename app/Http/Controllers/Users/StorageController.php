@@ -41,7 +41,7 @@ class StorageController extends Controller
      */
     public function store(StoreStorageRequest $request)
     {
-        //
+        return $this->_service->store($request);
     }
 
     /**
