@@ -3,12 +3,13 @@
 namespace App\Services\Users;
 
 use InvalidArgumentException;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Users\IndexStorageRequest;
 use App\Http\Requests\Users\UpdateStorageRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Storage;
 
 class StorageService
 {
@@ -28,9 +29,16 @@ class StorageService
      * @param string $storage_id
      * @return void
      */
-    public function get_storage(string $storage_id)
+    public function get_storage($request, string $storage_id)
     {
-        return new StorageResource($this->_storageRepository->get_storage_no_user_id($storage_id));
+        $user = $request->user();
+
+        try {
+            $stroage = $this->_storageRepository->get_storage($user->id, $storage_id);
+            return new StorageResource($stroage);
+        } catch (ModelNotFoundException $e) {
+            return abort(response()->json(['message' => $e->getMessage()]), 404);
+        }
     }
 
     /**
@@ -64,18 +72,23 @@ class StorageService
         $request_except = [];
 
         // アイキャッチ画像の保存
-        $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
-        $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-        if (empty($eyecatch_image_url)) {
-            $request_except[] = 'eyecatch_image_url';
+        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
+            $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
+            $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
+            if (empty($eyecatch_image_url)) {
+                $request_except[] = 'eyecatch_image_url';
+            }
         }
 
         // 作品の保存
-        $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
-        $storage_url = Storage::disk('public')->url($storage_filename);
-        if (empty($storage_url)) {
-            $request_except[] = 'storage_url';
+        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
+            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
+            $storage_url = Storage::disk('public')->url($storage_filename);
+            if (empty($storage_url)) {
+                $request_except[] = 'storage_url';
+            }
         }
+
 
         // DBに保存するデータの作成
         $inserts = isset($request_except) ?
