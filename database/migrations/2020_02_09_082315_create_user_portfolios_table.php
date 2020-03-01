@@ -16,7 +16,7 @@ class CreateUserPortfoliosTable extends Migration
         Schema::create('user_portfolios', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->string('masterpiece_storage_id', '50')->comment('代表作品');
-            $table->longText('long_comment')->comment('本文');
+            $table->longText('long_comment')->nullable()->comment('本文');
             $table->timestamps();
         });
     }
