@@ -23,6 +23,8 @@ class FileSystemService
 
         $file = $request->file($request_name);
         $path = '/'.trim($path, '/').'/';
+        $localDisk = Storage::disk('local');
+        $publicDisk = Storage::disk('public');
 
         // 一時ファイルの作成
         $filename_tmp = $file->store('/tmp', 'local');
@@ -37,10 +39,10 @@ class FileSystemService
         $sizes = $this->store_image($img, $path, $filename, $extension);
 
         // 画像のURLを参照
-        $url = Storage::disk('public')->url($path.$filename);
+        $url = $publicDisk->url($path.$filename);
 
         // 一時ファイルを削除
-        $tmp_delete = Storage::disk('local')->delete($filename_tmp);
+        $tmp_delete = $localDisk->delete($filename_tmp);
         if ($tmp_delete === false) {
             throw new Exception();
         }
@@ -48,7 +50,7 @@ class FileSystemService
         $retVal = ['original' => $url];
 
         foreach ($sizes as $size) {
-            $retVal[$size] = Storage::disk('public')->url($path.$size.'-'.$filename);
+            $retVal[$size] = $publicDisk->url($path.$size.'-'.$filename);
         }
 
         return $retVal;
