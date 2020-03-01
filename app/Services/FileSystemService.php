@@ -34,9 +34,7 @@ class FileSystemService
         $img = Image::make($file);
 
         // ファイルに追加
-        $this->store_image($img, $path, $filename, $extension);
-        // Storage::disk('public')
-        //         ->put($path.$filename, (string)$img, 'public');
+        $sizes = $this->store_image($img, $path, $filename, $extension);
 
         // 画像のURLを参照
         $url = Storage::disk('public')->url($path.$filename);
@@ -47,44 +45,41 @@ class FileSystemService
             throw new Exception();
         }
 
-        return [
-            'original' => $url,
-            '1200' => Storage::disk('public')->url($path.'1200-'.$filename),
-            '900' => Storage::disk('public')->url($path.'900-'.$filename),
-            '600' => Storage::disk('public')->url($path.'600-'.$filename),
-            '300' => Storage::disk('public')->url($path.'300-'.$filename)
-        ];
+        $retVal = ['original' => $url];
+
+        foreach ($sizes as $size) {
+            $retVal[$size] = Storage::disk('public')->url($path.$size.'-'.$filename);
+        }
+
+        return $retVal;
     }
 
     private function store_image(ImageImage $image, string $path, string $filename, $extension)
     {
         $storage = Storage::disk('public');
-        // originalの保存
-        \Log::debug('original');
-        $storage->put($path.$filename, (string)$image, 'public');
-        \Log::debug('aaa');
-        $storage->put(
-            $path.'1200-'.$filename,
-            (string)$this->image_resize($image, 1200, $extension),
-            'public'
-        );
-        \Log::debug('bbb');
+        // 回転を補正
+        $image->orientate();
 
-        $storage->put(
-            $path.'900-'.$filename,
-            (string)$this->image_resize($image, 900, $extension),
-            'public'
-        );
-        $storage->put(
-            $path.'600-'.$filename,
-            (string)$this->image_resize($image, 600, $extension),
-            'public'
-        );
-        $storage->put(
-            $path.'300-'.$filename,
-            (string)$this->image_resize($image, 300, $extension),
-            'public'
-        );
+        // originalの保存
+        $storage->put($path.$filename, (string)$image->encode($extension), 'public');
+        $create_sizes = [];
+
+        // 作りたい画像のサイズ
+        $sizes = [1200, 900, 600, 300];
+
+        // それぞれのサイズの画像を作成
+        foreach ($sizes as $size) {
+            if ($image->width() > $size) {
+                $storage->put(
+                    $path.$size.'-'.$filename,
+                    (string)$this->image_resize($image, $size, $extension),
+                    'public'
+                );
+                $create_sizes[] = $size;
+            }
+        }
+
+        return $create_sizes;
     }
 
     private function image_resize(ImageImage $image, int $width, $extension): ImageImage
@@ -92,6 +87,6 @@ class FileSystemService
         return $image->resize($width, null, function ($constraint) {
             $constraint->upsize();
             $constraint->aspectRatio();
-        });
+        })->encode($extension);
     }
 }
