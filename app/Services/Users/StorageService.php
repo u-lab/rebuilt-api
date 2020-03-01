@@ -12,6 +12,7 @@ use App\Http\Requests\Users\UpdateStorageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
+use App\Services\FileSystemService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class StorageService
@@ -77,12 +78,15 @@ class StorageService
         $storage_id = MyStorage::generateID();
 
         // アイキャッチ画像の保存
-        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
-            $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
-            $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-            if (isset($eyecatch_image_url)) {
-                $request_except[] = 'eyecatch_image_url';
-            }
+        // if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
+        //     $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
+        //     $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
+        // }
+        $filestystems = new FileSystemService;
+        $eyecatch_image_url = $filestystems->store_requestFile($request, 'eyecatch_image', '/storages/eyecatch')['original'];
+        \Log::debug($eyecatch_image_url);
+        if (isset($eyecatch_image_url)) {
+            $request_except[] = 'eyecatch_image_url';
         }
 
         // 作品の保存
