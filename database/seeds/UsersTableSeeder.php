@@ -58,7 +58,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'       => $insert["job_name"],
                 'hobby'          => $insert["hobby"],
                 'description'    => $insert["description"],
-                'icon_image_url' => $insert["icon_image_url"],
+                'icon_image_id'  => $insert["icon_image_id"],
                 'web_address'    => $insert["web_address"]
             ]);
 
@@ -103,7 +103,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => '天才Unityエンジニア',
                 'hobby'                  => '建築モデルづくり',
                 'description'            => $this->description(),
-                'icon_image_url'         => "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61.jpg?s=200&d=mm",
+                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab/rebuilt-api",
                 'role_id'                => "3",
                 'sns_id1'                => "1",
@@ -130,7 +130,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => 'HENTAI-WEB Enginner',
                 'hobby'                  => '読書',
                 'description'            => $this->description(),
-                'icon_image_url'         => "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61.jpg?s=200&d=mm",
+                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab/rebuilt",
                 'role_id'                => "2",
                 'sns_id1'                => "1",
@@ -157,7 +157,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => '人生の夏休み中',
                 'hobby'                  => 'ゲーム',
                 'description'            => $this->description(),
-                'icon_image_url'         => "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61.jpg?s=200&d=mm",
+                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab",
                 'role_id'                => "2",
                 'sns_id1'                => "1",
