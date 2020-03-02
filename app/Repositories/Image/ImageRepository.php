@@ -16,4 +16,9 @@ class ImageRepository implements ImageRepositoryInterface
     {
         $this->_image = $image;
     }
+
+    public function create(array $inserts)
+    {
+        return $this->_image->create($inserts);
+    }
 }
