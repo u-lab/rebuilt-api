@@ -110,6 +110,23 @@ class FileSystemService
         $this->store_image_error($filename);
     }
 
+    public function store_requestStorage($request, string $storage_name, string $path = ''): string
+    {
+        // postされたfileがアップロードできているか確認
+        if ($request->hasFile($storage_name) === false
+                && $request->file($storage_name) === false) {
+            throw new FailedUploadImage('正常にファイルをアップロードできていません。');
+        }
+
+        $file = $request->file($storage_name);
+        $path = '/'.trim($path, '/').'/';
+
+        $storage_filename = $file->store($path, 'public');
+        $storage_url = $this->_publicDisk->url($storage_filename);
+
+        return $storage_url;
+    }
+
     /**
      * imageが保存できていないときのエラー
      *

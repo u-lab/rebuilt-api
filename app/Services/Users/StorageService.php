@@ -90,12 +90,10 @@ class StorageService
         }
 
         // 作品の保存
-        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
-            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
-            $storage_url = Storage::disk('public')->url($storage_filename);
-            if (isset($storage_url)) {
-                $request_except[] = 'storage_url';
-            }
+        $storage_url = $this->_fileSystemService
+                            ->store_requestStorage($request, 'storage', '/storages/storage/');
+        if (isset($storage_url)) {
+            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
@@ -130,18 +128,16 @@ class StorageService
 
         // アイキャッチ画像の保存
         $eyecatch_image_id = $this->_fileSystemService
-                                ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch');
+                                ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch/');
         if (isset($eyecatch_image_id)) {
             $request_except[] = 'eyecatch_image_id';
         }
 
         // 作品の保存
-        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
-            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
-            $storage_url = Storage::disk('public')->url($storage_filename);
-            if (isset($storage_url)) {
-                $request_except[] = 'storage_url';
-            }
+        $storage_url = $this->_fileSystemService
+                            ->store_requestStorage($request, 'storage', '/storages/storage/');
+        if (isset($storage_url)) {
+            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
