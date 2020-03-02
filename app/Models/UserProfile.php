@@ -31,6 +31,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereWebAddress($value)
  * @mixin \Eloquent
+ * @property string $icon_image_id ユーザーアイコンID
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereIconImageId($value)
  */
 class UserProfile extends Model
 {

@@ -46,7 +46,16 @@ class UserInfo extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'first_name', 'last_name', 'school_name', 'birthday', 'prefecture', 'city', 'street'];
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'last_name',
+        'school_name',
+        'birthday',
+        'prefecture',
+        'city',
+        'street'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -54,14 +63,14 @@ class UserInfo extends Model
      * @var array
      */
     protected $casts = [
-        'user_id' => 'integer',
-        'first_name' => 'string',
-        'last_name' => 'string',
+        'user_id'     => 'integer',
+        'first_name'  => 'string',
+        'last_name'   => 'string',
         'school_name' => 'string',
-        'birthday' => 'date',
-        'prefecture' => 'string',
-        'city' => 'string',
-        'street'=> 'string'
+        'birthday'    => 'date',
+        'prefecture'  => 'string',
+        'city'        => 'string',
+        'street'      => 'string'
     ];
 
     /**

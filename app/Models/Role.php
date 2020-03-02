@@ -54,7 +54,7 @@ class Role extends Model
      * @var array
      */
     protected $casts = [
-        'role_name' => 'string',
+        'role_name'  => 'string',
         'role_level' => 'integer'
     ];
 }

@@ -44,6 +44,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withoutTrashed()
  * @mixin \Eloquent
+ * @property string|null $eyecatch_image_id アイキャッチ画像ID
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  */
 class Storage extends Model
 {
