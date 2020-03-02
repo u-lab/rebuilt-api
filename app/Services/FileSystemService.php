@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use Log;
+use Str;
 use Exception;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Image as ImageImage;
 use App\Exceptions\Image\FailedUploadImage;
 use App\Repositories\Image\ImageRepositoryInterface;
-use Str;
 
 class FileSystemService
 {
@@ -57,6 +58,17 @@ class FileSystemService
         ];
     }
 
+    /**
+     * StorageとDBに画像を保存
+     *
+     * @param Request $request
+     * @param string $image_name
+     * @param string $path
+     * @return string
+     * @throws Exception
+     * @throws \RuntimeException
+     * @throws \App\Exceptions\Image\FailedUploadImage
+     */
     public function store_requestImage($request, string $image_name, string $path = ''): string
     {
         // postされたimageがアップロードできているか確認
@@ -78,31 +90,24 @@ class FileSystemService
         $img = Image::make($file);
 
         // ファイルに追加
-        $sizes = $this->store_image($img, $path, $filename, $extension);
-
-        // 画像のURLを参照
-        $url = $this->_publicDisk->url($path.$filename);
-
-        // 一時ファイルを削除
-        $tmp_delete = $this->_localDisk->delete($filename_tmp);
-        if ($tmp_delete === false) {
-            throw new Exception();
-        }
-
-        // すべてのサイズの画像URLを生成
-        $inserts = $this->_inserts;
-
+        $inserts = $this->store_image($img, $path, $filename, $extension);
         $inserts['title'] = $image_name;
-        $inserts['url'] = $url;
 
-        foreach ($sizes as $size) {
-            $inserts['url_'.$size] = $this->_publicDisk->url($path.$size.'-'.$filename);
+        if (isset($inserts['url'])) {
+            // 一時ファイルを削除
+            $tmp_delete = $this->_localDisk->delete($filename_tmp);
+            if ($tmp_delete === false) {
+                throw new Exception();
+            }
+
+            // Modelに挿入
+            $imageModel = $this->_imageRepository->create($inserts);
+
+            // uuidを返す
+            return $imageModel->id;
         }
 
-        // Modelに挿入
-        $imageModel = $this->_imageRepository->create($inserts);
-
-        return $imageModel->id;
+        $this->store_image_error($filename);
     }
 
     public function store_requestFile($request, string $request_name, string $path = ''): ?array
@@ -148,15 +153,38 @@ class FileSystemService
         return $retVal;
     }
 
-    private function store_image(ImageImage $image, string $path, string $filename, $extension)
+    /**
+     * imageが保存できていないときのエラー
+     *
+     * @param string $filename
+     * @return void
+     * @throws Exception
+     */
+    private function store_image_error(string $filename)
     {
-        $storage = Storage::disk('public');
+        $errMessage = "正常にファイルを保存できていません。ファイル名：" . $filename;
+        Log::error($errMessage);
+        throw new Exception;
+    }
+
+    /**
+     * 画像をStorageに保存する
+     *
+     * @param ImageImage $image
+     * @param string $path
+     * @param string $filename
+     * @param string $extension 拡張子
+     * @return array URLを返す
+     */
+    private function store_image(ImageImage $image, string $path, string $filename, $extension): array
+    {
         // 回転を補正
         $image->orientate();
 
         // originalの保存
-        $storage->put($path.$filename, (string)$image->encode($extension), 'public');
-        $create_sizes = [];
+        $this->_publicDisk->put($path.$filename, (string)$image->encode($extension), 'public');
+        $store_sizes = [];
+        $inserts = $this->_inserts;
 
         // 作りたい画像のサイズ
         $sizes = $this->_sizes;
@@ -164,18 +192,35 @@ class FileSystemService
         // それぞれのサイズの画像を作成
         foreach ($sizes as $size) {
             if ($image->width() > $size) {
-                $storage->put(
+                $this->_publicDisk->put(
                     $path.$size.'-'.$filename,
                     (string)$this->image_resize($image, $size, $extension),
                     'public'
                 );
-                $create_sizes[] = $size;
+                $store_sizes[] = $size;
             }
         }
 
-        return $create_sizes;
+        // 画像のURLを参照
+        $url = $this->_publicDisk->url($path.$filename);
+
+        $inserts['url'] = $url;
+
+        foreach ($store_sizes as $size) {
+            $inserts['url_'.$size] = $this->_publicDisk->url($path.$size.'-'.$filename);
+        }
+
+        return $inserts;
     }
 
+    /**
+     * 画像のリサイズをする
+     *
+     * @param ImageImage $image
+     * @param integer $width
+     * @param string $extension
+     * @return ImageImage
+     */
     private function image_resize(ImageImage $image, int $width, $extension): ImageImage
     {
         return $image->resize($width, null, function ($constraint) {
