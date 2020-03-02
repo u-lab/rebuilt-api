@@ -110,49 +110,6 @@ class FileSystemService
         $this->store_image_error($filename);
     }
 
-    public function store_requestFile($request, string $request_name, string $path = ''): ?array
-    {
-        // アイキャッチ画像の保存
-        if ($request->hasFile($request_name) === false
-                && $request->file($request_name)->isValid() === false) {
-            return null;
-        }
-
-        $file = $request->file($request_name);
-        $path = '/'.trim($path, '/').'/';
-        $localDisk = Storage::disk('local');
-        $publicDisk = Storage::disk('public');
-
-        // 一時ファイルの作成
-        $filename_tmp = $file->store('/tmp', 'local');
-        $filename = trim($filename_tmp, 'tmp/');
-
-        // 画像の拡張子を取得
-        $extension = $file->getClientOriginalExtension();
-
-        $img = Image::make($file);
-
-        // ファイルに追加
-        $sizes = $this->store_image($img, $path, $filename, $extension);
-
-        // 画像のURLを参照
-        $url = $publicDisk->url($path.$filename);
-
-        // 一時ファイルを削除
-        $tmp_delete = $localDisk->delete($filename_tmp);
-        if ($tmp_delete === false) {
-            throw new Exception();
-        }
-
-        $retVal = ['original' => $url];
-
-        foreach ($sizes as $size) {
-            $retVal[$size] = $publicDisk->url($path.$size.'-'.$filename);
-        }
-
-        return $retVal;
-    }
-
     /**
      * imageが保存できていないときのエラー
      *
