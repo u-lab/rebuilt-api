@@ -21,7 +21,7 @@ class CreateStoragesTable extends Migration
             $table->string('description', '50')->nullable()->comment('一言コメント');
             $table->longText('long_comment')->nullable()->comment('長文コメント');
             $table->string('storage_url', '255')->nullable()->comment('ストレージURL');
-            $table->uuid('eyecatch_image_id', '255')->nullable()->comment('アイキャッチ画像ID');
+            $table->uuid('eyecatch_image_id')->nullable()->comment('アイキャッチ画像ID');
             $table->string('web_address', '255')->nullable()->comment('WEB Address');
             $table->softDeletes();
             $table->timestamps();
