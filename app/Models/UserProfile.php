@@ -46,7 +46,15 @@ class UserProfile extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'nick_name', 'job_name', 'hobby', 'description', 'icon_image_url', 'web_address'];
+    protected $fillable = [
+        'user_id',
+        'nick_name',
+        'job_name',
+        'hobby',
+        'description',
+        'icon_image_id',
+        'web_address'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -59,7 +67,7 @@ class UserProfile extends Model
         'job_name'       => 'string',
         'hobby'          => 'string',
         'description'    => 'string',
-        'icon_image_url' => 'string',
+        'icon_image_id'  => 'string',
         'web_address'    => 'string'
     ];
 

@@ -61,7 +61,7 @@ class Storage extends Model
         'description',
         'long_comment',
         'storage_url',
-        'eyecatch_image_url',
+        'eyecatch_image_id',
         'web_address'
     ];
 
@@ -78,7 +78,7 @@ class Storage extends Model
         'description'        => 'string',
         'long_comment'       => 'string',
         'storage_url'        => 'string',
-        'eyecatch_image_url' => 'string',
+        'eyecatch_image_id'  => 'string',
         'web_address'        => 'string'
     ];
 
