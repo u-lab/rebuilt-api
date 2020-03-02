@@ -4,13 +4,105 @@ namespace App\Services;
 
 use Exception;
 use Intervention\Image\Facades\Image;
-use Intervention\Image\Image as ImageImage;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image as ImageImage;
+use App\Exceptions\Image\FailedUploadImage;
+use App\Repositories\Image\ImageRepositoryInterface;
+use Str;
 
 class FileSystemService
 {
-    public function __construct()
+    /**
+     * @var \App\Repositories\Image\ImageRepositoryInterface
+     */
+    private $_imageRepository;
+
+    /**
+     * @var \Illuminate\Filesystem\FilesystemAdapter
+     */
+    private $_localDisk;
+
+    /**
+     * @var \Illuminate\Filesystem\FilesystemAdapter
+     */
+    private $_publicDisk;
+
+    /**
+     * @var int[]
+     */
+    private $_sizes;
+
+    /**
+     * @var array
+     */
+    private $_inserts;
+
+    public function __construct(ImageRepositoryInterface $imageRepository)
     {
+        $this->_imageRepository = $imageRepository;
+        $this->_localDisk = Storage::disk('local');
+        $this->_publicDisk = Storage::disk('public');
+        $this->_sizes = [160, 320, 640, 1024, 1280, 1920, 2580];
+        $this->_inserts = [
+            'id'       => Str::uuid(),
+            'title'    => null,
+            'url'      => null,
+            'url_160'  => null,
+            'url_320'  => null,
+            'url_640'  => null,
+            'url_1024' => null,
+            'url_1280' => null,
+            'url_1920' => null,
+            'url_2580' => null
+        ];
+    }
+
+    public function store_requestImage($request, string $image_name, string $path = ''): string
+    {
+        // postされたimageがアップロードできているか確認
+        if ($request->hasFile($image_name) === false
+                && $request->file($image_name) === false) {
+            throw new FailedUploadImage('正常にファイルをアップロードできていません。');
+        }
+
+        $file = $request->file($image_name);
+        $path = '/'.trim($path, '/').'/';
+
+        // ファイルを一時ファイルに保存
+        $filename_tmp = $file->store('/tmp', 'local');
+        $filename = trim($filename_tmp, 'tmp/');
+
+        // 画像の拡張子を取得
+        $extension = $file->getClientOriginalExtension();
+
+        $img = Image::make($file);
+
+        // ファイルに追加
+        $sizes = $this->store_image($img, $path, $filename, $extension);
+
+        // 画像のURLを参照
+        $url = $this->_publicDisk->url($path.$filename);
+
+        // 一時ファイルを削除
+        $tmp_delete = $this->_localDisk->delete($filename_tmp);
+        if ($tmp_delete === false) {
+            throw new Exception();
+        }
+
+        // すべてのサイズの画像URLを生成
+        $inserts = $this->_inserts;
+
+        $inserts['title'] = $image_name;
+        $inserts['url'] = $url;
+
+        foreach ($sizes as $size) {
+            $inserts['url_'.$size] = $this->_publicDisk->url($path.$size.'-'.$filename);
+        }
+
+        // Modelに挿入
+        $imageModel = $this->_imageRepository->create($inserts);
+
+        return $imageModel->id;
     }
 
     public function store_requestFile($request, string $request_name, string $path = ''): ?array
@@ -67,7 +159,7 @@ class FileSystemService
         $create_sizes = [];
 
         // 作りたい画像のサイズ
-        $sizes = [1200, 900, 600, 300];
+        $sizes = $this->_sizes;
 
         // それぞれのサイズの画像を作成
         foreach ($sizes as $size) {

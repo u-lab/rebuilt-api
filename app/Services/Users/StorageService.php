@@ -22,9 +22,14 @@ class StorageService
      */
     private $_storageRepository;
 
-    public function __construct(StorageRepositoryInterface $storageRepository)
-    {
+    private $_fileSystemService;
+
+    public function __construct(
+        StorageRepositoryInterface $storageRepository,
+        FileSystemService $fileSystemService
+    ) {
         $this->_storageRepository = $storageRepository;
+        $this->_fileSystemService = $fileSystemService;
     }
 
     /**
@@ -78,15 +83,9 @@ class StorageService
         $storage_id = MyStorage::generateID();
 
         // アイキャッチ画像の保存
-        // if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
-        //     $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
-        //     $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-        // }
-        $filestystems = new FileSystemService;
-        $eyecatch_image_url = $filestystems->store_requestFile($request, 'eyecatch_image', '/storages/eyecatch')['original'];
-        \Log::debug($eyecatch_image_url);
-        if (isset($eyecatch_image_url)) {
-            $request_except[] = 'eyecatch_image_url';
+        $eyecatch_image_id = $this->_fileSystemService->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch');
+        if (isset($eyecatch_image_id)) {
+            $request_except[] = 'eyecatch_image_id';
         }
 
         // 作品の保存
