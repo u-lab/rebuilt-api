@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $job_name 肩書き
  * @property string $hobby 趣味
  * @property string $description 一言コメント
- * @property string $icon_image_url ユーザーアイコン
+ * @property string $icon_image_id ユーザーアイコンID
  * @property string $web_address ユーザーサイト
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -31,7 +32,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereWebAddress($value)
  * @mixin \Eloquent
- * @property string $icon_image_id ユーザーアイコンID
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereIconImageId($value)
  */
@@ -82,5 +82,15 @@ class UserProfile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Imageへのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function icon_image(): HasOne
+    {
+        return $this->hasOne(Image::class, 'icon_image_id', 'id');
     }
 }

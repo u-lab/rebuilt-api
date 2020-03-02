@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Storage
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $description 一言コメント
  * @property string|null $long_comment 長文コメント
  * @property string|null $storage_url ストレージURL
- * @property string $eyecatch_imgae_url アイキャッチ画像URL
+ * @property string|null $eyecatch_image_id アイキャッチ画像ID
  * @property string $web_address WEB Address
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -44,7 +45,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withoutTrashed()
  * @mixin \Eloquent
- * @property string|null $eyecatch_image_id アイキャッチ画像ID
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  */
 class Storage extends Model
@@ -92,12 +92,22 @@ class Storage extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * 日付へキャストする属性
+     * Userへのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * eyecatchのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function eyecatch_image(): HasOne
+    {
+        return $this->hasOne(Image::class, 'eyecatch_image_id', 'id');
     }
 }
