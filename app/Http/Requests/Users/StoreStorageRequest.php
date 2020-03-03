@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Rules\ExtObj;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreStorageRequest extends FormRequest
@@ -23,12 +24,6 @@ class StoreStorageRequest extends FormRequest
      */
     public function rules()
     {
-        /**
-         * obj => text/plain
-         * stl => application/octet-stream
-         * fbx => application/octet-stream
-         */
-
         return [
             'title'          => ['required', 'string', 'max:50'],
             'description'    => ['string', 'max:50'],
@@ -36,7 +31,8 @@ class StoreStorageRequest extends FormRequest
             'storage'        => [
                 'file',
                 'max:2048',
-                'mimetypes:'.$this->storage_minetypes()
+                'mimetypes:'.$this->storage_minetypes(),
+                new ExtObj($this->file('storage'))
             ],
             'eyecatch_image' => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
             'web_address'    => ['string', 'url' , 'max:255']
