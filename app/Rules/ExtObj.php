@@ -56,7 +56,7 @@ class ExtObj implements Rule
     public function passes($attribute, $value)
     {
         // 送信元の拡張子を取得
-        $original_ext = strtolower($this->_file->getClientOriginalName());
+        $original_ext = strtolower($this->_file->getClientOriginalExtension());
         $original_ext_check = '';
 
         // 送信元の拡張子と拡張子一覧が一致するか確認
