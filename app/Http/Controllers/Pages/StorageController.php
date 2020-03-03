@@ -42,7 +42,7 @@ class StorageController extends Controller
      */
     public function index(IndexStorageRequest $request, string $user)
     {
-        return $this->_service->get_user_all_storages($request);
+        return $this->_service->get_user_all_storages($request, $user);
     }
 
     /**

@@ -2,18 +2,17 @@
 
 namespace App\Services\Pages;
 
-use App\Models\Storage as StorageModel;
+use Log;
+use InvalidArgumentException;
 use App\Http\Requests\Pages\AllStorageRequest;
 use App\Http\Requests\Pages\ShowStorageRequest;
 use App\Http\Requests\Pages\IndexStorageRequest;
 use App\Exceptions\Pages\UserIDNotEqualException;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Http\Resources\PageStorage as PageStorageResource;
-use App\Http\Resources\PageUserAllStorageCollection;
 use App\Repositories\Storage\StorageRepositoryInterface;
+use App\Http\Resources\PageStorage as PageStorageResource;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use InvalidArgumentException;
-use Log;
 
 class StorageService
 {
@@ -39,9 +38,9 @@ class StorageService
      * すべてのユーザーの作品を取得する
      *
      * @param AllStorageRequest $request
-     * @return void
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get_all_users_storage(AllStorageRequest $request)
+    public function get_all_users_storage(AllStorageRequest $request): LengthAwarePaginator
     {
         try {
             return $this->_storageRepository->get_all_storages();
@@ -86,12 +85,13 @@ class StorageService
      * Userの作品をすべて取得する
      *
      * @param IndexStorageRequest $request
-     * @return void
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get_user_all_storages(IndexStorageRequest $request)
+    public function get_user_all_storages(IndexStorageRequest $request, string $user): LengthAwarePaginator
     {
         try {
-            return $this->_storageRepository->get_all_storages();
+            $user_id = $this->_userRepository->get_user_id($user);
+            return $this->_storageRepository->get_user_all_storages($user_id);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));

@@ -6,6 +6,7 @@ use Log;
 use InvalidArgumentException;
 use App\Http\Requests\Pages\IndexProfileRequest;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProfileService
 {
@@ -23,9 +24,9 @@ class ProfileService
      * すべてのユーザーのプロフィールを取得する
      *
      * @param IndexProfileRequest $request
-     * @return mixed
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function get_all_users_profile(IndexProfileRequest $request)
+    public function get_all_users_profile(IndexProfileRequest $request): LengthAwarePaginator
     {
         try {
             $user_profiles = $this->_userRepository->get_user_profiles_by_pagination();

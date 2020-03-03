@@ -37,9 +37,9 @@ class StorageService
      *
      * @param \App\Http\Requests\Users\ShowStorageRequest $request
      * @param string $storage_id
-     * @return void
+     * @return StorageResource
      */
-    public function get_storage(ShowStorageRequest $request, string $storage_id)
+    public function get_storage(ShowStorageRequest $request, string $storage_id): StorageResource
     {
         $user = $request->user();
 
@@ -55,7 +55,7 @@ class StorageService
      * ユーザーの全作品を取得する
      *
      * @param IndexStorageRequest $request
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function get_user_all_storages(IndexStorageRequest $request): LengthAwarePaginator
     {
@@ -154,8 +154,10 @@ class StorageService
         $inserts = $inserts ?? $request->all();
 
         // DBの更新
-        return $this->_storageRepository
+        $storage = $this->_storageRepository
                     ->updateOrCreate($inserts, $user->id, $storage_id);
+
+        return new StorageResource($storage);
     }
 
     /**
