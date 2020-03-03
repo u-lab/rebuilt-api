@@ -119,7 +119,7 @@ class FileSystemService
         }
 
         $file = $request->file($storage_name);
-        $path = '/'.trim($path, '/').'/';
+        $path = '/'.trim($path, '/');
 
         $storage_filename = $file->store($path, 'public');
         $storage_url = $this->_publicDisk->url($storage_filename);
