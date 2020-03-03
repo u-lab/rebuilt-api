@@ -45,7 +45,8 @@ interface StorageRepositoryInterface
      * ユーザーIDを用いないで作品を取得する
      *
      * @param string $storage_id
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function get_storage_no_user_id(string $storage_id);
 
