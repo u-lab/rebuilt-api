@@ -4,9 +4,20 @@ namespace App\Http\Requests\Users;
 
 use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\Storage\StorageRepositoryInterface;
 
 class DestroyStorageRequest extends FormRequest
 {
+    /**
+     * @var \App\Repositories\Storage\StorageRepositoryInterface
+     */
+    protected $_storageRepository;
+
+    public function __construct(StorageRepositoryInterface $storageRepository)
+    {
+        $this->_storageRepository = $storageRepository;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +25,9 @@ class DestroyStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $storage = $this->_storageRepository
+                        ->get_storage_no_user_id($this->route('storage_id'));
+        return $this->user()->can('destroy', $storage);
     }
 
     /**

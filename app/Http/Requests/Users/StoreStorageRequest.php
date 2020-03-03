@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Models\Storage;
 use App\Rules\ExtObj;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,7 +15,7 @@ class StoreStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', Storage::class);
     }
 
     /**

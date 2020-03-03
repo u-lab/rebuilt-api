@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\User;
 use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,7 +15,7 @@ class UpdatePageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', User::class);
     }
 
     /**

@@ -2,12 +2,22 @@
 
 namespace App\Http\Requests\Users;
 
+use Log;
 use App\Rules\ExtObj;
 use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\Storage\StorageRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateStorageRequest extends FormRequest
 {
+    protected $_storageRepository;
+
+    public function __construct(StorageRepositoryInterface $storageRepository)
+    {
+        $this->_storageRepository = $storageRepository;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +25,14 @@ class UpdateStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        try {
+            $storage = $this->_storageRepository
+                            ->get_storage_no_user_id($this->route('storage_id'));
+            return $storage && $this->user()->can('update', $storage);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            return false;
+        }
     }
 
     /**
