@@ -92,6 +92,57 @@ class Storage extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * titleを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setTitleAttribute(string $value)
+    {
+        $this->attributes['title'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setDescriptionAttribute(string $value)
+    {
+        $this->attributes['description'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * long_commentを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setLongCommentAttribute(string $value)
+    {
+        $this->attributes['long_comment'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
      * Userへのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
