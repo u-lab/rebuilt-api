@@ -60,6 +60,23 @@ class UserPortfolio extends Model
     ];
 
     /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setLongCommentAttribute(string $value)
+    {
+        $this->attributes['long_comment'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
      * Userへのリレーションシップ
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -75,6 +75,74 @@ class UserProfile extends Model
     ];
 
     /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setDescriptionAttribute(string $value)
+    {
+        $this->attributes['description'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setNickNameAttribute(string $value)
+    {
+        $this->attributes['nick_name'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setHobbyAttribute(string $value)
+    {
+        $this->attributes['hobby'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setJobNameAttribute(string $value)
+    {
+        $this->attributes['job_name'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
      * Userモデルへのリレーションシップ
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
