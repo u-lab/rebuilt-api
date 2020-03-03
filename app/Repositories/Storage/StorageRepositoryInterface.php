@@ -15,6 +15,14 @@ interface StorageRepositoryInterface
     public function create_storage(array $inserts);
 
     /**
+     * storageのソフトデリート
+     *
+     * @param string $storage_id
+     * @return boolean|null
+     */
+    public function destroy_storage(string $storage_id): ?bool;
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page

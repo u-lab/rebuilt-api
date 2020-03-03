@@ -4,11 +4,11 @@ namespace App\Services\Users;
 
 use App\Facades\MyStorage;
 use InvalidArgumentException;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
 use App\Http\Requests\Users\StoreStorageRequest;
 use App\Http\Requests\Users\UpdateStorageRequest;
+use App\Http\Requests\Users\DestroyStorageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
@@ -156,5 +156,17 @@ class StorageService
         // DBの更新
         return $this->_storageRepository
                     ->updateOrCreate($inserts, $user->id, $storage_id);
+    }
+
+    /**
+     * Storageを削除する
+     *
+     * @param DestroyStorageRequest $request
+     * @param string $storage_id
+     * @return boolean|null
+     */
+    public function destory(DestroyStorageRequest $request, string $storage_id): ?bool
+    {
+        return $this->_storageRepository->destroy_storage($storage_id);
     }
 }

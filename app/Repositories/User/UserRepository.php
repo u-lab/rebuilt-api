@@ -27,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete_user(string $user_id): ?bool
     {
-        return $this->_user->delete($user_id);
+        return $this->_user->whereId($user_id)->delete();
     }
 
     /**
