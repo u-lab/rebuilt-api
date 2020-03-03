@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Rules\ExtObj;
+use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateStorageRequest extends FormRequest
@@ -24,7 +26,45 @@ class UpdateStorageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id'           => ['integer', 'exists:App\User,id'],
+            'storage_id'        => ['required', 'string', new StorageID, 'exists:App\Models\Storage,storage_id'],
+            'title'             => ['required', 'string', 'max:50'],
+            'description'       => ['string', 'max:50', 'nullable'],
+            'long_comment'      => ['string', 'max:100000', 'nullable'],
+            'storage'           => [
+                'file',
+                'nullable',
+                'max:2048',
+                'mimetypes:'.$this->storage_minetypes(),
+                new ExtObj($this->file('storage'))
+            ],
+            'storage_url'        => [
+                'string',
+                'nullable',
+                'url',
+                'max:255',
+                'exists:App\Models\Storage,storage_url'
+            ],
+            'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
+            'eyecatch_image_id'  => ['string', 'uuid', 'nullable'],
+            'web_address'        => ['string', 'url', 'max:255', 'nullable']
         ];
+    }
+
+    /**
+     * storageのminetypesのリスト
+     *
+     * @return string
+     */
+    protected function storage_minetypes(): string
+    {
+        $minetypes = [
+            'text/plain', /* obj */
+            'application/octet-stream' /* stl, fbx */
+            // 'application/x-tgif', /* obj, https://reposcope.com/mimetype/application/x-tgif */
+            // 'application/vnd.ms-pki.stl', /* stl */
+        ];
+
+        return implode(',', $minetypes);
     }
 }
