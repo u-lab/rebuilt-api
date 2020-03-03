@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
+ * @property-read \App\Models\Image $eyecatch_image
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newQuery()
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImgaeUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereLongComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereStorageId($value)
@@ -45,7 +46,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Storage withoutTrashed()
  * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  */
 class Storage extends Model
 {

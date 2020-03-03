@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserInfo
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $street その他、アパート等
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo query()
@@ -79,4 +82,14 @@ class UserInfo extends Model
      * @var array
      */
     protected $dates = ['birthday', 'created_at', 'updated_at'];
+
+    /**
+     * Userへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

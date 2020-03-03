@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\User;
 use App\Models\SnsAccount;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @property-read \App\Models\SnsAccount $sns_account
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserSnsAccount newModelQuery()
@@ -64,6 +67,16 @@ class UserSnsAccount extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    /**
+     * Userへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     /**
      * SnsAccountへのリレーションシップ

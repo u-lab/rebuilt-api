@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\User;
 use App\Models\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserPortfolio
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $long_comment 本文
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @property-read \App\Models\Storage $storage
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserPortfolio newQuery()
@@ -55,6 +58,16 @@ class UserPortfolio extends Model
         'masterpiece_storage_id' => 'integer',
         'long_comment'           => 'string'
     ];
+
+    /**
+     * Userへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     /**
      * Storageへのリレーションシップ
