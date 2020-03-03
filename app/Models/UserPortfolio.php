@@ -55,7 +55,7 @@ class UserPortfolio extends Model
      */
     protected $casts = [
         'user_id'                => 'integer',
-        'masterpiece_storage_id' => 'integer',
+        'masterpiece_storage_id' => 'string',
         'long_comment'           => 'string'
     ];
 
