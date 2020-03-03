@@ -39,7 +39,8 @@ class MyStorageService
             return false;
         }
 
-        $storage_id_time = new Carbon($timestamp);
+        $storage_id_time = new Carbon();
+        $storage_id_time->timestamp = $timestamp;
         $now = Carbon::now();
 
         // 現在時刻よりも前だったらtrue
