@@ -29,37 +29,6 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('{user}/storages/{storage_id}', 'Pages\StorageController@show')->name('pages.storage.show');
     });
 
-    /** ---- デバッグ用 始まり ---- **/
-    Route::group(['prefix' => 'd'], function () {
-        // プロフィール一覧
-        Route::get('profiles', 'Pages\ProfileController@index')->name('pages.profile.index');
-        // ストレージ一覧
-        Route::get('storages', 'Pages\StorageController@all')->name('pages.storage.all');
-
-        Route::group(['prefix' => 'users'], function () {
-            // ユーザー削除
-            Route::delete('', 'Users\UserController@destory')->name('user.destory');
-            // 作品の一覧・追加・取得・編集・削除
-            Route::apiResource('storage', 'Users\StorageController')->names([
-                    'index'   => 'user.storage.index',
-                    'store'   => 'user.storage.store',
-                    'show'    => 'user.storage.show',
-                    'update'  => 'user.storage.update',
-                    'destroy' => 'user.storage.destroy',
-                ]);
-
-            // 自分のプロフィール取得・編集
-            Route::get('profile', 'Users\ProfileController@show')->name('user.profile.show');
-            Route::patch('profile', 'Users\ProfileController@update')->name('user.profile.update');
-
-            // 自分のポートフォリオ取得・編集
-            Route::get('page', 'Users\PageController@show')->name('user.page.show');
-            Route::patch('page', 'Users\PageController@update')->name('user.page.update');
-        });
-        /** ---- デバッグ用 終了 ---- **/
-    });
-
-
     // 認証に通った場合
     Route::group(['middleware' => 'auth:api'], function () {
         // ログアウト
