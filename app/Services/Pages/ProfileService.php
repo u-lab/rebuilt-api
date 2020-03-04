@@ -29,7 +29,9 @@ class ProfileService
     public function get_all_users_profile(IndexProfileRequest $request): LengthAwarePaginator
     {
         try {
-            $user_profiles = $this->_userRepository->get_user_profiles_by_pagination();
+            $per_page = $request->query('per_page') ?? '15';
+
+            $user_profiles = $this->_userRepository->get_user_profiles_by_pagination($per_page);
             return $user_profiles;
         } catch (InvalidArgumentException $e) {
             Log::error($e);
