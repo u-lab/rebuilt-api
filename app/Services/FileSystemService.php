@@ -69,11 +69,14 @@ class FileSystemService
      * @throws \RuntimeException
      * @throws \App\Exceptions\Image\FailedUploadImage
      */
-    public function store_requestImage($request, string $image_name, string $path = ''): string
+    public function store_requestImage($request, string $image_name, string $path = ''): ?string
     {
         // postされたimageがアップロードできているか確認
-        if ($request->hasFile($image_name) === false
-                && $request->file($image_name) === false) {
+        if ($request->hasFile($image_name) === false) {
+            return null;
+        }
+
+        if ($request->file($image_name) === false) {
             throw new FailedUploadImage('正常にファイルをアップロードできていません。');
         }
 
@@ -110,13 +113,17 @@ class FileSystemService
         $this->store_image_error($filename);
     }
 
-    public function store_requestStorage($request, string $storage_name, string $path = ''): string
+    public function store_requestStorage($request, string $storage_name, string $path = ''): ?string
     {
         // postされたfileがアップロードできているか確認
-        if ($request->hasFile($storage_name) === false
-                && $request->file($storage_name) === false) {
+        if ($request->hasFile($storage_name) === false) {
+            return null;
+        }
+
+        if ($request->file($storage_name) === false) {
             throw new FailedUploadImage('正常にファイルをアップロードできていません。');
         }
+
 
         $file = $request->file($storage_name);
         $path = '/'.trim($path, '/');

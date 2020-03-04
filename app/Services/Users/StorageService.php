@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Facades\MyStorage;
 use InvalidArgumentException;
+use App\Exceptions\Image\FailedUploadImage;
 use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
 use App\Http\Requests\Users\StoreStorageRequest;
@@ -127,10 +128,15 @@ class StorageService
         $request_except = [];
 
         // アイキャッチ画像の保存
-        $eyecatch_image_id = $this->_fileSystemService
-                                ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch/');
-        if (isset($eyecatch_image_id)) {
-            $request_except[] = 'eyecatch_image_id';
+        try {
+            $eyecatch_image_id = $this->_fileSystemService
+                                    ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch/');
+            if (isset($eyecatch_image_id)) {
+                $request_except[] = 'eyecatch_image_id';
+            }
+        } catch (FailedUploadImage $e) {
+            \Log::error($e);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
 
         // 作品の保存

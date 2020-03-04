@@ -25,7 +25,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'       => ['required', 'string', 'exists:App\User,id'],
+            'user_id'       => ['required', 'integer', 'exists:App\User,id'],
             'nick_name'     => ['string', 'nullable', 'max:30'],
             'job_name'      => ['string', 'nullable','max:50'],
             'hobby'         => ['string', 'nullable','max:50'],
