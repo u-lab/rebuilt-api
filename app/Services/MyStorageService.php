@@ -16,6 +16,25 @@ class MyStorageService
         $this->_storageRepository = $storageRepository;
     }
 
+    /**
+     * Storage IDを生成する
+     * Storage ID: Timestamp + 子英数字(6文字)
+     *
+     * @return string
+     */
+    public function generateID(): string
+    {
+        $now_timestamp = Carbon::now()->timestamp;
+
+        return strval($now_timestamp) . $this->makeRandStr($this->_rand_len);
+    }
+
+    /**
+     * StorageIDであるか確認
+     *
+     * @param string $storage_id
+     * @return boolean
+     */
     public function is_storage_id(string $storage_id): bool
     {
         // 文字数が 16 文字じゃないとfalse
@@ -25,9 +44,6 @@ class MyStorageService
 
         $timestamp = substr($storage_id, 0, 10);
         $rand_str = substr($storage_id, 10);
-
-        \Log::debug($timestamp);
-        \Log::debug($rand_str);
 
         // substrでコケてないか確認
         if ($timestamp === false || $rand_str === false) {
@@ -45,19 +61,6 @@ class MyStorageService
 
         // 現在時刻よりも前だったらtrue
         return $storage_id_time->lt($now);
-    }
-
-    /**
-     * Storage IDを生成する
-     * Storage ID: Timestamp + 子英数字(6文字)
-     *
-     * @return string
-     */
-    public function generateID(): string
-    {
-        $now_timestamp = Carbon::now()->timestamp;
-
-        return strval($now_timestamp) . $this->makeRandStr($this->_rand_len);
     }
 
     /**
