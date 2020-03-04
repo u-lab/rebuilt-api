@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(SnsAccountsTableSeeder::class);
         $this->call(StoragesTableSeeder::class);
+        $this->call(ImageTableSeeder::class);
     }
 }
