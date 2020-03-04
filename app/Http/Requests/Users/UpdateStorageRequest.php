@@ -2,10 +2,22 @@
 
 namespace App\Http\Requests\Users;
 
+use Log;
+use App\Rules\ExtObj;
+use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\Storage\StorageRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateStorageRequest extends FormRequest
 {
+    protected $_storageRepository;
+
+    public function __construct(StorageRepositoryInterface $storageRepository)
+    {
+        $this->_storageRepository = $storageRepository;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +25,14 @@ class UpdateStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        try {
+            $storage = $this->_storageRepository
+                            ->get_storage_no_user_id($this->storage_id);
+            return $storage && $this->user()->can('update', $storage);
+        } catch (ModelNotFoundException $e) {
+            Log::error($e);
+            return false;
+        }
     }
 
     /**
@@ -24,7 +43,45 @@ class UpdateStorageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id'           => ['required', 'integer', 'exists:App\User,id'],
+            'storage_id'        => ['required', 'string', new StorageID, 'exists:App\Models\Storage,storage_id'],
+            'title'             => ['required', 'string', 'max:50'],
+            'description'       => ['string', 'max:50', 'nullable'],
+            'long_comment'      => ['string', 'max:100000', 'nullable'],
+            'storage'           => [
+                'file',
+                'nullable',
+                'max:2048',
+                'mimetypes:'.$this->storage_minetypes(),
+                new ExtObj($this->file('storage'))
+            ],
+            'storage_url'        => [
+                'string',
+                'nullable',
+                'url',
+                'max:255',
+                'exists:App\Models\Storage,storage_url'
+            ],
+            'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
+            'eyecatch_image_id'  => ['string', 'uuid', 'nullable'],
+            'web_address'        => ['string', 'url', 'max:255', 'nullable']
         ];
+    }
+
+    /**
+     * storageのminetypesのリスト
+     *
+     * @return string
+     */
+    protected function storage_minetypes(): string
+    {
+        $minetypes = [
+            'text/plain', /* obj */
+            'application/octet-stream' /* stl, fbx */
+            // 'application/x-tgif', /* obj, https://reposcope.com/mimetype/application/x-tgif */
+            // 'application/vnd.ms-pki.stl', /* stl */
+        ];
+
+        return implode(',', $minetypes);
     }
 }

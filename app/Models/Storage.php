@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Storage
@@ -17,12 +18,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $description 一言コメント
  * @property string|null $long_comment 長文コメント
  * @property string|null $storage_url ストレージURL
- * @property string $eyecatch_imgae_url アイキャッチ画像URL
+ * @property string|null $eyecatch_image_id アイキャッチ画像ID
  * @property string $web_address WEB Address
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
+ * @property-read \App\Models\Image $eyecatch_image
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newQuery()
@@ -32,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImgaeUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereLongComment($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereStorageId($value)
@@ -61,7 +63,7 @@ class Storage extends Model
         'description',
         'long_comment',
         'storage_url',
-        'eyecatch_image_url',
+        'eyecatch_image_id',
         'web_address'
     ];
 
@@ -78,7 +80,7 @@ class Storage extends Model
         'description'        => 'string',
         'long_comment'       => 'string',
         'storage_url'        => 'string',
-        'eyecatch_image_url' => 'string',
+        'eyecatch_image_id'  => 'string',
         'web_address'        => 'string'
     ];
 
@@ -90,12 +92,73 @@ class Storage extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * 日付へキャストする属性
+     * titleを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setTitleAttribute(string $value)
+    {
+        $this->attributes['title'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setDescriptionAttribute(string $value)
+    {
+        $this->attributes['description'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * long_commentを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setLongCommentAttribute(string $value)
+    {
+        $this->attributes['long_comment'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * Userへのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * eyecatchのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function eyecatch_image(): HasOne
+    {
+        return $this->hasOne(Image::class, 'eyecatch_image_id', 'id');
     }
 }

@@ -7,15 +7,21 @@ use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
+use App\Services\FileSystemService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileService
 {
     private $_userProfileRepository;
 
-    public function __construct(UserProfileRepositoryInterface $userProfileRepository)
-    {
+    private $_fileSystemService;
+
+    public function __construct(
+        UserProfileRepositoryInterface $userProfileRepository,
+        FileSystemService $fileSystemService
+    ) {
         $this->_userProfileRepository = $userProfileRepository;
+        $this->_fileSystemService = $fileSystemService;
     }
 
     /**
@@ -52,14 +58,12 @@ class ProfileService
         $insert = [];
 
         // 送信されたファイルをストレージに保存
-        if ($request->hasFile('icon_image') && $request->file('icon_image')->isValid()) {
-            $filename = $request->file('icon_image')->store('/user/icon', 'public');
-            $filepath = Storage::disk('public')->url($filename); // storageのurlを取得
-        }
+        $icon_image_id = $this->_fileSystemService
+                                ->store_requestImage($request, 'icon_image', '/user/icon');
 
-        if (isset($filepath)) {
-            $insert = $request->except(['icon_image', 'icon_image_url']);
-            $insert['icon_image_url'] = $filepath;
+        if (isset($icon_image_id)) {
+            $insert = $request->except(['icon_image', 'icon_image_id']);
+            $insert['icon_image_id'] = $icon_image_id;
         }
 
         $insert = $insert ?? $request->except(['icon_image']);

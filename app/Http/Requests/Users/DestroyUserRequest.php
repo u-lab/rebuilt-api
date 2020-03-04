@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyUserRequest extends FormRequest
@@ -13,7 +14,7 @@ class DestroyUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('destroy', User::class);
     }
 
     /**

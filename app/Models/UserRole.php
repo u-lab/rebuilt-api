@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\User;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $role_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @property-read \App\Models\Role $role
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRole newQuery()
@@ -48,6 +51,16 @@ class UserRole extends Model
         'user_id' => 'integer',
         'role_id' => 'integer'
     ];
+
+    /**
+     * Userへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     /**
      * Roleモデルへのリレーション

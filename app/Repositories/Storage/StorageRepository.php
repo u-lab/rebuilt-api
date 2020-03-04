@@ -30,6 +30,18 @@ class StorageRepository implements StorageRepositoryInterface
     }
 
     /**
+     * storageのソフトデリート
+     *
+     * @param string $storage_id
+     * @return boolean|null
+     */
+    public function destroy_storage(string $storage_id): ?bool
+    {
+        return $this->_storage->whereStorageId($storage_id)->delete();
+    }
+
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page

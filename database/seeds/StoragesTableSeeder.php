@@ -25,7 +25,7 @@ class StoragesTableSeeder extends Seeder
             'description'        => $faker->sentence(3),
             'long_comment'       => $this->get_long_comment(),
             'storage_url'        => FacadesStorage::disk('public')->url('storages/example/bunny.obj'),
-            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/bunny_eye_catch.png'),
+            'eyecatch_image_id'  => "9ae0b301-b7d4-4eed-a150-31b0a9e4f870",
             'web_address'        => $faker->url,
         ]);
 
@@ -36,7 +36,7 @@ class StoragesTableSeeder extends Seeder
             'description'        => $faker->sentence(3),
             'long_comment'       => $this->get_long_comment(),
             'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.obj'),
-            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_obj_eye_catch.png'),
+            'eyecatch_image_id'  => "1d5079ac-4f29-4437-8b53-3747edfd4457",
             'web_address'        => $faker->url,
         ]);
 
@@ -48,7 +48,7 @@ class StoragesTableSeeder extends Seeder
             'description'        => $faker->sentence(3),
             'long_comment'       => $this->get_long_comment(),
             'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.fbx'),
-            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_fbx_eye_catch.png'),
+            'eyecatch_image_id'  => "ebf559f5-61c2-43c7-a108-48c5527c4ac8",
             'web_address'        => $faker->url,
         ]);
 
@@ -59,7 +59,7 @@ class StoragesTableSeeder extends Seeder
             'description'        => $faker->sentence(3),
             'long_comment'       => $this->get_long_comment(),
             'storage_url'        => FacadesStorage::disk('public')->url('storages/example/ウサギ.stl'),
-            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/ウサギ_eye_catch.png'),
+            'eyecatch_image_id'  => "985d085b-0c41-4ee0-b33c-8476bb85d115",
             'web_address'        => $faker->url,
         ]);
 
@@ -70,7 +70,7 @@ class StoragesTableSeeder extends Seeder
             'description'        => $faker->sentence(3),
             'long_comment'       => $this->get_long_comment(),
             'storage_url'        => FacadesStorage::disk('public')->url('storages/example/home_v1.stl'),
-            'eyecatch_image_url' => FacadesStorage::disk('public')->url('storages/example/home_v1_stl_eye_catch.png'),
+            'eyecatch_image_id'  => "faf0aa05-8dad-4691-8409-8618b6c8146c",
             'web_address'        => $faker->url,
         ]);
     }

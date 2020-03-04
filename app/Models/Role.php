@@ -54,7 +54,47 @@ class Role extends Model
      * @var array
      */
     protected $casts = [
-        'role_name' => 'string',
+        'role_name'  => 'string',
         'role_level' => 'integer'
     ];
+
+    /**
+     * システム管理者かどうか
+     *
+     * @return boolean
+     */
+    public function is_system(): bool
+    {
+        return strcmp($this->role_name, 'system') === 0;
+    }
+
+    /**
+     * 管理者かどうか
+     *
+     * @return boolean
+     */
+    public function is_admin(): bool
+    {
+        return $this->is_system() || strcmp($this->role_name, 'admin') === 0;
+    }
+
+    /**
+     * 通常ユーザーかどうか
+     *
+     * @return boolean
+     */
+    public function is_normal(): bool
+    {
+        return strcmp($this->role_name, 'normal') === 0;
+    }
+
+    /**
+     * 禁止されているユーザーかどうか
+     *
+     * @return boolean
+     */
+    public function is_ban(): bool
+    {
+        return strcmp($this->role_name, 'ban') === 0;
+    }
 }

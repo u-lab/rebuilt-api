@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserInfo
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $street その他、アパート等
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserInfo query()
@@ -46,7 +49,16 @@ class UserInfo extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'first_name', 'last_name', 'school_name', 'birthday', 'prefecture', 'city', 'street'];
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'last_name',
+        'school_name',
+        'birthday',
+        'prefecture',
+        'city',
+        'street'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -54,14 +66,14 @@ class UserInfo extends Model
      * @var array
      */
     protected $casts = [
-        'user_id' => 'integer',
-        'first_name' => 'string',
-        'last_name' => 'string',
+        'user_id'     => 'integer',
+        'first_name'  => 'string',
+        'last_name'   => 'string',
         'school_name' => 'string',
-        'birthday' => 'date',
-        'prefecture' => 'string',
-        'city' => 'string',
-        'street'=> 'string'
+        'birthday'    => 'date',
+        'prefecture'  => 'string',
+        'city'        => 'string',
+        'street'      => 'string'
     ];
 
     /**
@@ -70,4 +82,14 @@ class UserInfo extends Model
      * @var array
      */
     protected $dates = ['birthday', 'created_at', 'updated_at'];
+
+    /**
+     * Userへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

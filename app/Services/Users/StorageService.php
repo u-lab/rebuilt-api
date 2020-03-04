@@ -4,14 +4,16 @@ namespace App\Services\Users;
 
 use App\Facades\MyStorage;
 use InvalidArgumentException;
-use Illuminate\Support\Facades\Storage;
+use App\Exceptions\Image\FailedUploadImage;
 use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
 use App\Http\Requests\Users\StoreStorageRequest;
 use App\Http\Requests\Users\UpdateStorageRequest;
+use App\Http\Requests\Users\DestroyStorageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
+use App\Services\FileSystemService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class StorageService
@@ -21,9 +23,14 @@ class StorageService
      */
     private $_storageRepository;
 
-    public function __construct(StorageRepositoryInterface $storageRepository)
-    {
+    private $_fileSystemService;
+
+    public function __construct(
+        StorageRepositoryInterface $storageRepository,
+        FileSystemService $fileSystemService
+    ) {
         $this->_storageRepository = $storageRepository;
+        $this->_fileSystemService = $fileSystemService;
     }
 
     /**
@@ -31,9 +38,9 @@ class StorageService
      *
      * @param \App\Http\Requests\Users\ShowStorageRequest $request
      * @param string $storage_id
-     * @return void
+     * @return StorageResource
      */
-    public function get_storage(ShowStorageRequest $request, string $storage_id)
+    public function get_storage(ShowStorageRequest $request, string $storage_id): StorageResource
     {
         $user = $request->user();
 
@@ -49,7 +56,7 @@ class StorageService
      * ユーザーの全作品を取得する
      *
      * @param IndexStorageRequest $request
-     * @return LengthAwarePaginator
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function get_user_all_storages(IndexStorageRequest $request): LengthAwarePaginator
     {
@@ -77,21 +84,17 @@ class StorageService
         $storage_id = MyStorage::generateID();
 
         // アイキャッチ画像の保存
-        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
-            $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
-            $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-            if (isset($eyecatch_image_url)) {
-                $request_except[] = 'eyecatch_image_url';
-            }
+        $eyecatch_image_id = $this->_fileSystemService
+                                ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch');
+        if (isset($eyecatch_image_id)) {
+            $request_except[] = 'eyecatch_image_id';
         }
 
         // 作品の保存
-        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
-            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
-            $storage_url = Storage::disk('public')->url($storage_filename);
-            if (isset($storage_url)) {
-                $request_except[] = 'storage_url';
-            }
+        $storage_url = $this->_fileSystemService
+                            ->store_requestStorage($request, 'storage', '/storages/storage/');
+        if (isset($storage_url)) {
+            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
@@ -125,21 +128,22 @@ class StorageService
         $request_except = [];
 
         // アイキャッチ画像の保存
-        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')->isValid()) {
-            $eyecatch_filename = $request->file('eyecatch_image')->store('/storages/eyecatch', 'public');
-            $eyecatch_image_url = Storage::disk('public')->url($eyecatch_filename);
-            if (isset($eyecatch_image_url)) {
-                $request_except[] = 'eyecatch_image_url';
+        try {
+            $eyecatch_image_id = $this->_fileSystemService
+                                    ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch/');
+            if (isset($eyecatch_image_id)) {
+                $request_except[] = 'eyecatch_image_id';
             }
+        } catch (FailedUploadImage $e) {
+            \Log::error($e);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
 
         // 作品の保存
-        if ($request->hasFile('storage') && $request->file('storage')->isValid()) {
-            $storage_filename = $request->file('storage')->store('/storages/storage', 'public');
-            $storage_url = Storage::disk('public')->url($storage_filename);
-            if (isset($storage_url)) {
-                $request_except[] = 'storage_url';
-            }
+        $storage_url = $this->_fileSystemService
+                            ->store_requestStorage($request, 'storage', '/storages/storage/');
+        if (isset($storage_url)) {
+            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
@@ -156,7 +160,21 @@ class StorageService
         $inserts = $inserts ?? $request->all();
 
         // DBの更新
-        return $this->_storageRepository
+        $storage = $this->_storageRepository
                     ->updateOrCreate($inserts, $user->id, $storage_id);
+
+        return new StorageResource($storage);
+    }
+
+    /**
+     * Storageを削除する
+     *
+     * @param DestroyStorageRequest $request
+     * @param string $storage_id
+     * @return boolean|null
+     */
+    public function destory(DestroyStorageRequest $request, string $storage_id): ?bool
+    {
+        return $this->_storageRepository->destroy_storage($storage_id);
     }
 }

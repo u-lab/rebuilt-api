@@ -48,6 +48,10 @@ class RolesTableSeeder extends Seeder
             [
                 'role_name' => 'admin',
                 'role_level' => 255
+            ],
+            [
+                'role_name' => 'system',
+                'role_level' => 512
             ]
         ];
     }

@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\Image\ImageRepository;
+use App\Repositories\Image\ImageRepositoryInterface;
 use App\Repositories\User\UserInfoRepository;
 use App\Repositories\User\UserInfoRepositoryInterface;
 use App\Repositories\User\UserPortfolioRepository;
@@ -46,6 +48,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             StorageRepositoryInterface::class,
             StorageRepository::class
+        );
+
+        $this->app->bind(
+            ImageRepositoryInterface::class,
+            ImageRepository::class
         );
     }
 

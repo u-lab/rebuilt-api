@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Users;
 
+use App\User;
+use App\Rules\StorageID;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePageRequest extends FormRequest
@@ -13,7 +15,7 @@ class UpdatePageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', User::class);
     }
 
     /**
@@ -24,7 +26,9 @@ class UpdatePageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id'                => ['required', 'integer', 'exists:App\User,id'],
+            'masterpiece_storage_id' => ['string', new StorageID, 'exists:App\Models\Storage,storage_id'],
+            'long_comment'           => ['string', 'max:100000', 'nullable']
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -14,17 +15,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $job_name 肩書き
  * @property string $hobby 趣味
  * @property string $description 一言コメント
- * @property string $icon_image_url ユーザーアイコン
+ * @property string $icon_image_id ユーザーアイコンID
  * @property string $web_address ユーザーサイト
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
+ * @property-read \App\Models\Image $icon_image
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereHobby($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereIconImageUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereIconImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereJobName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereNickName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUpdatedAt($value)
@@ -46,7 +49,15 @@ class UserProfile extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'nick_name', 'job_name', 'hobby', 'description', 'icon_image_url', 'web_address'];
+    protected $fillable = [
+        'user_id',
+        'nick_name',
+        'job_name',
+        'hobby',
+        'description',
+        'icon_image_id',
+        'web_address'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
@@ -59,9 +70,77 @@ class UserProfile extends Model
         'job_name'       => 'string',
         'hobby'          => 'string',
         'description'    => 'string',
-        'icon_image_url' => 'string',
+        'icon_image_id'  => 'string',
         'web_address'    => 'string'
     ];
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setDescriptionAttribute(string $value)
+    {
+        $this->attributes['description'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setNickNameAttribute(string $value)
+    {
+        $this->attributes['nick_name'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setHobbyAttribute(string $value)
+    {
+        $this->attributes['hobby'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setJobNameAttribute(string $value)
+    {
+        $this->attributes['job_name'] = mb_convert_kana($value, 'asK');
+    }
 
     /**
      * Userモデルへのリレーションシップ
@@ -71,5 +150,15 @@ class UserProfile extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Imageへのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function icon_image(): HasOne
+    {
+        return $this->hasOne(Image::class, 'icon_image_id', 'id');
     }
 }

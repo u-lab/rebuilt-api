@@ -12,6 +12,7 @@
     "php": "^7.2",
     "davejamesmiller/laravel-breadcrumbs": "5.x",
     "fideloper/proxy": "^4.0",
+    "intervention/image": "^2.5",
     "itsgoingd/clockwork": "^4.0",
     "laravel/framework": "^6.4",
     "laravel/socialite": "^4.0",
