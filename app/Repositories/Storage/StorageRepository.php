@@ -100,6 +100,7 @@ class StorageRepository implements StorageRepositoryInterface
         return $this->_storage
                 ->with('eyecatch_image')
                 ->whereUserId($user_id)
+                ->orderBy('updated_at', 'desc')
                 ->paginate($per_page);
     }
 

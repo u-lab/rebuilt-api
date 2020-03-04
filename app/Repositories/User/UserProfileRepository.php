@@ -41,6 +41,7 @@ class UserProfileRepository implements UserProfileRepositoryInterface
     {
         return $this->_userProfile
                     ->with('user')
+                    ->orderBy('updated_at', 'desc')
                     ->paginate($perPage);
     }
 
