@@ -53,12 +53,12 @@ interface StorageRepositoryInterface
     /**
      * ユーザーの全作品を取得する
      *
-     * @param string $user_id
+     * @param integer $user_id
      * @param integer $per_page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @throws \InvalidArgumentException
      */
-    public function get_user_all_storages(string $user_id, int $per_page = 15): LengthAwarePaginator;
+    public function get_user_all_storages(int $user_id, int $per_page = 15): LengthAwarePaginator;
 
     /**
       * 作品の内容を更新か作成する

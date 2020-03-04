@@ -50,7 +50,7 @@ class StorageRepository implements StorageRepositoryInterface
      */
     public function get_all_storages(int $per_page = 15): LengthAwarePaginator
     {
-        return $this->_storage->with('user')->paginate($per_page);
+        return $this->_storage->with(['user', 'eyecatch_image'])->paginate($per_page);
     }
 
     /**
@@ -90,14 +90,15 @@ class StorageRepository implements StorageRepositoryInterface
     /**
      * ユーザーの全作品を取得する
      *
-     * @param string $user_id
+     * @param integer $user_id
      * @param integer $per_page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      * @throws \InvalidArgumentException
      */
-    public function get_user_all_storages(string $user_id, int $per_page = 15): LengthAwarePaginator
+    public function get_user_all_storages(int $user_id, int $per_page = 15): LengthAwarePaginator
     {
         return $this->_storage
+                ->with('eyecatch_image')
                 ->whereUserId($user_id)
                 ->paginate($per_page);
     }

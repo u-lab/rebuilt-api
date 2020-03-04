@@ -159,6 +159,6 @@ class Storage extends Model
      */
     public function eyecatch_image(): HasOne
     {
-        return $this->hasOne(Image::class, 'eyecatch_image_id', 'id');
+        return $this->hasOne(Image::class, 'id', 'eyecatch_image_id');
     }
 }

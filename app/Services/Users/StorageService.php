@@ -62,8 +62,9 @@ class StorageService
     {
         try {
             $user = $request->user();
+            $per_page = $request->query('per_page') ?? 15;
 
-            return $this->_storageRepository->get_user_all_storages($user->id);
+            return $this->_storageRepository->get_user_all_storages($user->id, $per_page);
         } catch (InvalidArgumentException $e) {
             return abort(response()->json(['message' => $e->getMessage()]), 404);
         }
