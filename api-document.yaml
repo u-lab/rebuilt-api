@@ -1,0 +1,321 @@
+openapi: 3.0.2
+info:
+  title: "Rebuilt API"
+  description: |-
+    <b>Rebuilt Apiに関する仕様</b><br>
+    現在のAPIの仕様について書いています。
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:8000/
+
+tags:
+  - name: open
+    description: 一般公開API
+  - name: auth
+    description: 認証関連API
+  - name: user
+    description: 会員用API
+
+paths:
+  /api/v1/pages/{user}:
+    get:
+      tags:
+        - open
+      summary: "ポートフォリオ情報取得API"
+      description: |-
+        ポートフォリオ情報を取得します。
+        urlの{user}はユーザー名を指定します。
+      parameters:
+        - in: "path"
+          name: "user"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagesUserResponse'
+  /api/v1/pages/{user}/storages:
+    get:
+      tags:
+        - open
+      summary: "作品一覧取得API"
+      description: |-
+        作品一覧を取得します
+        一覧はページネーションで、updated_at(更新日時)でソートします。
+        urlの{user}はユーザー名を指定します。
+      parameters:
+        - in: "path"
+          name: "user"
+          schema:
+            type: string
+          required: true
+        - in: "query"
+          name: "per_page"
+          schema:
+            type: integer
+        - in: "query"
+          name: "page"
+          schema:
+            type: integer
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagesUserStoragesResponse'
+  /api/v1/pages/{user}/storages/{storageID}:
+    get:
+      tags:
+        - open
+      summary: "作品情報取得API"
+      description: |-
+        作品情報を取得します
+      parameters:
+        - in: "path"
+          name: "user"
+          schema:
+            type: string
+          required: true
+        - in: "path"
+          name: "storageID"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageUsersStorageIDResponse'
+
+  /api/v1/login:
+    post:
+      tags:
+        - auth
+      summary: "ログイン用API"
+      description: |-
+        ログインします
+      requestBody:
+        description: "request body"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/users/storage:
+    get:
+      tags:
+        - user
+      summary: "作品一覧取得API"
+      description: |-
+        作品一覧を取得します。ログイン済みユーザーのみ表示。
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersStorageResponse'
+
+components:
+  schemas:
+    PagesUserResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: "ユーザーID"
+            name:
+              type: string
+              description: "ユーザー名"
+            created_at:
+              type: string
+              format: date-time
+              description: "作成日時"
+            updated_at:
+              type: string
+              format: date-time
+              description: "更新日時"
+            user_info:
+              $ref: '#/components/schemas/UserInfo'
+            user_profile:
+              $ref: '#/components/schemas/UserProfile'
+            user_portfolio:
+              $ref: '#/components/schemas/UserPortfolio'
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: "メールアドレス"
+          default: "admin@example.com"
+        password:
+          type: string
+          format: password
+          description: "パスワード"
+          default: "password"
+      required:
+        - email
+          password
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: "Token"
+        token_type:
+          type: string
+        expires_in:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: "エラーメッセージ"
+        errors:
+          type: object
+    UsersStorageResponse:
+      type: object
+      properties:
+        storage_id:
+          type: string
+          description: "ストレージID"
+    UserInfo:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: "ユーザーID"
+        last_name:
+          type: string
+          description: "姓"
+        first_name:
+          type: string
+          description: "名"
+        school_name:
+          type: string
+          description: "学校名"
+        birthday:
+          type: string
+          format: date
+          description: "誕生日"
+        prefecture:
+          type: string
+          description: "都道府県"
+        city:
+          type: string
+          description: "市区町村"
+        street:
+          type: string
+          description: "建物・マンション名"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
+    UserProfile:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: "ユーザーID"
+        nick_name:
+          type: string
+          description: "ニックネーム"
+        job_name:
+          type: string
+          description: "肩書き"
+        hobby:
+          type: string
+          description: "趣味"
+        description:
+          type: string
+          description: "一言コメント"
+        icon_image_id:
+          type: string
+          format: uuid
+          description: "アイコンイメージID"
+        web_address:
+          type: string
+          format: url
+          description: "My Siteへのアドレス"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
+    UserPortfolio:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          description: "ユーザーID"
+        masterpiece_storage_id:
+          type: string
+          description: "代表作品ID"
+        long_comment:
+          type: string
+          description: "長文コメント"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
+    PagesUserStoragesResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: ""
+          example: 1
+    PageUsersStorageIDResponse:
+      type: object
+      properties:
+        storage_id:
+          type: string
+          description: "ストレージID"
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: |-
+        この値は以下のものをしよう。認証APIを叩いて取得する<br>
+        token_type token<br>
+        ※ token_typeは大文字から始める(パスカルケース)
