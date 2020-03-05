@@ -30,16 +30,23 @@ class ExtObj implements Rule
     protected $_extfunc;
 
     /**
+     * @var true
+     */
+    protected $_nullable;
+
+    /**
      * Create a new rule instance.
      *
      * @param \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|array|null $file
      * @param array $exts
+     * @param boolean $nullable
      * @return void
      */
-    public function __construct($file, array $exts = ['obj', 'fbx'])
+    public function __construct($file, array $exts = ['obj', 'fbx'], bool $nullable = true)
     {
         $this->_file = $file;
         $this->_exts = $exts;
+        $this->_nullable = $nullable;
 
         foreach ($exts as $ext) {
             $this->_extfunc[$ext] = 'is_' . $ext;
@@ -55,6 +62,9 @@ class ExtObj implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($this->_nullable && is_null($this->_file)) {
+            return true;
+        }
         // 送信元の拡張子を取得
         $original_ext = strtolower($this->_file->getClientOriginalExtension());
         $original_ext_check = '';

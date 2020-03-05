@@ -122,7 +122,7 @@ class StorageService
      * @param string $storage_id
      * @return mixed
      */
-    public function update(UpdateStorageRequest $request, string $storage_id)
+    public function update(UpdateStorageRequest $request, string $storage_id): StorageResource
     {
         $user = $request->user();
         // requestでexceptを指定するもの。

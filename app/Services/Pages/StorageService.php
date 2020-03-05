@@ -43,7 +43,9 @@ class StorageService
     public function get_all_users_storage(AllStorageRequest $request): LengthAwarePaginator
     {
         try {
-            return $this->_storageRepository->get_all_storages();
+            $per_page = $request->query('per_page') ?? '15';
+
+            return $this->_storageRepository->get_all_storages($per_page);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));
@@ -90,8 +92,10 @@ class StorageService
     public function get_user_all_storages(IndexStorageRequest $request, string $user): LengthAwarePaginator
     {
         try {
+            $per_page = $request->query('per_page') ?? '15';
+
             $user_id = $this->_userRepository->get_user_id($user);
-            return $this->_storageRepository->get_user_all_storages($user_id);
+            return $this->_storageRepository->get_user_all_storages($user_id, $per_page);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));

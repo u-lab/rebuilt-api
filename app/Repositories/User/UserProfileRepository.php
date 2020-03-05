@@ -27,7 +27,7 @@ class UserProfileRepository implements UserProfileRepositoryInterface
      */
     public function get_user_profile_by_id(string $user_id)
     {
-        return UserProfile::findOrFail($user_id);
+        return $this->_userProfile->findOrFail($user_id);
     }
 
     /**
@@ -41,6 +41,7 @@ class UserProfileRepository implements UserProfileRepositoryInterface
     {
         return $this->_userProfile
                     ->with('user')
+                    ->orderBy('updated_at', 'desc')
                     ->paginate($perPage);
     }
 
