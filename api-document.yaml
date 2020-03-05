@@ -7,7 +7,7 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: http://localhost:8000/
+  - url: http://localhost:8000/api/v1
 
 tags:
   - name: open
@@ -18,7 +18,7 @@ tags:
     description: 会員用API
 
 paths:
-  /api/v1/pages/{user}:
+  /pages/{user}:
     get:
       tags:
         - open
@@ -39,7 +39,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagesUserResponse'
-  /api/v1/pages/{user}/storages:
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /pages/{user}/storages:
     get:
       tags:
         - open
@@ -69,7 +87,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PagesUserStoragesResponse'
-  /api/v1/pages/{user}/storages/{storageID}:
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /pages/{user}/storages/{storageID}:
     get:
       tags:
         - open
@@ -94,8 +130,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageUsersStorageIDResponse'
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
-  /api/v1/login:
+  /login:
     post:
       tags:
         - auth
@@ -122,7 +176,163 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /api/v1/users/storage:
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /register:
+    post:
+      tags:
+        - auth
+      summary: "ログイン用API"
+      description: |-
+        ログインします
+      requestBody:
+        description: "request body"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        422:
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /logout:
+    post:
+      tags:
+        - auth
+      summary: "ログアウト用API"
+      description: |-
+        ログアウトします
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+
+  /profiles:
+    get:
+      tags:
+        - user
+      summary: "全ユーザープロフィール取得API"
+      description: |-
+        戻り値はページネーションで帰ってくる
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfilesResponse'
+        401:
+          description: "Unauthenticated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        403:
+          description: "Unauthenticated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /storages:
+    get:
+      tags:
+        - user
+      summary: "全ユーザー全作品取得API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /users:
+    delete:
+      tags:
+        - user
+      summary: "ユーザー(自分)削除API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /users/profile:
+    get:
+      tags:
+        - user
+      summary: "自身のプロフィール取得API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    patch:
+      tags:
+        - user
+      summary: "自身のプロフィール更新API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /users/page:
+    get:
+      tags:
+        - user
+      summary: "自身のポートフォリオ取得API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    patch:
+      tags:
+        - user
+      summary: "自身のポートフォリオ更新API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /users/storage:
     get:
       tags:
         - user
@@ -138,6 +348,77 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UsersStorageResponse'
+    post:
+      tags:
+        - user
+      summary: "新規作品追加API"
+      security:
+      - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+  /users/storage/{id}:
+    get:
+      tags:
+        - user
+      summary: "個別作品取得API"
+      security:
+      - ApiToken: []
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    patch:
+      tags:
+        - user
+      summary: "個別作品更新API"
+      security:
+      - ApiToken: []
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
+    delete:
+      tags:
+        - user
+      summary: "個別作品削除API"
+      security:
+      - ApiToken: []
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: ''
 
 components:
   schemas:
@@ -146,27 +427,7 @@ components:
       properties:
         data:
           type: object
-          properties:
-            id:
-              type: integer
-              description: "ユーザーID"
-            name:
-              type: string
-              description: "ユーザー名"
-            created_at:
-              type: string
-              format: date-time
-              description: "作成日時"
-            updated_at:
-              type: string
-              format: date-time
-              description: "更新日時"
-            user_info:
-              $ref: '#/components/schemas/UserInfo'
-            user_profile:
-              $ref: '#/components/schemas/UserProfile'
-            user_portfolio:
-              $ref: '#/components/schemas/UserPortfolio'
+          $ref: '#/components/schemas/UserByPage'
     LoginRequest:
       type: object
       properties:
@@ -193,6 +454,24 @@ components:
           type: string
         expires_in:
           type: integer
+    RegisterRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "ユーザー名"
+        email:
+          type: string
+          format: email
+          description: "メールアドレス"
+        password:
+          type: string
+          format: password
+          description: "パスワード"
+        password_confirmation:
+          type: string
+          format: password
+          description: "パスワード確認用"
     ErrorResponse:
       type: object
       properties:
@@ -207,6 +486,29 @@ components:
         storage_id:
           type: string
           description: "ストレージID"
+    UserByPage:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "ユーザーID"
+        name:
+          type: string
+          description: "ユーザー名"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
+        user_info:
+          $ref: '#/components/schemas/UserInfo'
+        user_profile:
+          $ref: '#/components/schemas/UserProfile'
+        user_portfolio:
+          $ref: '#/components/schemas/UserPortfolio'
     UserInfo:
       type: object
       properties:
@@ -267,7 +569,7 @@ components:
           description: "アイコンイメージID"
         web_address:
           type: string
-          format: url
+          format: uri
           description: "My Siteへのアドレス"
         created_at:
           type: string
@@ -297,19 +599,202 @@ components:
           type: string
           format: date-time
           description: "更新日時"
+    Storage:
+      type: object
+      properties:
+        storage_id:
+          type: string
+          description: "ストレージID"
+        user_id":
+          type: string
+          description: "ユーザーID"
+        title":
+          type: string
+          description: "作品名"
+        description":
+          type: string
+          description: "一言コメント"
+        long_comment":
+          type: string
+          description: "長文コメント"
+        storage_url":
+          type: string
+          format: url
+          description: "作品のURL"
+        eyecatch_image_id":
+          type: string
+          format: uuid
+          description: "作品のアイキャッチ画像ID"
+        web_address":
+          type: string
+          format: url
+          description: "自分のWEBサイトのアドレス"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
+        eyecatch_image:
+          $ref: '#/components/schemas/EyecatchImage'
+    EyecatchImage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: "作品のID"
+        title:
+          type: string
+          description: "作品のタイトル(プログラムで任意に決定)"
+        url:
+          type: string
+          format: url
+          description: "画像のURL"
+        url_160:
+          type: string
+          format: url
+          description: "画像のURL(width = 160)"
+        url_320:
+          type: string
+          format: url
+          description: "画像のURL(width = 320)"
+        url_640:
+          type: string
+          format: url
+          description: "画像のURL(width = 640)"
+        url_1024:
+          type: string
+          format: url
+          description: "画像のURL(width = 1024)"
+        url_1280:
+          type: string
+          format: url
+          description: "画像のURL(width = 1280)"
+        url_1920:
+          type: string
+          format: url
+          description: "画像のURL(width = 1920)"
+        url_2580:
+          type: string
+          format: url
+          description: "画像のURL(width = 2580)"
+        created_at:
+          type: string
+          format: date-time
+          description: "作成日時"
+        updated_at:
+          type: string
+          format: date-time
+          description: "更新日時"
     PagesUserStoragesResponse:
       type: object
       properties:
         current_page:
           type: integer
-          description: ""
+          description: ''
           example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Storage'
+        first_page_url:
+          type: string
+          description: '1ページ名のURL'
+        from:
+          type: integer
+          description: ''
+          example: 1
+        last_page:
+          type: integer
+          description: ''
+          example: 10
+        last_page_url:
+          type: string
+          description: 'ページネーションの最後のページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=10"
+        next_page_url:
+          type: string
+          description: 'ページネーションの次ページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=2"
+        path:
+          type: string
+          description: 'ページネーションのURL'
+          example: "http://localhost:8000/api/v1/profiles"
+        per_page:
+          type: integer
+          description: ''
+          example: 15
+        prev_page_url:
+          type: string
+          description: 'ページネーションの前ページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=1"
+        to:
+          type: integer
+          description: ''
+          example: 3
+        total:
+          type: integer
+          description: ''
+          example: 3
     PageUsersStorageIDResponse:
       type: object
       properties:
         storage_id:
           type: string
           description: "ストレージID"
+    ProfilesResponse:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          description: ''
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserByPage'
+        first_page_url":
+          type: string
+          description: '1ページ名のURL'
+        from":
+          type: integer
+          description: ''
+          example: 1
+        last_page":
+          type: integer
+          description: ''
+          example: 10
+        last_page_url":
+          type: string
+          description: 'ページネーションの最後のページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=10"
+        next_page_url":
+          type: string
+          description: 'ページネーションの次ページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=2"
+        path":
+          type: string
+          description: 'ページネーションのURL'
+          example: "http://localhost:8000/api/v1/profiles"
+        per_page":
+          type: integer
+          description: ''
+          example: 15
+        prev_page_url":
+          type: string
+          description: 'ページネーションの前ページのURL'
+          example: "http://localhost:8000/api/v1/profiles?page=1"
+        to":
+          type: integer
+          description: ''
+          example: 3
+        total":
+          type: integer
+          description: ''
+          example: 3
   securitySchemes:
     ApiToken:
       type: apiKey
