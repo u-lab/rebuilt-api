@@ -24,7 +24,7 @@ class IndexProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'per_page' => ['integer']
         ];
     }
 }
