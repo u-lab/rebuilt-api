@@ -4,6 +4,24 @@
 
 [ポートフォリオ作成サービス](https://github.com/u-lab/rebuilt)のREST API
 
+## 各仕様書について
+
+### API仕様書
+
+API仕様書は SwaggerEditor に定義ファイルの内容をimportして参照してください。
+
+SwaggerEditor: [https://editor.swagger.io](https://editor.swagger.io)
+
+定義ファイル: [./api-document.yaml](./api-document.yaml)
+
+### Database仕様書
+
+Database仕様書は WWW SQL Designer に定義ファイルの内容をimportして参照してください。
+
+WWW SQL Designer: [https://ondras.zarovi.cz/sql/demo/?keyword=default](https://ondras.zarovi.cz/sql/demo/?keyword=default)
+
+定義ファイル: [./storage/database/wwwSQL.xml](./storage/database/wwwSQL.xml)
+
 ## 環境構築
 
 ```bash
