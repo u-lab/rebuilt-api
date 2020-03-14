@@ -231,6 +231,15 @@ paths:
         戻り値はページネーションで帰ってくる
       security:
         - ApiToken: []
+      parameters:
+        - in: "query"
+          name: "per_page"
+          schema:
+            type: integer
+        - in: "query"
+          name: "page"
+          schema:
+            type: integer
       responses:
         200:
           description: "OK"
@@ -275,6 +284,15 @@ paths:
       summary: "全ユーザー全作品取得API"
       security:
         - ApiToken: []
+      parameters:
+        - in: "query"
+          name: "per_page"
+          schema:
+            type: integer
+        - in: "query"
+          name: "page"
+          schema:
+            type: integer
       responses:
         200:
           description: "OK"
@@ -527,6 +545,15 @@ paths:
         作品一覧を取得します。ログイン済みユーザーのみ表示。
       security:
         - ApiToken: []
+      parameters:
+        - in: "query"
+          name: "per_page"
+          schema:
+            type: integer
+        - in: "query"
+          name: "page"
+          schema:
+            type: integer
       responses:
         200:
           description: "OK"
@@ -570,6 +597,13 @@ paths:
       summary: "新規作品追加API"
       security:
       - ApiToken: []
+      requestBody:
+        description: "request body"
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserStoragePostRequest'
+        required: true
       responses:
         200:
           description: "OK"
@@ -962,6 +996,30 @@ components:
         storage_id:
           type: string
           description: "ストレージID"
+    UserStoragePostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "作品名"
+        description:
+          type: string
+          description: '一言コメント'
+        long_comment:
+          type: string
+          description: '長文コメント'
+        storage:
+          type: string
+          format: binary
+          description: '作品ファイル'
+        eyecatch_image:
+          type: string
+          format: binary
+          description: 'アイキャッチ画像'
+        web_address:
+          type: string
+          description: "WEBアドレス"
+
 
     UserByPage:
       type: object
