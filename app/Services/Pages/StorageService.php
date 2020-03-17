@@ -13,6 +13,7 @@ use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Pages\Storage as StorageResource;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Resources\Pages\StoragePagination as StoragePaginationResource;
 
 class StorageService
 {
@@ -87,15 +88,17 @@ class StorageService
      * Userの作品をすべて取得する
      *
      * @param IndexStorageRequest $request
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \StoragePaginationResource
      */
-    public function get_user_all_storages(IndexStorageRequest $request, string $user): LengthAwarePaginator
+    public function get_user_all_storages(IndexStorageRequest $request, string $user): StoragePaginationResource
     {
         try {
             $per_page = $request->query('per_page') ?? '15';
 
             $user_id = $this->_userRepository->get_user_id($user);
-            return $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+            $pagination = $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+            \Log::debug('message');
+            return new StoragePaginationResource($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));

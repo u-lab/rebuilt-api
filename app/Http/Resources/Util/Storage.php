@@ -16,16 +16,16 @@ class Storage extends JsonResource
     public function toArray($request)
     {
         return [
-            "storage_id"         => $this->storage_id,
-            "title"              => $this->title,
-            "description"        => $this->description,
-            "long_comment"       => $this->long_comment,
-            "storage_url"        => $this->storage_url,
-            "eyecatch_image_url" => $this->eyecatch_image_url,
-            "eyecatch_image"     => new ImageResource($this->eyecatch_image),
-            "web_address"        => $this->web_address,
-            "created_at"         => $this->created_at,
-            "updated_at"         => $this->updated_at,
+            "storage_id"        => $this->storage_id,
+            "title"             => $this->title,
+            "description"       => $this->description,
+            "long_comment"      => $this->long_comment,
+            "storage_url"       => $this->storage_url,
+            "eyecatch_image_id" => $this->eyecatch_image_id,
+            "eyecatch_image"    => new ImageResource($this->eyecatch_image),
+            "web_address"       => $this->web_address,
+            "created_at"        => $this->created_at,
+            "updated_at"        => $this->updated_at,
         ];
     }
 }
