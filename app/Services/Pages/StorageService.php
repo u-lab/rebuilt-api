@@ -10,9 +10,11 @@ use App\Http\Requests\Pages\IndexStorageRequest;
 use App\Exceptions\Pages\UserIDNotEqualException;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Storage\StorageRepositoryInterface;
-use App\Http\Resources\PageStorage as PageStorageResource;
+use App\Http\Resources\Pages\Storage as StorageResource;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Resources\Pages\StoragePagination as StoragePaginationResource;
+use App\Http\Resources\Pages\AllStoragesPagination as AllStoragesPaginationResouce;
 
 class StorageService
 {
@@ -38,14 +40,15 @@ class StorageService
      * すべてのユーザーの作品を取得する
      *
      * @param AllStorageRequest $request
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \AllStoragesPaginationResouce
      */
-    public function get_all_users_storage(AllStorageRequest $request): LengthAwarePaginator
+    public function get_all_users_storage(AllStorageRequest $request): AllStoragesPaginationResouce
     {
         try {
             $per_page = $request->query('per_page') ?? '15';
 
-            return $this->_storageRepository->get_all_storages($per_page);
+            $pagination = $this->_storageRepository->get_all_storages($per_page);
+            return new AllStoragesPaginationResouce($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));
@@ -60,7 +63,7 @@ class StorageService
      * @param string $storage_id
      * @return void
      */
-    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): PageStorageResource
+    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): StorageResource
     {
         try {
             $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
@@ -69,7 +72,7 @@ class StorageService
                 throw new UserIDNotEqualException();
             }
 
-            return new PageStorageResource($storage);
+            return new StorageResource($storage);
         } catch (ModelNotFoundException $e) {
             Log::error($e);
             $message = $storage_id . 'is not exsited.';
@@ -87,15 +90,17 @@ class StorageService
      * Userの作品をすべて取得する
      *
      * @param IndexStorageRequest $request
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return \StoragePaginationResource
      */
-    public function get_user_all_storages(IndexStorageRequest $request, string $user): LengthAwarePaginator
+    public function get_user_all_storages(IndexStorageRequest $request, string $user): StoragePaginationResource
     {
         try {
             $per_page = $request->query('per_page') ?? '15';
 
             $user_id = $this->_userRepository->get_user_id($user);
-            return $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+            $pagination = $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+            \Log::debug('message');
+            return new StoragePaginationResource($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
             return abort(response()->json(['message' => $e->getMessage()], 404));

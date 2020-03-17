@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Resources\Users;
+namespace App\Http\Resources\Pages;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Pages\Page as PageResource;
 use App\Http\Resources\Util\Storage as StorageResource;
 
 class Storage extends JsonResource
@@ -15,6 +16,9 @@ class Storage extends JsonResource
      */
     public function toArray($request)
     {
-        return new StorageResource($this);
+        return [
+            "data" => new StorageResource($this),
+            "user" => new PageResource($this->user)
+        ];
     }
 }

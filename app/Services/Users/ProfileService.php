@@ -2,12 +2,11 @@
 
 namespace App\Services\Users;
 
-use Illuminate\Support\Facades\Storage;
+use App\Services\FileSystemService;
 use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
-use App\Services\FileSystemService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileService
