@@ -5,7 +5,7 @@ namespace App\Services\Pages;
 use Log;
 use Exception;
 use App\Http\Requests\Pages\ShowPageRequest;
-use App\Http\Resources\Page as PageResource;
+use App\Http\Resources\Pages\Page as PageResource;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

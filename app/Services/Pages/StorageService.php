@@ -10,7 +10,7 @@ use App\Http\Requests\Pages\IndexStorageRequest;
 use App\Exceptions\Pages\UserIDNotEqualException;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Storage\StorageRepositoryInterface;
-use App\Http\Resources\PageStorage as PageStorageResource;
+use App\Http\Resources\Pages\Storage as StorageResource;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -60,7 +60,7 @@ class StorageService
      * @param string $storage_id
      * @return void
      */
-    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): PageStorageResource
+    public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): StorageResource
     {
         try {
             $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
@@ -69,7 +69,7 @@ class StorageService
                 throw new UserIDNotEqualException();
             }
 
-            return new PageStorageResource($storage);
+            return new StorageResource($storage);
         } catch (ModelNotFoundException $e) {
             Log::error($e);
             $message = $storage_id . 'is not exsited.';

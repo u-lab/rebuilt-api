@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Pages;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\PageUserInfo as PageUserInfoResource;
-use App\Http\Resources\PageUserProfile as PageUserProfileResource;
-use App\Http\Resources\PageUserPortfolio as PageUserPortfolioResource;
+use App\Http\Resources\Util\UserInfo as UserInfoResource;
+use App\Http\Resources\Util\UserProfile as UserProfileResource;
+use App\Http\Resources\Util\UserPortfolio as UserPortfolioResource;
 
 class Page extends JsonResource
 {
@@ -22,9 +22,9 @@ class Page extends JsonResource
             'name'           => $this->name,
             'created_at'     => $this->created_at,
             'updated_at'     => $this->updated_at,
-            'user_info'      => new PageUserInfoResource($this->user_info),
-            'user_profile'   => new PageUserProfileResource($this->user_profile),
-            'user_portfolio' => new PageUserPortfolioResource($this->user_portfolio),
+            'user_info'      => new UserInfoResource($this->user_info),
+            'user_profile'   => new UserProfileResource($this->user_profile),
+            'user_portfolio' => new UserPortfolioResource($this->user_portfolio),
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Util;
 
-use App\Http\Resources\PageStorageUser as PageStorageUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Util\Image as ImageResource;
 
-class PageUserAllStorage extends JsonResource
+class Storage extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,10 +21,11 @@ class PageUserAllStorage extends JsonResource
             "description"        => $this->description,
             "long_comment"       => $this->long_comment,
             "storage_url"        => $this->storage_url,
-            "eyecatch_imgae_url" => $this->eyecatch_image_url,
+            "eyecatch_image_url" => $this->eyecatch_image_url,
+            "eyecatch_image"     => new ImageResource($this->eyecatch_image),
             "web_address"        => $this->web_address,
             "created_at"         => $this->created_at,
-            "updated_at"         => $this->updated_at
+            "updated_at"         => $this->updated_at,
         ];
     }
 }
