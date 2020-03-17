@@ -49,13 +49,13 @@ class UpdateStorageRequest extends FormRequest
             'description'       => ['string', 'max:50', 'nullable'],
             'long_comment'      => ['string', 'max:100000', 'nullable'],
             'storage'           => [
-                'required',
                 'file',
                 'max:2048',
                 'mimetypes:'.$this->storage_minetypes(),
                 new ExtObj($this->file('storage'))
             ],
             'storage_url'        => [
+                'present',
                 'string',
                 'nullable',
                 'url',
