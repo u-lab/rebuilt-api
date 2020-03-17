@@ -159,6 +159,6 @@ class UserProfile extends Model
      */
     public function icon_image(): HasOne
     {
-        return $this->hasOne(Image::class, 'icon_image_id', 'id');
+        return $this->hasOne(Image::class, 'id', 'icon_image_id');
     }
 }
