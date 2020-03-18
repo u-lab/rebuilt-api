@@ -16,6 +16,7 @@ class Storage extends JsonResource
     public function toArray($request)
     {
         return [
+            "user_id"           => $this->user_id,
             "storage_id"        => $this->storage_id,
             "title"             => $this->title,
             "description"       => $this->description,
