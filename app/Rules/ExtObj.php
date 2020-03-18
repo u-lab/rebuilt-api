@@ -37,9 +37,9 @@ class ExtObj implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|array|null $file
-     * @param array $exts
-     * @param boolean $nullable
+     * @param \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile[]|array|null $file ファイル
+     * @param array $exts バリデーションしたい拡張子一覧
+     * @param boolean $nullable null許容かどうか
      * @return void
      */
     public function __construct($file, array $exts = ['obj', 'fbx'], bool $nullable = true)
@@ -56,15 +56,17 @@ class ExtObj implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
     {
+        // null許容でファイルがnullだった場合、true
         if ($this->_nullable && is_null($this->_file)) {
             return true;
         }
+
         // 送信元の拡張子を取得
         $original_ext = strtolower($this->_file->getClientOriginalExtension());
         $original_ext_check = '';
@@ -113,9 +115,26 @@ class ExtObj implements Rule
         }
     }
 
-    protected function is_fbx(): bool
+    /**
+     * fbxファイルかどうか確認
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    protected function is_fbx($value): bool
     {
-        return false;
+        return true;
+    }
+
+    /**
+     * stlファイルかどうか確認
+     *
+     * @param mixed $value
+     * @return boolean
+     */
+    protected function is_stl($value): bool
+    {
+        return true;
     }
 
     /**
