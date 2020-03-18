@@ -134,8 +134,7 @@ class FileSystemService
         $storage_filename = $this->_publicDisk->putFileAs(
             $path,
             $file,
-            Str::uuid() . '.' . $original_ext,
-            'public'
+            Str::uuid() . '.' . $original_ext
         );
 
         $storage_url = $this->_publicDisk->url($storage_filename);
