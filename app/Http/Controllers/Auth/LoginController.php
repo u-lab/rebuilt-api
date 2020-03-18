@@ -14,6 +14,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * "email" or "name
+     *
+     * @var string
+     */
+    protected $_username;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -85,6 +92,41 @@ class LoginController extends Controller
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
         ]);
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateLogin(Request $request)
+    {
+        if (isset($request->email)) {
+            $request->validate([
+                'email'    => 'required|string|email|max:255',
+                'password' => 'required|string',
+            ]);
+            $this->_username = 'email';
+        } else {
+            $request->validate([
+                'name'     => 'required|string|max:100',
+                'password' => 'required|string',
+            ]);
+            $this->_username = 'name';
+        }
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return $this->_username;
     }
 
     /**
