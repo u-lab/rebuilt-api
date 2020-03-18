@@ -124,11 +124,20 @@ class FileSystemService
             throw new FailedUploadImage('正常にファイルをアップロードできていません。');
         }
 
-
         $file = $request->file($storage_name);
         $path = '/'.trim($path, '/');
 
-        $storage_filename = $file->store($path, 'public');
+        // 送信元の拡張子を取得
+        $original_ext = strtolower($file->getClientOriginalExtension());
+
+        // Storageにファイルを保存
+        $storage_filename = $this->_publicDisk->putFileAs(
+            $path,
+            $file,
+            Str::uuid() . '.' . $original_ext,
+            'public'
+        );
+
         $storage_url = $this->_publicDisk->url($storage_filename);
 
         return $storage_url;
