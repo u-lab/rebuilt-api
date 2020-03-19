@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ClientUrl;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BreadcrumbsRequest extends FormRequest
@@ -24,7 +25,8 @@ class BreadcrumbsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'path' => ['string', 'max:255'],
+            'url'  => ['string', 'url', new ClientUrl]
         ];
     }
 }
