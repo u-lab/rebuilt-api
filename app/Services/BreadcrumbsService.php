@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Exception;
-use App\Http\Requests\BreadcrumbsFormRequest;
+use App\Http\Requests\BreadcrumbsRequest;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 use App\Http\Resources\Breadcrumbs as BreadcrumbsResource;
 use DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException;
@@ -14,12 +14,12 @@ class BreadcrumbsService
     /**
      * パンくずリストを生成する
      *
-     * @param BreadcrumbsFormRequest $request
+     * @param \App\Http\Requests\BreadcrumbsRequest $request
      * @return BreadcrumbsResource
      * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException
      * @throws \DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException
      */
-    public function render(BreadcrumbsFormRequest $request): BreadcrumbsResource
+    public function render(BreadcrumbsRequest $request): BreadcrumbsResource
     {
         $path = $request->path;
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use App\Services\BreadcrumbsService;
-use App\Http\Requests\BreadcrumbsFormRequest;
+use App\Http\Requests\BreadcrumbsRequest;
 
 class BreadcrumbsController extends Controller
 {
@@ -21,10 +21,10 @@ class BreadcrumbsController extends Controller
     /**
      * パンくずリストの生成
      *
-     * @param BreadcrumbsFormRequest $request
+     * @param \App\Http\Requests\BreadcrumbsRequest $request
      * @return void
      */
-    public function index(BreadcrumbsFormRequest $request)
+    public function index(BreadcrumbsRequest $request)
     {
         return $this->_service->render($request);
     }
