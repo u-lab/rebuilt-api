@@ -148,6 +148,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /breadcrumbs:
+    get:
+      tags:
+        - open
+      summary: "パンくずリスト取得API"
+      description: |-
+        パンくずリストの情報を取得します。
+        クエリパラメータでurlかpathを指定します。指定しない場合は、トップページのパンくずリストが帰ってきます。
+      parameters:
+        - in: "query"
+          name: "url"
+          schema:
+            type: string
+            format: uri
+        - in: "query"
+          name: "path"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BreadcrumbsResponse'
+
 
   /login:
     post:
@@ -844,6 +870,12 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/Storage'
+    BreadcrumbsResponse:
+      type: object
+      properties:
+        data:
+          type: string
+          description: ''
 
     LoginRequest:
       type: object
