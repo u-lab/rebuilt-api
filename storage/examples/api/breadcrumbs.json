@@ -1,6 +1,0 @@
-{
-  "data": [
-    { "title": "Home", "url": "http://localhost:3000" },
-    { "title": "Blog", "url": "http://localhost:3000/blog" }
-  ]
-}
