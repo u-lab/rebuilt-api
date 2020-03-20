@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Exception;
+use App\Facades\Helper;
 use App\Http\Requests\BreadcrumbsRequest;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 use App\Http\Resources\Breadcrumbs as BreadcrumbsResource;
@@ -11,6 +12,27 @@ use DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException;
 
 class BreadcrumbsService
 {
+    /**
+     * 許可するURL
+     *
+     * @var string[]
+     */
+    protected $_allow_urls;
+
+    /**
+     * Create a new service instance.
+     */
+    public function __construct()
+    {
+        $this->_allow_urls = [
+            'http://localhost:3000'
+        ];
+        $client = Helper::client_route('/');
+        if (strcmp($this->_allow_urls[0], $client) !== 0) {
+            $this->_allow_urls[] = $client;
+        }
+    }
+
     /**
      * パンくずリストを生成する
      *
@@ -21,7 +43,8 @@ class BreadcrumbsService
      */
     public function render(BreadcrumbsRequest $request): BreadcrumbsResource
     {
-        $path = $request->path;
+        // pathを作成する。
+        $path = $this->computed_request_path($request) ?? 'home';
 
         try {
             $data = $this->get_breadcrumb_data($path);
@@ -43,6 +66,37 @@ class BreadcrumbsService
         } catch (Exception $e) {
             return abort(response()->json(['message' => $e->getMessage()], 500));
         }
+    }
+
+    /**
+     * Requestからpathを作成する
+     *
+     * @param BreadcrumbsRequest $request
+     * @return string|null
+     */
+    protected function computed_request_path(BreadcrumbsRequest $request): ?string
+    {
+        $path = $request->path;
+        if (isset($path)) {
+            return $path;
+        }
+
+        $url = $request->url;
+        if (isset($url)) {
+            // ドメイン一覧の取得
+            $allow_urls = $this->_allow_urls;
+            // URLの部分を削除
+            foreach ($allow_urls as $allow_url) {
+                $replace_path = str_replace($allow_url, '', $url);
+                // pathだけになった場合、break
+                if (strcmp($url, $path) !== 0) {
+                    $path = $replace_path;
+                    break;
+                }
+            }
+        }
+
+        return $path;
     }
 
     /**
