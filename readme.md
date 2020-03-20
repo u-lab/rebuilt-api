@@ -16,11 +16,14 @@ SwaggerEditor: [https://editor.swagger.io](https://editor.swagger.io)
 
 ### Database仕様書
 
-Database仕様書は WWW SQL Designer に定義ファイルの内容をimportして参照してください。
+Database仕様書は WWW SQL Designer に定義ファイルの内容をimportして参照してください。  
+また、参照が容易になるように画像をcommitしてください。
 
 WWW SQL Designer: [https://ondras.zarovi.cz/sql/demo/?keyword=default](https://ondras.zarovi.cz/sql/demo/?keyword=default)
 
 定義ファイル: [./storage/database/wwwSQL.xml](./storage/database/wwwSQL.xml)
+
+画像ファイル: [./storage/database/wwwSQL.png](./storage/database/wwwSQL.png)
 
 ## 環境構築
 
