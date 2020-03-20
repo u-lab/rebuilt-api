@@ -38,10 +38,12 @@
             <type label="Bit" length="0" sql="bit" quote=""/>
         </group>
     </datatypes>
-    <table x="571" y="46" name="users">
+    <table x="862" y="182" name="users">
         <row name="id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
+            <relation table="user_releases" row="user_id" />
+            <relation table="user_carrers" row="user_id" />
         </row>
         <row name="name" null="1" autoincrement="0">
             <datatype>VARCHAR</datatype>
@@ -78,7 +80,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="1309" y="47" name="password_resets">
+    <table x="481" y="18" name="password_resets">
         <row name="email" null="0" autoincrement="0">
             <datatype>VARCHAR</datatype>
             <default>'NULL'</default>
@@ -96,7 +98,7 @@
             <part>email</part>
         </key>
     </table>
-    <table x="548" y="307" name="oauth_providers">
+    <table x="480" y="128" name="oauth_providers">
         <row name="id" null="1" autoincrement="1">
             <datatype>INTEGER</datatype>
             <default>NULL</default>
@@ -136,7 +138,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="951" y="407" name="user_portfolios">
+    <table x="1040" y="226" name="user_portfolios">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -165,7 +167,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="759" y="419" name="user_profiles">
+    <table x="866" y="430" name="user_profiles">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -188,9 +190,15 @@
             <datatype>VARCHAR(50)</datatype>
             <default>NULL</default>
         </row>
-        <row name="icon_image_url" null="1" autoincrement="0">
+        <row name="icon_image_id" null="1" autoincrement="0">
             <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
+            <relation table="images" row="id" />
+        </row>
+        <row name="background_image_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+            <relation table="images" row="id" />
         </row>
         <row name="web_address" null="1" autoincrement="0">
             <datatype>VARCHAR(255)</datatype>
@@ -208,10 +216,12 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="1187" y="405" name="storages">
+    <table x="1251" y="281" name="storages">
         <row name="id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
+            <relation table="storage_sub_images" row="storage_id" />
+            <relation table="storage_files" row="storage_id" />
             <comment>unsigned</comment>
         </row>
         <row name="storage_id" null="0" autoincrement="0">
@@ -225,6 +235,11 @@
             <relation table="users" row="id" />
             <comment>unsigned</comment>
         </row>
+        <row name="release_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+            <relation table="releases" row="id" />
+        </row>
         <row name="title" null="0" autoincrement="0">
             <datatype>VARCHAR(50)</datatype>
             <default>'NULL'</default>
@@ -237,13 +252,10 @@
             <datatype>VARCHAR</datatype>
             <default>NULL</default>
         </row>
-        <row name="storage_url" null="0" autoincrement="0">
+        <row name="eyecatch_image_id" null="0" autoincrement="0">
             <datatype>VARCHAR(255)</datatype>
             <default>'NULL'</default>
-        </row>
-        <row name="eyecatch_image_url" null="0" autoincrement="0">
-            <datatype>VARCHAR(255)</datatype>
-            <default>'NULL'</default>
+            <relation table="images" row="id" />
         </row>
         <row name="web_address" null="1" autoincrement="0">
             <datatype>VARCHAR(255)</datatype>
@@ -266,7 +278,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="776" y="130" name="user_infos">
+    <table x="669" y="24" name="user_infos">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -278,6 +290,14 @@
             <default>NULL</default>
         </row>
         <row name="last_name" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="first_kana" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="last_kana" null="1" autoincrement="0">
             <datatype>VARCHAR</datatype>
             <default>NULL</default>
         </row>
@@ -313,7 +333,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="1119" y="16" name="roles">
+    <table x="547" y="346" name="roles">
         <row name="id" null="1" autoincrement="1">
             <datatype>SMALLINT</datatype>
             <default>NULL</default>
@@ -342,7 +362,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="945" y="46" name="user_roles">
+    <table x="670" y="330" name="user_roles">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -366,7 +386,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="1118" y="195" name="user_sns_accounts">
+    <table x="1033" y="26" name="user_sns_accounts">
         <row name="id" null="0" autoincrement="1">
             <datatype>INTEGER</datatype>
             <default>NULL</default>
@@ -404,7 +424,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="1369" y="239" name="sns_accounts">
+    <table x="1249" y="22" name="sns_accounts">
         <row name="sns_id" null="0" autoincrement="1">
             <datatype>INTEGER</datatype>
             <default>NULL</default>
@@ -431,6 +451,183 @@
         </row>
         <key type="PRIMARY" name="">
             <part>sns_id</part>
+        </key>
+    </table>
+    <table x="1442" y="384" name="images">
+        <row name="id" null="1" autoincrement="1">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="title" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_160" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_320" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_640" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_1024" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_1280" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_1920" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+            <comment>フルハイビジョン画像</comment>
+        </row>
+        <row name="url_2560" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="updated_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>id</part>
+        </key>
+    </table>
+    <table x="505.6000061035156" y="526" name="releases">
+        <row name="id" null="1" autoincrement="1">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="release_name" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="release_level" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="deleted_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="update_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>id</part>
+        </key>
+    </table>
+    <table x="667.6000061035156" y="462" name="user_releases">
+        <row name="user_id" null="1" autoincrement="1">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="release_id" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+            <relation table="releases" row="id" />
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="updated_at" null="1" autoincrement="0">
+            <datatype>INTEGER</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>user_id</part>
+        </key>
+    </table>
+    <table x="859.6000061035156" y="16" name="user_carrers">
+        <row name="user_id" null="1" autoincrement="1">
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="date" null="1" autoincrement="0">
+            <datatype>DATE</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="name" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="updated_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>user_id</part>
+        </key>
+    </table>
+    <table x="1436.6000061035156" y="220" name="storage_sub_images">
+        <row name="storage_id" null="1" autoincrement="1">
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="image_id" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+            <relation table="images" row="id" />
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="updated_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>storage_id</part>
+        </key>
+    </table>
+    <table x="1055.6000061035156" y="406" name="storage_files">
+        <row name="storage_id" null="1" autoincrement="1">
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="extension" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="created_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="updated_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
+        </row>
+        <key type="PRIMARY" name="">
+            <part>storage_id</part>
         </key>
     </table>
 </sql>
