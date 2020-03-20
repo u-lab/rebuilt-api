@@ -15,9 +15,9 @@ Breadcrumbs::for('pages_user', function ($trail, array $data) {
 
 // Home > [user] > [storage_id]
 Breadcrumbs::for('pages_storage_id', function ($trail, array $data) {
-    $trail->parent('pages_user');
-    $path = '/pages' . '/' . $data['user'] . '/storages' . '/' . $data['storage_id'];
-    $trail->push($data['storage_id'], H::client_route($path));
+    $trail->parent('pages_user', $data);
+    $path = '/pages' . '/' . $data['user'] . '/storages' . '/' . $data['storage']['storage_id'];
+    $trail->push($data['storage']['title'], H::client_route($path));
 });
 
 // Home > login

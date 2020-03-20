@@ -7,6 +7,7 @@ use App\Facades\Helper;
 use App\Http\Requests\BreadcrumbsRequest;
 use DaveJamesMiller\Breadcrumbs\Facades\Breadcrumbs;
 use App\Http\Resources\Breadcrumbs as BreadcrumbsResource;
+use App\Repositories\Storage\StorageRepositoryInterface;
 use DaveJamesMiller\Breadcrumbs\Exceptions\InvalidBreadcrumbException;
 use DaveJamesMiller\Breadcrumbs\Exceptions\UnnamedRouteException;
 
@@ -20,10 +21,17 @@ class BreadcrumbsService
     protected $_allow_urls;
 
     /**
+     * @var \App\Repositories\Storage\StorageRepositoryInterface
+     */
+    protected $_storageRepository;
+
+    /**
      * Create a new service instance.
      */
-    public function __construct()
+    public function __construct(StorageRepositoryInterface $storageRepository)
     {
+        $this->_storageRepository = $storageRepository;
+
         $this->_allow_urls = [
             'http://localhost:3000'
         ];
@@ -104,6 +112,7 @@ class BreadcrumbsService
      *
      * @param string $path
      * @return array|null
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     protected function get_breadcrumb_data(string $path): ?array
     {
@@ -123,12 +132,19 @@ class BreadcrumbsService
         if ($path_arr[0] === 'pages') {
             $user = $path_arr[1];
 
-            if ($path_arr_len > 4) {
+            if ($path_arr_len > 3) {
                 $storage_id = $path_arr[3];
+
+                // storageからデータの取得
+                $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
+
                 $ret_arr['name'] = 'pages_storage_id';
                 $ret_arr['data'] = [
                     'user'       => $user,
-                    'storage_id' => $storage_id
+                    'storage'    => [
+                        'title'      => $storage->title,
+                        'storage_id' => $storage_id
+                    ]
                 ];
                 return $ret_arr;
             }
