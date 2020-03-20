@@ -40,6 +40,15 @@ class StorageRepository implements StorageRepositoryInterface
         return $this->_storage->whereStorageId($storage_id)->delete();
     }
 
+    /**
+     * すべての作品を取得する
+     *
+     * @return mixed
+     */
+    public function get_all_storages_with_user()
+    {
+        return $this->_storage->with('user')->get()->all();
+    }
 
     /**
      * 全ユーザーの全作品を取得する

@@ -16,6 +16,13 @@ interface UserRepositoryInterface
     public function delete_user(string $user_id): ?bool;
 
     /**
+     * プロフィールとともにすべてのユーザーを取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function get_all_user_with_profile();
+
+    /**
      * 名前によってユーザーデータを取得する
      *
      * @param string $user_name

@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ClientUrl;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BreadcrumbsFormRequest extends FormRequest
+class BreadcrumbsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,8 @@ class BreadcrumbsFormRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'path' => ['string', 'max:255'],
+            'url'  => ['string', 'url', new ClientUrl]
         ];
     }
 }

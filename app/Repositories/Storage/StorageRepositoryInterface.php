@@ -23,6 +23,13 @@ interface StorageRepositoryInterface
     public function destroy_storage(string $storage_id): ?bool;
 
     /**
+     * すべての作品を取得する
+     *
+     * @return mixed
+     */
+    public function get_all_storages_with_user();
+
+    /**
      * 全ユーザーの全作品を取得する
      *
      * @param integer $per_page
