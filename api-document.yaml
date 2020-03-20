@@ -173,7 +173,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BreadcrumbsResponse'
-
+  /sitemap:
+    get:
+      tags:
+        - open
+      summary: "サイトマップ取得API"
+      description: |-
+        サイトマップの情報を取得します。
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitemapResponse'
 
   /login:
     post:
@@ -876,6 +889,17 @@ components:
         data:
           type: string
           description: ''
+    SitemapResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+          example:
+            - http://localhost:3000
+            - http://localhost:3000/pages/admin
+            - http://localhost:3000/pages/admin/storages/1581315433ra05d0
 
     LoginRequest:
       type: object
