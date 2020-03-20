@@ -31,6 +31,17 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * プロフィールとともにすべてのユーザーを取得する
+     *
+     * @return \Illuminate\Database\Eloquent\Model|static
+     */
+    public function get_all_user_with_profile()
+    {
+        $user = $this->_user->with('user_profile')->get()->all();
+        return $user;
+    }
+
+    /**
      * 名前によってユーザーデータを取得する
      *
      * @param string $user_name
