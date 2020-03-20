@@ -18,9 +18,9 @@ class SitemapController extends Controller
     }
 
     /**
-     * @return JsonResponse
+     * @return mixed
      */
-    public function index(): JsonResponse
+    public function index()
     {
         return $this->_service->generate();
     }
