@@ -1,5 +1,0 @@
-### 200が帰ってきてほしい
-GET http://localhost:8000/api/v1/pages/admin
-
-### 404が帰ってきてほしい
-GET http://localhost:8000/api/v1/pages/aaaaaa
