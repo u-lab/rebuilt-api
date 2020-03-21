@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\User;
+use App\Models\StorageFile;
+use App\Models\StorageSubImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -59,6 +62,7 @@ class Storage extends Model
     protected $fillable = [
         'storage_id',
         'user_id',
+        'release_id',
         'title',
         'description',
         'long_comment',
@@ -73,15 +77,16 @@ class Storage extends Model
      * @var array
      */
     protected $casts = [
-        'id'                 => 'integer',
-        'storage_id'         => 'string',
-        'user_id'            => 'integer',
-        'title'              => 'string',
-        'description'        => 'string',
-        'long_comment'       => 'string',
-        'storage_url'        => 'string',
-        'eyecatch_image_id'  => 'string',
-        'web_address'        => 'string'
+        'id'                => 'integer',
+        'storage_id'        => 'string',
+        'user_id'           => 'integer',
+        'release_id'        => 'integer',
+        'title'             => 'string',
+        'description'       => 'string',
+        'long_comment'      => 'string',
+        'storage_url'       => 'string',
+        'eyecatch_image_id' => 'string',
+        'web_address'       => 'string'
     ];
 
     /**
@@ -160,5 +165,35 @@ class Storage extends Model
     public function eyecatch_image(): HasOne
     {
         return $this->hasOne(Image::class, 'id', 'eyecatch_image_id');
+    }
+
+    /**
+     * Releaseのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function release(): HasOne
+    {
+        return $this->hasOne(Release::class, 'id', 'release_id');
+    }
+
+    /**
+     * StorageSubImageへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function storage_sub_image(): HasMany
+    {
+        return $this->hasMany(StorageSubImage::class, 'storage_id', 'id');
+    }
+
+    /**
+     * StorageFileへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function storage_file(): HasMany
+    {
+        return $this->hasMany(StorageFile::class, 'storage_id', 'id');
     }
 }

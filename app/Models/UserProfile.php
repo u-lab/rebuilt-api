@@ -56,6 +56,7 @@ class UserProfile extends Model
         'hobby',
         'description',
         'icon_image_id',
+        'background_image_id',
         'web_address'
     ];
 
@@ -65,13 +66,14 @@ class UserProfile extends Model
      * @var array
      */
     protected $casts = [
-        'user_id'        => 'integer',
-        'nick_name'      => 'string',
-        'job_name'       => 'string',
-        'hobby'          => 'string',
-        'description'    => 'string',
-        'icon_image_id'  => 'string',
-        'web_address'    => 'string'
+        'user_id'             => 'integer',
+        'nick_name'           => 'string',
+        'job_name'            => 'string',
+        'hobby'               => 'string',
+        'description'         => 'string',
+        'icon_image_id'       => 'string',
+        'background_image_id' => 'string',
+        'web_address'         => 'string'
     ];
 
     /**
@@ -160,5 +162,15 @@ class UserProfile extends Model
     public function icon_image(): HasOne
     {
         return $this->hasOne(Image::class, 'id', 'icon_image_id');
+    }
+
+    /**
+     * Imageへのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function background_image(): HasOne
+    {
+        return $this->hasOne(Image::class, 'id', 'background_image_id');
     }
 }
