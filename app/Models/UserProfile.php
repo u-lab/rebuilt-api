@@ -17,13 +17,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $description 一言コメント
  * @property string $icon_image_id ユーザーアイコンID
  * @property string $web_address ユーザーサイト
+ * @property string|null $background_image_id 背景画像
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
  * @property-read \App\Models\Image $icon_image
+ * @property-read \App\Models\Image $background_image
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereBackgroundImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereHobby($value)

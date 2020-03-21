@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $id image ID
  * @property string $title 画像名
  * @property string $url オリジナル画像
+ * @property string|null $url_80 width = 80
  * @property string|null $url_160 width = 160
  * @property string|null $url_320 width = 320
  * @property string|null $url_640 width = 640
@@ -41,10 +42,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Image whereUrl2580($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Image whereUrl320($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Image whereUrl640($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Image whereUrl80($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Image withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Image withoutTrashed()
  * @mixin \Eloquent
- */
+*/
 class Image extends Model
 {
     use SoftDeletes;
@@ -58,6 +60,7 @@ class Image extends Model
         'id',
         'title',
         'url',
+        'url_80',
         'url_160',
         'url_320',
         'url_640',

@@ -8,6 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * App\Models\UserRelease
+ *
+ * @property int $user_id
+ * @property int $release_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Release $release
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease whereReleaseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRelease whereUserId($value)
+ * @mixin \Eloquent
+ */
 class UserRelease extends Model
 {
     /**

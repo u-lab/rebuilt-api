@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $id
  * @property string $storage_id
  * @property int $user_id
+ * @property int $release_id
  * @property string $title 作品名
  * @property string|null $description 一言コメント
  * @property string|null $long_comment 長文コメント
@@ -28,6 +29,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
  * @property-read \App\Models\Image $eyecatch_image
+ * @property-read \App\Models\Release $release
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StorageFile[] $storage_file
+ * @property-read int|null $storage_file_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StorageSubImage[] $storage_sub_image
+ * @property-read int|null $storage_sub_image_count
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newQuery()
@@ -37,6 +43,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereReleaseId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereLongComment($value)

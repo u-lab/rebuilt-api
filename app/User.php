@@ -53,6 +53,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCareer[] $user_career
+ * @property-read int|null $user_career_count
+ * @property-read \App\Models\UserRelease $user_release
  */
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
