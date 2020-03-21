@@ -21,15 +21,20 @@ class StorageFileRepository implements StorageFileRepositoryInterface
      * StorageFileを更新か作成する
      *
      * @param array $inserts
-     * @param string $storage_id
-     * @param integer $id
+     * @param integer $storage_id
+     * @param integer|null $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateOrCreate(array $inserts, string $storage_id, int $id)
+    public function updateOrCreate(array $inserts, int $storage_id, ?int $id = null)
     {
+        $attributes = ['storage_id' => $storage_id];
+        if (isset($id)) {
+            $attributes['id'] = $id;
+        }
+
         $storage = $this->_storageFile
             ->updateOrCreate(
-                [ 'id' => $id, 'storage_id' => $storage_id ],
+                $attributes,
                 $inserts
             );
 
