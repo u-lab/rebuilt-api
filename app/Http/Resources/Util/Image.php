@@ -18,6 +18,7 @@ class Image extends JsonResource
             'id'         => $this->id,
             'title'      => $this->title,
             'url'        => $this->url,
+            'url_80'     => $this->url_80,
             'url_160'    => $this->url_160,
             'url_320'    => $this->url_320,
             'url_640'    => $this->url_640,
