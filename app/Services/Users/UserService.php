@@ -3,6 +3,7 @@
 namespace App\Services\Users;
 
 use Exception;
+use App\Exceptions\Users\NonDeleteUser;
 use App\Http\Requests\Users\DestroyUserRequest;
 use App\Repositories\User\UserRepositoryInterface;
 
@@ -28,8 +29,14 @@ class UserService
     {
         try {
             $user = $request->user();
-            return $this->_userRepository->delete_user($user->id);
+            $success = $this->_userRepository->delete_user($user->id);
+            if ($success) {
+                return abort(response()->json(['message' => 'success']), 200);
+            }
+            throw new NonDeleteUser();
         } catch (Exception $e) {
+            return abort(response()->json(['message' => $e->getMessage()]), 500);
+        } catch (NonDeleteUser $e) {
             return abort(response()->json(['message' => $e->getMessage()]), 500);
         }
     }

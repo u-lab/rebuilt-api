@@ -46,7 +46,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::group(['prefix' => 'users'], function () {
             // ユーザー削除
-            Route::delete('', 'Users\UserController@destory')->name('user.destory');
+            Route::delete('', 'Users\UserController@destroy')->name('user.destory');
             // 作品の一覧・追加・取得・編集・削除
             Route::apiResource('storage', 'Users\StorageController')->names([
                 'index'   => 'user.storage.index',
