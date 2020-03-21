@@ -27,16 +27,16 @@ class StoreStorageRequest extends FormRequest
     {
         return [
             'title'          => ['required', 'string', 'max:50'],
-            'description'    => ['string', 'max:50'],
-            'long_comment'   => ['string', 'max:100000'],
+            'description'    => ['string', 'nullable', 'max:50'],
+            'long_comment'   => ['string', 'nullable', 'max:100000'],
             'storage'        => [
                 'file',
                 'max:2048',
                 'mimetypes:'.$this->storage_minetypes(),
                 new ExtObj($this->file('storage'))
             ],
-            'eyecatch_image' => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
-            'web_address'    => ['string', 'url' , 'max:255']
+            'eyecatch_image' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
+            'web_address'    => ['string', 'nullable', 'url' , 'max:255']
         ];
     }
 
