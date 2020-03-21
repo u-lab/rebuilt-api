@@ -38,7 +38,7 @@
             <type label="Bit" length="0" sql="bit" quote=""/>
         </group>
     </datatypes>
-    <table x="862" y="182" name="users">
+    <table x="851" y="210" name="users">
         <row name="id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -138,7 +138,7 @@
             <part>id</part>
         </key>
     </table>
-    <table x="1040" y="226" name="user_portfolios">
+    <table x="1034" y="224" name="user_portfolios">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -167,7 +167,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="866" y="430" name="user_profiles">
+    <table x="841" y="437" name="user_profiles">
         <row name="user_id" null="0" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -216,7 +216,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="1251" y="281" name="storages">
+    <table x="1248" y="229" name="storages">
         <row name="id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -236,7 +236,7 @@
             <comment>unsigned</comment>
         </row>
         <row name="release_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
             <relation table="releases" row="id" />
         </row>
@@ -453,7 +453,7 @@
             <part>sns_id</part>
         </key>
     </table>
-    <table x="1442" y="384" name="images">
+    <table x="1067" y="378" name="images">
         <row name="id" null="1" autoincrement="1">
             <datatype>VARCHAR</datatype>
             <default>NULL</default>
@@ -507,9 +507,9 @@
             <part>id</part>
         </key>
     </table>
-    <table x="505.6000061035156" y="526" name="releases">
+    <table x="505" y="526" name="releases">
         <row name="id" null="1" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
         </row>
         <row name="release_name" null="1" autoincrement="0">
@@ -536,13 +536,13 @@
             <part>id</part>
         </key>
     </table>
-    <table x="667.6000061035156" y="462" name="user_releases">
+    <table x="661" y="470" name="user_releases">
         <row name="user_id" null="1" autoincrement="1">
-            <datatype>INTEGER</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
         </row>
         <row name="release_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
             <relation table="releases" row="id" />
         </row>
@@ -558,7 +558,11 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="859.6000061035156" y="16" name="user_carrers">
+    <table x="852" y="13" name="user_carrers">
+        <row name="id" null="1" autoincrement="0">
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
+        </row>
         <row name="user_id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -569,6 +573,10 @@
         </row>
         <row name="name" null="1" autoincrement="0">
             <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="deleted_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
             <default>NULL</default>
         </row>
         <row name="created_at" null="1" autoincrement="0">
@@ -583,7 +591,11 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="1436.6000061035156" y="220" name="storage_sub_images">
+    <table x="1214" y="530" name="storage_sub_images">
+        <row name="id" null="1" autoincrement="0">
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
+        </row>
         <row name="storage_id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -592,6 +604,10 @@
             <datatype>VARCHAR</datatype>
             <default>NULL</default>
             <relation table="images" row="id" />
+        </row>
+        <row name="deleted_at" null="1" autoincrement="0">
+            <datatype>TIMESTAMP</datatype>
+            <default>NULL</default>
         </row>
         <row name="created_at" null="1" autoincrement="0">
             <datatype>TIMESTAMP</datatype>
@@ -605,7 +621,11 @@
             <part>storage_id</part>
         </key>
     </table>
-    <table x="1055.6000061035156" y="406" name="storage_files">
+    <table x="1432" y="207" name="storage_files">
+        <row name="id" null="1" autoincrement="0">
+            <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
         <row name="storage_id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
