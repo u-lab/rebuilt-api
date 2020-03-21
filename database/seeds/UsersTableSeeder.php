@@ -1,11 +1,14 @@
 <?php
 
+use App\Models\Release;
+use App\Models\UserCareer;
 use App\User;
 use Faker\Factory;
 use App\Models\UserInfo;
 use App\Models\UserRole;
 use App\Models\UserPortfolio;
 use App\Models\UserProfile;
+use App\Models\UserRelease;
 use App\Models\UserSnsAccount;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +30,7 @@ class UsersTableSeeder extends Seeder
     private function create(): void
     {
         $data_inserts = $this->insert_datas();
+        $release_id = Release::whereReleaseName('public')->get()->first()->id;
 
         foreach ($data_inserts as $insert) {
             $user = User::create([
@@ -53,18 +57,25 @@ class UsersTableSeeder extends Seeder
             ]);
 
             UserProfile::create([
-                'user_id'        => $user->id,
-                'nick_name'      => $insert["nick_name"],
-                'job_name'       => $insert["job_name"],
-                'hobby'          => $insert["hobby"],
-                'description'    => $insert["description"],
-                'icon_image_id'  => $insert["icon_image_id"],
-                'web_address'    => $insert["web_address"]
+                'user_id'             => $user->id,
+                'nick_name'           => $insert["nick_name"],
+                'job_name'            => $insert["job_name"],
+                'hobby'               => $insert["hobby"],
+                'description'         => $insert["description"],
+                'icon_image_id'       => $insert["icon_image_id"],
+                'background_image_id' => $insert["icon_image_id"],
+                'web_address'         => $insert["web_address"]
             ]);
 
             UserRole::create([
                 'user_id' => $user->id,
                 'role_id' => $insert["role_id"]
+            ]);
+
+            UserCareer::create([
+                'user_id' => $user->id,
+                'date'    => $insert["birthday"],
+                'name'    => $insert['user_career_name']
             ]);
 
             UserSnsAccount::create([
@@ -77,6 +88,11 @@ class UsersTableSeeder extends Seeder
                 'user_id' => $user->id,
                 'sns_id'  => $insert["sns_id2"],
                 'sns_url' => $insert["sns_url2"]
+            ]);
+
+            UserRelease::create([
+                'user_id'    => $user->id,
+                'release_id' => $release_id
             ]);
         }
     }
@@ -103,9 +119,10 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => '天才Unityエンジニア',
                 'hobby'                  => '建築モデルづくり',
                 'description'            => $this->description(),
-                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
+                'icon_image_id'          => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab/rebuilt-api",
                 'role_id'                => "3",
+                'user_career_name'       => '宇都宮大学入学',
                 'sns_id1'                => "1",
                 'sns_url1'               => "https://twitter.com/U_lab0811
     ",
@@ -133,6 +150,7 @@ class UsersTableSeeder extends Seeder
                 'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab/rebuilt",
                 'role_id'                => "2",
+                'user_career_name'       => '宇都宮大学入学',
                 'sns_id1'                => "1",
                 'sns_url1'               => "https://twitter.com/U_lab0811
     ",
@@ -160,6 +178,7 @@ class UsersTableSeeder extends Seeder
                 'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
                 'web_address'            => "https://github.com/u-lab",
                 'role_id'                => "2",
+                'user_career_name'       => '栃木大学入学',
                 'sns_id1'                => "1",
                 'sns_url1'               => "https://twitter.com/U_lab0811
     ",

@@ -4,6 +4,7 @@ namespace App\Http\Resources\Util;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Util\Image as ImageResource;
+use App\Http\Resources\Util\Release as ReleaseResource;
 
 class Storage extends JsonResource
 {
@@ -16,17 +17,19 @@ class Storage extends JsonResource
     public function toArray($request)
     {
         return [
-            "user_id"           => $this->user_id,
-            "storage_id"        => $this->storage_id,
-            "title"             => $this->title,
-            "description"       => $this->description,
-            "long_comment"      => $this->long_comment,
-            "storage_url"       => $this->storage_url,
-            "eyecatch_image_id" => $this->eyecatch_image_id,
-            "eyecatch_image"    => new ImageResource($this->eyecatch_image),
-            "web_address"       => $this->web_address,
-            "created_at"        => $this->created_at,
-            "updated_at"        => $this->updated_at,
+            "user_id"             => $this->user_id,
+            "storage_id"          => $this->storage_id,
+            "release"             => new ReleaseResource($this->release),
+            "title"               => $this->title,
+            "description"         => $this->description,
+            "long_comment"        => $this->long_comment,
+            "storage_sub_image"   => $this->storage_sub_image,
+            "storage_file"        => $this->storage_file,
+            "eyecatch_image_id"   => $this->eyecatch_image_id,
+            "eyecatch_image"      => new ImageResource($this->eyecatch_image),
+            "web_address"         => $this->web_address,
+            "created_at"          => $this->created_at,
+            "updated_at"          => $this->updated_at,
         ];
     }
 }

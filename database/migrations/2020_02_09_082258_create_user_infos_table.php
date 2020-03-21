@@ -17,6 +17,8 @@ class CreateUserInfosTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('last_name', '50')->nullable()->comment('性');
             $table->string('first_name', '50')->nullable()->comment('名');
+            $table->string('last_kana', '50')->nullable()->comment('セイ');
+            $table->string('first_kana', '50')->nullable()->comment('メイ');
             $table->string('school_name', '100')->nullable()->comment('学校名');
             $table->date('birthday')->nullable()->comment('誕生日');
             $table->string('prefecture', '20')->nullable()->comment('都道府県');

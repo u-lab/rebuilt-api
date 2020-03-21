@@ -4,6 +4,8 @@ namespace App;
 
 use App\Models\UserInfo;
 use App\Models\UserRole;
+use App\Models\UserCareer;
+use App\Models\UserRelease;
 use App\Models\UserProfile;
 use App\Models\UserPortfolio;
 use App\Models\OAuthProvider;
@@ -13,6 +15,7 @@ use App\Notifications\ResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -51,10 +54,13 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserCareer[] $user_career
+ * @property-read int|null $user_career_count
+ * @property-read \App\Models\UserRelease $user_release
  */
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -163,10 +169,30 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     }
 
     /**
+     * UserReleaseへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_release(): HasOne
+    {
+        return $this->hasOne(UserRelease::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function user_sns_accounts(): HasMany
     {
         return $this->hasMany(UserSnsAccount::class);
+    }
+
+    /**
+     * UserCareerへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_career(): HasMany
+    {
+        return $this->hasMany(UserCareer::class);
     }
 }

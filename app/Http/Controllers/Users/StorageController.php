@@ -48,34 +48,35 @@ class StorageController extends Controller
      * Display the specified resource.
      *
      * @param \App\Http\Requests\Users\ShowStorageRequest $request
-     * @param  int  $id
+     * @param  string  $storage_id
      * @return \Illuminate\Http\Response
      */
-    public function show(ShowStorageRequest $request, $id)
+    public function show(ShowStorageRequest $request, string $storage_id)
     {
-        return $this->_service->get_storage($request, $id);
+        return $this->_service->get_storage($request, $storage_id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\Users\UpdateStorageRequest  $request
-     * @param  int  $id
+     * @param  string  $storage_id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateStorageRequest $request, $id)
+    public function update(UpdateStorageRequest $request, string $storage_id)
     {
-        return $this->_service->update($request, $id);
+        return $this->_service->update($request, $storage_id);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $storage_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyStorageRequest $request, $id)
+    public function destroy(DestroyStorageRequest $request, string $storage_id)
     {
-        return $this->_service->destory($request, $id);
+        \Log::debug('dddestroy');
+        return $this->_service->destory($request, $storage_id);
     }
 }

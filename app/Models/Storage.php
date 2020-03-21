@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\User;
+use App\Models\StorageFile;
+use App\Models\StorageSubImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
@@ -14,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $id
  * @property string $storage_id
  * @property int $user_id
+ * @property int $release_id
  * @property string $title 作品名
  * @property string|null $description 一言コメント
  * @property string|null $long_comment 長文コメント
@@ -25,6 +29,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\User $user
  * @property-read \App\Models\Image $eyecatch_image
+ * @property-read \App\Models\Release $release
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StorageFile[] $storage_file
+ * @property-read int|null $storage_file_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\StorageSubImage[] $storage_sub_image
+ * @property-read int|null $storage_sub_image_count
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage newQuery()
@@ -34,6 +43,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereReleaseId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereEyecatchImageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Storage whereLongComment($value)
@@ -59,6 +69,7 @@ class Storage extends Model
     protected $fillable = [
         'storage_id',
         'user_id',
+        'release_id',
         'title',
         'description',
         'long_comment',
@@ -73,15 +84,16 @@ class Storage extends Model
      * @var array
      */
     protected $casts = [
-        'id'                 => 'integer',
-        'storage_id'         => 'string',
-        'user_id'            => 'integer',
-        'title'              => 'string',
-        'description'        => 'string',
-        'long_comment'       => 'string',
-        'storage_url'        => 'string',
-        'eyecatch_image_id'  => 'string',
-        'web_address'        => 'string'
+        'id'                => 'integer',
+        'storage_id'        => 'string',
+        'user_id'           => 'integer',
+        'release_id'        => 'integer',
+        'title'             => 'string',
+        'description'       => 'string',
+        'long_comment'      => 'string',
+        'storage_url'       => 'string',
+        'eyecatch_image_id' => 'string',
+        'web_address'       => 'string'
     ];
 
     /**
@@ -160,5 +172,35 @@ class Storage extends Model
     public function eyecatch_image(): HasOne
     {
         return $this->hasOne(Image::class, 'id', 'eyecatch_image_id');
+    }
+
+    /**
+     * Releaseのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function release(): HasOne
+    {
+        return $this->hasOne(Release::class, 'id', 'release_id');
+    }
+
+    /**
+     * StorageSubImageへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function storage_sub_image(): HasMany
+    {
+        return $this->hasMany(StorageSubImage::class, 'storage_id', 'id');
+    }
+
+    /**
+     * StorageFileへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function storage_file(): HasMany
+    {
+        return $this->hasMany(StorageFile::class, 'storage_id', 'id');
     }
 }
