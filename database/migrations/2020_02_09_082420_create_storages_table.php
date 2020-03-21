@@ -17,6 +17,7 @@ class CreateStoragesTable extends Migration
             $table->bigIncrements('id');
             $table->string('storage_id', '50')->unique();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('release_id');
             $table->string('title', '50')->comment('作品名');
             $table->string('description', '50')->nullable()->comment('一言コメント');
             $table->longText('long_comment')->nullable()->comment('長文コメント');
