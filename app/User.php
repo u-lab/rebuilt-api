@@ -4,6 +4,8 @@ namespace App;
 
 use App\Models\UserInfo;
 use App\Models\UserRole;
+use App\Models\UserCareer;
+use App\Models\UserRelease;
 use App\Models\UserProfile;
 use App\Models\UserPortfolio;
 use App\Models\OAuthProvider;
@@ -163,10 +165,30 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     }
 
     /**
+     * UserReleaseへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user_release(): HasOne
+    {
+        return $this->hasOne(UserRelease::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function user_sns_accounts(): HasMany
     {
         return $this->hasMany(UserSnsAccount::class);
+    }
+
+    /**
+     * UserCareerへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_career(): HasMany
+    {
+        return $this->hasMany(UserCareer::class);
     }
 }
