@@ -31,7 +31,7 @@ class UserService
             $user = $request->user();
             $success = $this->_userRepository->delete_user($user->id);
             if ($success) {
-                return abort(response()->json(['message' => 'success']), 200);
+                return abort(response()->json(['message' => $success]), 200);
             }
             throw new NonDeleteUser();
         } catch (Exception $e) {

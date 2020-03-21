@@ -5,6 +5,7 @@ namespace App\Services\Users;
 use App\Facades\MyStorage;
 use InvalidArgumentException;
 use App\Exceptions\Image\FailedUploadImage;
+use App\Exceptions\Users\NonDeleteStorage;
 use App\Http\Requests\Users\ShowStorageRequest;
 use App\Http\Requests\Users\IndexStorageRequest;
 use App\Http\Requests\Users\StoreStorageRequest;
@@ -173,10 +174,18 @@ class StorageService
      *
      * @param DestroyStorageRequest $request
      * @param string $storage_id
-     * @return boolean|null
+     * @return mixed
      */
-    public function destory(DestroyStorageRequest $request, string $storage_id): ?bool
+    public function destory(DestroyStorageRequest $request, string $storage_id)
     {
-        return $this->_storageRepository->destroy_storage($storage_id);
+        try {
+            $success = $this->_storageRepository->destroy_storage($storage_id);
+            if ($success) {
+                return abort(response()->json(['message' => $success]), 200);
+            }
+            throw new NonDeleteStorage();
+        } catch (NonDeleteStorage $e) {
+            return abort(response()->json(['message' => $e->getMessage()]), 500);
+        }
     }
 }
