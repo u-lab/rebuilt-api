@@ -47,14 +47,13 @@ Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'users'], function () {
             // ユーザー削除
             Route::delete('', 'Users\UserController@destroy')->name('user.destory');
+
             // 作品の一覧・追加・取得・編集・削除
-            Route::apiResource('storage', 'Users\StorageController')->names([
-                'index'   => 'user.storage.index',
-                'store'   => 'user.storage.store',
-                'show'    => 'user.storage.show',
-                'update'  => 'user.storage.update',
-                'destroy' => 'user.storage.destroy',
-            ]);
+            Route::get('storage', 'Users\StorageController@index')->name('user.storage.index');
+            Route::patch('storage', 'Users\StorageController@store')->name('user.storage.store');
+            Route::get('storage/{storage_id}', 'Users\StorageController@show')->name('user.storage.show');
+            Route::patch('storage/{storage_id}', 'Users\StorageController@update')->name('user.storage.update');
+            Route::delete('storage/{storage_id}', 'Users\StorageController@destroy')->name('user.storage.destroy');
 
             // 自分のプロフィール取得・編集
             Route::get('profile', 'Users\ProfileController@show')->name('user.profile.show');
