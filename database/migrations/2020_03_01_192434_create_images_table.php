@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->uuid('id')->primary()->comment('image ID');
             $table->string('title', 255)->comment('画像名');
             $table->string('url', 255)->comment('オリジナル画像');
+            $table->string('url_80', 255)->nullable()->comment('width = 80');
             $table->string('url_160', 255)->nullable()->comment('width = 160');
             $table->string('url_320', 255)->nullable()->comment('width = 320');
             $table->string('url_640', 255)->nullable()->comment('width = 640');
