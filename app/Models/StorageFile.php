@@ -57,7 +57,7 @@ class StorageFile extends Model
      */
     protected $casts = [
         'id'         => 'integer',
-        'storage_id' => 'string',
+        'storage_id' => 'integer',
         'url'        => 'string',
         'extension'  => 'string'
     ];
@@ -76,6 +76,6 @@ class StorageFile extends Model
      */
     public function storage(): BelongsTo
     {
-        return $this->belongsTo(Storage::class, 'storage_id', 'storage_id');
+        return $this->belongsTo(Storage::class, 'id', 'storage_id');
     }
 }

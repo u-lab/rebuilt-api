@@ -55,7 +55,7 @@ class StorageSubImage extends Model
      */
     protected $casts = [
         'id'         => 'integer',
-        'storage_id' => 'string',
+        'storage_id' => 'integer',
         'image_id'   => 'string',
     ];
 
