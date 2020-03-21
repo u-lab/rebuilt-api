@@ -29,8 +29,6 @@ class Storage extends JsonResource
             "storage_sub_image"   => StorageSubImageResource::collection($this->storage_sub_imaeg),
             "eyecatch_image_id"   => $this->eyecatch_image_id,
             "eyecatch_image"      => new ImageResource($this->eyecatch_image),
-            "background_image_id" => $this->background_image_id,
-            "background_image"    => new ImageResource($this->background_image),
             "web_address"         => $this->web_address,
             "created_at"          => $this->created_at,
             "updated_at"          => $this->updated_at,
