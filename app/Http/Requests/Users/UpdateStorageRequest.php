@@ -54,14 +54,6 @@ class UpdateStorageRequest extends FormRequest
                 'mimetypes:'.$this->storage_minetypes(),
                 new ExtObj($this->file('storage'))
             ],
-            'storage_url'        => [
-                'present',
-                'string',
-                'nullable',
-                'url',
-                'max:255',
-                'exists:App\Models\Storage,storage_url'
-            ],
             'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
             'eyecatch_image_id'  => ['string', 'uuid', 'nullable'],
             'web_address'        => ['string', 'url', 'max:255', 'nullable']
