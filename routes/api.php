@@ -50,7 +50,7 @@ Route::group(['prefix' => 'v1'], function () {
 
             // 作品の一覧・追加・取得・編集・削除
             Route::get('storage', 'Users\StorageController@index')->name('user.storage.index');
-            Route::patch('storage', 'Users\StorageController@store')->name('user.storage.store');
+            Route::post('storage', 'Users\StorageController@store')->name('user.storage.store');
             Route::get('storage/{storage_id}', 'Users\StorageController@show')->name('user.storage.show');
             Route::patch('storage/{storage_id}', 'Users\StorageController@update')->name('user.storage.update');
             Route::delete('storage/{storage_id}', 'Users\StorageController@destroy')->name('user.storage.destroy');

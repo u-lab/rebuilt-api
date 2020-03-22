@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Image as ImageImage;
 use App\Exceptions\Image\FailedUploadImage;
 use App\Repositories\Image\ImageRepositoryInterface;
+use App\Repositories\Storage\StorageFileRepositoryInterface;
 
 class FileSystemService
 {
@@ -17,6 +18,11 @@ class FileSystemService
      * @var \App\Repositories\Image\ImageRepositoryInterface
      */
     private $_imageRepository;
+
+    /**
+     * @var \App\Repositories\Storage\StorageFileRepositoryInterface
+     */
+    private $_storageFileRepository;
 
     /**
      * @var \Illuminate\Filesystem\FilesystemAdapter
@@ -38,9 +44,12 @@ class FileSystemService
      */
     private $_inserts;
 
-    public function __construct(ImageRepositoryInterface $imageRepository)
-    {
+    public function __construct(
+        ImageRepositoryInterface $imageRepository,
+        StorageFileRepositoryInterface $storageFileRepository
+    ) {
         $this->_imageRepository = $imageRepository;
+        $this->_storageFileRepository = $storageFileRepository;
         $this->_localDisk = Storage::disk('local');
         $this->_publicDisk = Storage::disk('public');
         $this->_sizes = [160, 320, 640, 1024, 1280, 1920, 2580];
@@ -113,7 +122,7 @@ class FileSystemService
         $this->store_image_error($filename);
     }
 
-    public function store_requestStorage($request, string $storage_name, string $path = ''): ?string
+    public function store_requestStorage($request, int $storage_id, string $storage_name, string $path = ''): ?string
     {
         // postされたfileがアップロードできているか確認
         if ($request->hasFile($storage_name) === false) {
@@ -139,7 +148,13 @@ class FileSystemService
 
         $storage_url = $this->_publicDisk->url($storage_filename);
 
-        return $storage_url;
+        $storage_file = $this->_storageFileRepository->updateOrCreate([
+            'storage_id' => $storage_id,
+            'url'        => $storage_url,
+            'extension'  => $original_ext
+        ], $storage_id);
+
+        return '';
     }
 
     /**

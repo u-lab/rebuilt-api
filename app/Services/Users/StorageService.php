@@ -82,22 +82,16 @@ class StorageService
     {
         $user = $request->user();
         // requestでexceptを指定するもの。
-        $request_except = ['user_id', 'storage_id'];
+        $request_except = ['user_id', 'storage_id', 'release_id'];
         $user_id = $user->id;
         $storage_id = MyStorage::generateID();
+        $release_id = 1;
 
         // アイキャッチ画像の保存
         $eyecatch_image_id = $this->_fileSystemService
                                 ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch');
         if (isset($eyecatch_image_id)) {
             $request_except[] = 'eyecatch_image_id';
-        }
-
-        // 作品の保存
-        $storage_url = $this->_fileSystemService
-                            ->store_requestStorage($request, 'storage', '/storages/storage/');
-        if (isset($storage_url)) {
-            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
@@ -113,7 +107,14 @@ class StorageService
         // 挿入するデータが何もなかったら、$request->allする
         $inserts = $inserts ?? $request->all();
 
-        return new StorageResource($this->_storageRepository->create_storage($inserts));
+        $storage = $this->_storageRepository->create_storage($inserts);
+
+        // 作品の保存
+        $this->_fileSystemService
+                            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
+
+
+        return new StorageResource($storage);
     }
 
     /**
@@ -128,7 +129,8 @@ class StorageService
     {
         $user = $request->user();
         // requestでexceptを指定するもの。
-        $request_except = [];
+        $request_except = ['release_id'];
+        $release_id = 1;
 
         // アイキャッチ画像の保存
         try {
@@ -140,13 +142,6 @@ class StorageService
         } catch (FailedUploadImage $e) {
             \Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
-        }
-
-        // 作品の保存
-        $storage_url = $this->_fileSystemService
-                            ->store_requestStorage($request, 'storage', '/storages/storage/');
-        if (isset($storage_url)) {
-            $request_except[] = 'storage_url';
         }
 
         // DBに保存するデータの作成
@@ -165,6 +160,11 @@ class StorageService
         // DBの更新
         $storage = $this->_storageRepository
                     ->updateOrCreate($inserts, $user->id, $storage_id);
+
+        // 作品の保存
+        $this->_fileSystemService
+                            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
+
 
         return new StorageResource($storage);
     }
