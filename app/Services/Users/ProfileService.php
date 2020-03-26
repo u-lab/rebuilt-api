@@ -7,19 +7,24 @@ use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
+use App\Repositories\User\UserCareerRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProfileService
 {
     private $_userProfileRepository;
 
+    private $_userCareerRepository;
+
     private $_fileSystemService;
 
     public function __construct(
         UserProfileRepositoryInterface $userProfileRepository,
+        UserCareerRepositoryInterface $userCareerRepository,
         FileSystemService $fileSystemService
     ) {
         $this->_userProfileRepository = $userProfileRepository;
+        $this->_userCareerRepository = $userCareerRepository;
         $this->_fileSystemService = $fileSystemService;
     }
 
@@ -65,7 +70,28 @@ class ProfileService
             $insert['icon_image_id'] = $icon_image_id;
         }
 
-        $insert = $insert ?? $request->except(['icon_image']);
+        // 送信されたファイルをストレージに保存
+        $background_image_id = $this->_fileSystemService
+                                ->store_requestImage($request, 'background_image', '/user/background');
+
+        if (isset($background_image_id)) {
+            $insert = $request->except(['background_image', 'background_image_id']);
+            $insert['background_image_id'] = $background_image_id;
+        }
+
+        $insert = $insert ?? $request->except(['icon_image', 'background_image']);
+
+        // user_careerの挿入
+        // TODO: バルクインサートにしたい
+        foreach ($request->user_career as $insert_user_career) {
+            if (isset($insert_user_career->id)) {
+                $this->_userCareerRepository
+                        ->updateOrCreate($insert_user_career, $request->user_id, $insert_user_career->id);
+            } else {
+                $this->_userCareerRepository
+                        ->updateOrCreate($insert_user_career, $request->user_id);
+            }
+        }
 
         // ユーザープロフィールを変更か更新をする。
         $user_profile = $this->_userProfileRepository

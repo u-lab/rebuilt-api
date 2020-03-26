@@ -15,6 +15,7 @@ class UserCareer extends ResourceCollection
     public function toArray($request)
     {
         return [
+            'id'   => $this->id,
             'date' => $this->date,
             'name' => $this->name
         ];

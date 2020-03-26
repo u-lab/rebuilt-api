@@ -26,7 +26,7 @@ class UserProfile extends JsonResource
             "background_image_id" => $this->background_image_id,
             "background_image"    => new ImageResource($this->background_image),
             'web_address'         => $this->web_address,
-            'user_carrer'         => $this->user_carrer,
+            'user_career'         => $this->user_career,
             'created_at'          => $this->created_at,
             'updated_at'          => $this->updated_at
         ];

@@ -25,11 +25,16 @@ class UserCareerRepository implements UserCareerRepositoryInterface
      * @param integer $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateOrCreate(array $inserts, int $user_id, int $id)
+    public function updateOrCreate(array $inserts, int $user_id, ?int $id = null)
     {
+        $check = ['user_id' => $user_id];
+        if (isset($id)) {
+            $check['id'] = $id;
+        }
+
         $userCareer = $this->_userCareer
             ->updateOrCreate(
-                [ 'id' => $id, 'user_id' => $user_id ],
+                $check,
                 $inserts
             );
 

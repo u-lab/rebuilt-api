@@ -185,6 +185,6 @@ class UserProfile extends Model
      */
     public function user_career(): HasMany
     {
-        return $this->hasMany(UserCareer::class);
+        return $this->hasMany(UserCareer::class, 'user_id', 'user_id');
     }
 }
