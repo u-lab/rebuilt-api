@@ -32,7 +32,10 @@ class UpdateProfileRequest extends FormRequest
             'description'   => ['string', 'nullable','max:50'],
             'icon_image'    => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
             'background_image'    => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
-            'web_address'   => ['string', 'nullable', 'url', 'max:255']
+            'web_address'   => ['string', 'nullable', 'url', 'max:255'],
+            'user_carrer'   => ['array', 'nullable'],
+            'user_carrer.*.date' => ['date'],
+            'user_carrer.*.name' => ['string', 'max:50'],
         ];
     }
 }

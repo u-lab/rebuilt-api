@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -175,5 +176,15 @@ class UserProfile extends Model
     public function background_image(): HasOne
     {
         return $this->hasOne(Image::class, 'id', 'background_image_id');
+    }
+
+    /**
+     * UserCareerへのリレーションシップ
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_career(): HasMany
+    {
+        return $this->hasMany(UserCareer::class);
     }
 }
