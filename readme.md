@@ -48,6 +48,9 @@ $ php artisan serve
 // ライブラリの更新
 $ composer update
 
+// configのキャッシュ削除
+$ php artisan config:cache
+
 // データベースの再マイグレーション
 $php artisan migrate:refresh --seed
 ```
