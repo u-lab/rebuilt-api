@@ -57,8 +57,16 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/http/api/laravel.log'),
             'level' => 'debug',
-            'days' => 7,
+            'days' => 365,
             'tap' => [App\Logging\HttpApiLog::class],
+        ],
+
+        'dailyMNF' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/model/laravel.log'),
+            'level' => 'debug',
+            'days' => 365,
+            'tap' => [App\Logging\ModelNotFound::class],
         ],
 
         'slack' => [

@@ -23,6 +23,11 @@ class EventServiceProvider extends ServiceProvider
             // アクセスIP, Route記録リスナー
             'App\Listeners\AccessIpAndRouteRecordListener',
         ],
+
+        // ModelNotFound用イベント
+        'App\Events\ModelNotFoundDetectionEvent' => [
+            'App\Listeners\ModelNotFoundRecordListener',
+        ],
     ];
 
     /**

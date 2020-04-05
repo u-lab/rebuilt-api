@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\AccessApiDetectionEvent;
-use App\Services\Logging\HttpApiService;
+use App\Events\ModelNotFoundDetectionEvent;
+use App\Services\Logging\ModelNotFoundService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class AccessIpAndRouteRecordListener implements ShouldQueue
+class ModelNotFoundRecordListener implements ShouldQueue
 {
     /**
      * ジョブが処理開始されるまでの時間（秒）
@@ -17,7 +17,9 @@ class AccessIpAndRouteRecordListener implements ShouldQueue
     public $delay = 60;
 
     /**
-     * @var \App\Services\Logging\HttpApiService
+     * Undocumented variable
+     *
+     * @var \App\Services\Logging\ModelNotFoundService
      */
     protected $_service;
 
@@ -26,7 +28,7 @@ class AccessIpAndRouteRecordListener implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(HttpApiService $service)
+    public function __construct(ModelNotFoundService $service)
     {
         $this->_service = $service;
     }
@@ -34,11 +36,11 @@ class AccessIpAndRouteRecordListener implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  AccessApiDetectionEvent  $event
+     * @param  ModelNotFoundDetectionEvent  $event
      * @return void
      */
-    public function handle(AccessApiDetectionEvent $event)
+    public function handle(ModelNotFoundDetectionEvent $event)
     {
-        $this->_service->record($event->ip, $event->message);
+        $this->_service->record($event->message);
     }
 }
