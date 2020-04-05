@@ -185,14 +185,4 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     {
         return $this->hasMany(UserSnsAccount::class);
     }
-
-    /**
-     * UserCareerへのリレーションシップ
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user_career(): HasMany
-    {
-        return $this->hasMany(UserCareer::class);
-    }
 }

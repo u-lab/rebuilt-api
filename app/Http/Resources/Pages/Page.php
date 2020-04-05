@@ -25,8 +25,7 @@ class Page extends JsonResource
             'updated_at'     => $this->updated_at,
             'user_info'      => new UserInfoResource($this->user_info),
             'user_profile'   => new UserProfileResource($this->user_profile),
-            'user_portfolio' => new UserPortfolioResource($this->user_portfolio),
-            'user_career'    => $this->user_career,
+            'user_portfolio' => new UserPortfolioResource($this->user_portfolio)
         ];
     }
 }
