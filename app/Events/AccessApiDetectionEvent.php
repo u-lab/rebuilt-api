@@ -14,8 +14,18 @@ class AccessApiDetectionEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * IPアドレス
+     *
+     * @var string
+     */
     public $ip;
 
+    /**
+     * ログに書き込むメッセージ
+     *
+     * @var string
+     */
     public $message;
 
     /**
