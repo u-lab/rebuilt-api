@@ -17,6 +17,22 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        // アクセスを検出するイベント
+        'App\Events\AccessApiDetectionEvent' => [
+            // アクセスIP, Route記録リスナー
+            'App\Listeners\AccessIpAndRouteRecordListener',
+        ],
+
+        // ModelNotFound用イベント
+        'App\Events\ModelNotFoundDetectionEvent' => [
+            'App\Listeners\ModelNotFoundRecordListener',
+        ],
+
+        // メンテナンスモードに入ったことを知らせるイベント
+        'App\Events\MaintainModeDetectionEvent' => [
+            'App\Listeners\MaintainModeRecordListener',
+        ],
     ];
 
     /**

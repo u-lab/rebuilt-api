@@ -2,6 +2,7 @@
 
 namespace App\Services\Pages;
 
+use App\Events\ModelNotFoundDetectionEvent;
 use Log;
 use Exception;
 use App\Http\Requests\Pages\ShowPageRequest;
@@ -34,9 +35,8 @@ class PageService
             $user = $this->_userRepository->get_user_by_name($user);
             return new PageResource($user);
         } catch (ModelNotFoundException $e) {
-            Log::error($e);
-            $message = $user . 'is not exsisted.';
-            return abort(response()->json(['message' => $message], 404));
+            event(new ModelNotFoundDetectionEvent('Model: ' . $e->getModel() . ' user: '. $user));
+            return abort(response()->json(['message' => 'Page Not Found'], 404));
         }
     }
 }

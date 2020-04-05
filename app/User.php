@@ -4,7 +4,6 @@ namespace App;
 
 use App\Models\UserInfo;
 use App\Models\UserRole;
-use App\Models\UserCareer;
 use App\Models\UserRelease;
 use App\Models\UserProfile;
 use App\Models\UserPortfolio;
@@ -107,7 +106,8 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     public function sendPasswordResetNotification($token): void
     {
-        $this->notify(new ResetPassword($token));
+        $when = now()->addSecond(3);
+        $this->notify((new ResetPassword($token))->delay($when));
     }
 
     /**
@@ -117,7 +117,8 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      */
     public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new VerifyEmail);
+        $when = now()->addSecond(3);
+        $this->notify((new VerifyEmail)->delay($when));
     }
 
     /**
@@ -184,15 +185,5 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function user_sns_accounts(): HasMany
     {
         return $this->hasMany(UserSnsAccount::class);
-    }
-
-    /**
-     * UserCareerへのリレーションシップ
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function user_career(): HasMany
-    {
-        return $this->hasMany(UserCareer::class);
     }
 }

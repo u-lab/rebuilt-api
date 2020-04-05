@@ -2,6 +2,7 @@
 
 namespace App\Services\Pages;
 
+use App\Events\ModelNotFoundDetectionEvent;
 use Log;
 use InvalidArgumentException;
 use App\Http\Requests\Pages\AllStorageRequest;
@@ -74,10 +75,8 @@ class StorageService
 
             return new StorageResource($storage);
         } catch (ModelNotFoundException $e) {
-            Log::error($e);
-            $message = $storage_id . 'is not exsited.';
-
-            return abort(response()->json(['message' => $message], 404));
+            event(new ModelNotFoundDetectionEvent('Model: ' . $e->getModel(). ' user: '. $user. ' storage_id:', $storage_id));
+            return abort(response()->json(['message' => 'Page Not Found'], 404));
         } catch (UserIDNotEqualException $e) {
             Log::error($e);
             $message = 'User ID と Storage IDの所有者が一致しませんでした。';

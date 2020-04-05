@@ -53,6 +53,22 @@ return [
             'days' => 14,
         ],
 
+        'dailyHttpApi' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/http/api/laravel.log'),
+            'level' => 'debug',
+            'days' => 365,
+            'tap' => [App\Logging\HttpApiLog::class],
+        ],
+
+        'dailyMNF' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/model/laravel.log'),
+            'level' => 'debug',
+            'days' => 365,
+            'tap' => [App\Logging\ModelNotFound::class],
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

@@ -52,11 +52,12 @@ class FileSystemService
         $this->_storageFileRepository = $storageFileRepository;
         $this->_localDisk = Storage::disk('local');
         $this->_publicDisk = Storage::disk('public');
-        $this->_sizes = [160, 320, 640, 1024, 1280, 1920, 2580];
+        $this->_sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
         $this->_inserts = [
             'id'       => Str::uuid(),
             'title'    => null,
             'url'      => null,
+            'url_80'   => null,
             'url_160'  => null,
             'url_320'  => null,
             'url_640'  => null,
