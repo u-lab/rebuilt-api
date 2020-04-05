@@ -27,7 +27,9 @@ class UserProfileRepository implements UserProfileRepositoryInterface
      */
     public function get_user_profile_by_id(string $user_id)
     {
-        return $this->_userProfile->findOrFail($user_id);
+        return $this->_userProfile
+            ->with(['icon_image', 'background_image', 'user_career'])
+            ->findOrFail($user_id);
     }
 
     /**
