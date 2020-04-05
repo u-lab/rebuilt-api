@@ -28,6 +28,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ModelNotFoundDetectionEvent' => [
             'App\Listeners\ModelNotFoundRecordListener',
         ],
+
+        // メンテナンスモードに入ったことを知らせるイベント
+        'App\Events\MaintainModeDetectionEvent' => [
+            'App\Listeners\MaintainModeRecordListener',
+        ],
     ];
 
     /**
