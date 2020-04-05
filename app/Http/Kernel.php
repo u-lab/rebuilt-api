@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\SetLocale::class,
         \Spatie\Cors\Cors::class,
+        \App\Http\Middleware\RecordIpAndRoute::class,
     ];
 
     /**
