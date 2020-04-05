@@ -52,6 +52,16 @@ $ composer update
 $php artisan migrate:refresh --seed
 ```
 
+## 重要なコマンド
+
+``` bash
+// メンテナンスモードに入れる(Slack通知付き)
+$ php artisan down:n
+
+// メンテナンスモードを解除する(Slack通知付き)
+$ php artisan up:n
+```
+
 ## 環境
 
 - Laravel 6.x
