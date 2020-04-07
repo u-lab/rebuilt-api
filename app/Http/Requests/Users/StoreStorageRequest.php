@@ -36,7 +36,9 @@ class StoreStorageRequest extends FormRequest
                 new ExtObj($this->file('storage'))
             ],
             'eyecatch_image' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
-            'web_address'    => ['string', 'nullable', 'url' , 'max:255']
+            'web_address'    => ['string', 'nullable', 'url' , 'max:255'],
+            'storage_sub_images'   => ['array', 'nullable'],
+            'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
     }
 

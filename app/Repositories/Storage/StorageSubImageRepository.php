@@ -22,14 +22,19 @@ class StorageSubImageRepository implements StorageSubImageRepositoryInterface
      *
      * @param array $inserts
      * @param integer $storage_id
-     * @param integer $id
+     * @param integer|null $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateOrCreate(array $inserts, int $storage_id, int $id)
+    public function updateOrCreate(array $inserts, int $storage_id, ?int $id = null)
     {
+        $attributes = ['storage_id' => $storage_id];
+        if (isset($id)) {
+            $attributes['id'] = $id;
+        }
+
         $storage = $this->_storageSubImage
             ->updateOrCreate(
-                [ 'id' => $id, 'storage_id' => $storage_id ],
+                $attributes,
                 $inserts
             );
 

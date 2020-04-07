@@ -14,8 +14,9 @@ use App\Http\Requests\Users\DestroyStorageRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
-use App\Services\FileSystemService;
 use App\Http\Resources\Users\StoragePagination as StoragePaginationResource;
+use App\Services\FileSystemService;
+use App\Services\Storages\StoreSubImageService;
 
 class StorageService
 {
@@ -24,13 +25,17 @@ class StorageService
      */
     private $_storageRepository;
 
+    private $_storeSubImageService;
+
     private $_fileSystemService;
 
     public function __construct(
         StorageRepositoryInterface $storageRepository,
+        StoreSubImageService $storeSubImageService,
         FileSystemService $fileSystemService
     ) {
         $this->_storageRepository = $storageRepository;
+        $this->_storeSubImageService = $storeSubImageService;
         $this->_fileSystemService = $fileSystemService;
     }
 
@@ -94,6 +99,11 @@ class StorageService
             $request_except[] = 'eyecatch_image_id';
         }
 
+        if (isset($request->storage_sub_images)) {
+            $this->_storeSubImageService->store($storage_id, $request->storage_sub_images);
+            $request_except[] = 'storage_sub_images';
+        }
+
         // DBに保存するデータの作成
         if (isset($request_except)) {
             $inserts = $request->except($request_except);
@@ -142,6 +152,11 @@ class StorageService
         } catch (FailedUploadImage $e) {
             \Log::error($e);
             return response()->json(['message' => $e->getMessage()], 500);
+        }
+
+        if (isset($request->storage_sub_images)) {
+            $this->_storeSubImageService->store($storage_id, $request->storage_sub_images);
+            $request_except[] = 'storage_sub_images';
         }
 
         // DBに保存するデータの作成
