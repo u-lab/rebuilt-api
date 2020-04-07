@@ -23,7 +23,7 @@ class Page extends JsonResource
             'name'           => $this->name,
             'created_at'     => $this->created_at,
             'updated_at'     => $this->updated_at,
-            'user_info'      => new UserInfoResource($this->user_info),
+            // 'user_info'      => new UserInfoResource($this->user_info),
             'user_profile'   => new UserProfileResource($this->user_profile),
             'user_portfolio' => new UserPortfolioResource($this->user_portfolio)
         ];

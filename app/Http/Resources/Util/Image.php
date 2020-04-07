@@ -26,7 +26,6 @@ class Image extends JsonResource
             'url_1280'   => $this->url_1280,
             'url_1920'   => $this->url_1920,
             'url_2580'   => $this->url_2580,
-            'deleted_at' => $this->deleted_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];
