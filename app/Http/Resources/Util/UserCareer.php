@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Util;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\Resource;
 
-class UserCareer extends ResourceCollection
+class UserCareer extends Resource
 {
     /**
      * Transform the resource into an array.

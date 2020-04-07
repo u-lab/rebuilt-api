@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Util;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\Resource;
 use App\Http\Resources\Util\Image as ImageResource;
 
-class StorageSubImage extends ResourceCollection
+class StorageSubImage extends Resource
 {
     /**
      * Transform the resource into an array.

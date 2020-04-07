@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Util;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\Resource;
 
-class StorageFile extends ResourceCollection
+class StorageFile extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -15,6 +15,7 @@ class StorageFile extends ResourceCollection
     public function toArray($request)
     {
         return [
+            'id'        => $this->id,
             'url'       => $this->url,
             'extension' => $this->extension
         ];

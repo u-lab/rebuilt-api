@@ -12,5 +12,5 @@ interface StorageSubImageRepositoryInterface
      * @param integer $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function updateOrCreate(array $inserts, int $storage_id, int $id);
+    public function updateOrCreate(array $inserts, int $storage_id, ?int $id = null);
 }

@@ -5,6 +5,8 @@ namespace App\Http\Resources\Util;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Util\Image as ImageResource;
 use App\Http\Resources\Util\Release as ReleaseResource;
+use App\Http\Resources\Util\StorageFile as StorageFileResource;
+use App\Http\Resources\Util\StorageSubImage as StorageSubImageResource;
 
 class Storage extends JsonResource
 {
@@ -23,8 +25,8 @@ class Storage extends JsonResource
             "title"               => $this->title,
             "description"         => $this->description,
             "long_comment"        => $this->long_comment,
-            "storage_sub_image"   => $this->storage_sub_image,
-            "storage_file"        => $this->storage_file,
+            "storage_sub_image"   => StorageSubImageResource::collection($this->storage_sub_image),
+            "storage_file"        => StorageFileResource::collection($this->storage_file),
             "eyecatch_image_id"   => $this->eyecatch_image_id,
             "eyecatch_image"      => new ImageResource($this->eyecatch_image),
             "web_address"         => $this->web_address,

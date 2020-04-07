@@ -74,7 +74,7 @@ class FileSystemService
      * @param Request $request
      * @param string $image_name
      * @param string $path
-     * @return string
+     * @return string image.id
      * @throws Exception
      * @throws \RuntimeException
      * @throws \App\Exceptions\Image\FailedUploadImage

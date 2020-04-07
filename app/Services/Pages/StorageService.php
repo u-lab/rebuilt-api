@@ -98,7 +98,6 @@ class StorageService
 
             $user_id = $this->_userRepository->get_user_id($user);
             $pagination = $this->_storageRepository->get_user_all_storages($user_id, $per_page);
-            \Log::debug('message');
             return new StoragePaginationResource($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
