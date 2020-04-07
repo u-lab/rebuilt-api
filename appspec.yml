@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/rebuilt-api
+permissions:
+  - object: /var/www/rebuilt-api
+    owner: ec2-user
+    group: ec2-user
+    mode: 722
