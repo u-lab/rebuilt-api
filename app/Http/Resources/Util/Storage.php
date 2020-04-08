@@ -25,7 +25,7 @@ class Storage extends JsonResource
             "title"               => $this->title,
             "description"         => $this->description,
             "long_comment"        => $this->long_comment,
-            "storage_sub_image"   => StorageSubImageResource::collection($this->storage_sub_image),
+            "storage_sub_images"  => StorageSubImageResource::collection($this->storage_sub_image),
             "storage_file"        => StorageFileResource::collection($this->storage_file),
             "eyecatch_image_id"   => $this->eyecatch_image_id,
             "eyecatch_image"      => new ImageResource($this->eyecatch_image),
