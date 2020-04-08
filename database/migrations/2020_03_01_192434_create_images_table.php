@@ -15,6 +15,7 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->uuid('id')->primary()->comment('image ID');
+            $table->string('extension', 30)->nullable()->comment('拡張子');
             $table->string('title', 255)->comment('画像名');
             $table->string('url', 255)->comment('オリジナル画像');
             $table->string('url_80', 255)->nullable()->comment('width = 80');

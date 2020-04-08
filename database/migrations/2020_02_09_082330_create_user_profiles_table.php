@@ -16,6 +16,7 @@ class CreateUserProfilesTable extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->string('nick_name', '30')->nullable()->comment('あだ名');
+            $table->string('kana', '30')->nullable()->comment('フリガナ');
             $table->string('job_name', '50')->nullable()->comment('肩書き');
             $table->string('hobby', '50')->nullable()->comment('趣味');
             $table->string('description', '50')->nullable()->comment('一言コメント');
