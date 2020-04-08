@@ -22,11 +22,11 @@ class StoreSubImageService
         $this->_service = $service;
     }
 
-    public function store(int $storage_id, array $files)
+    public function store(int $storage_id, $request)
     {
         $image_ids = [];
-        foreach ($files as $file) {
-            $image_id = $this->_service->store_requestImage($file, 'パース画像', '/storages/sub_image/');
+        foreach ($request->file('storage_sub_images') as $key => $step) {
+            $image_id = $this->_service->store_imageFile($request->file('storage_sub_images')[$key], 'storage_sub_images.tmp.' . $key, '/storages/sub_image/');
             $image_ids[] = $image_id;
         }
 
@@ -34,7 +34,8 @@ class StoreSubImageService
             $this->_storageSubImageRepository
                 ->updateOrCreate(
                     ['image_id' => $image_id, 'storage_id' => $storage_id],
-                    $storage_id
+                    $storage_id,
+                    $image_id
                 );
         }
     }

@@ -116,6 +116,43 @@ class FileSystemService
             // Modelに挿入
             $imageModel = $this->_imageRepository->create($inserts);
 
+            \Log::debug($imageModel);
+
+            // uuidを返す
+            return $imageModel->id;
+        }
+
+        $this->store_image_error($filename);
+    }
+
+    public function store_imageFile($file, string $image_name, string $path = ''): ?string
+    {
+        $path = '/'.trim($path, '/').'/';
+
+        // ファイルを一時ファイルに保存
+        $filename_tmp = $file->store('/tmp', 'local');
+        $filename = trim($filename_tmp, 'tmp/');
+
+        // 画像の拡張子を取得
+        $extension = $file->getClientOriginalExtension();
+
+        $img = Image::make($file);
+
+        // ファイルに追加
+        $inserts = $this->store_image($img, $path, $filename, $extension);
+        $inserts['id'] = Str::uuid();
+        $inserts['title'] = $image_name;
+
+        if (isset($inserts['url'])) {
+            // 一時ファイルを削除
+            $tmp_delete = $this->_localDisk->delete($filename_tmp);
+            if ($tmp_delete === false) {
+                throw new Exception();
+            }
+
+            // Modelに挿入
+            $imageModel = $this->_imageRepository->create($inserts);
+
             // uuidを返す
             return $imageModel->id;
         }
