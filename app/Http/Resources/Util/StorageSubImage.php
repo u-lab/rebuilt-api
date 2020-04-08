@@ -15,8 +15,6 @@ class StorageSubImage extends Resource
      */
     public function toArray($request)
     {
-        return [
-            'image' => new ImageResource($this->image)
-        ];
+        return new ImageResource($this->image);
     }
 }

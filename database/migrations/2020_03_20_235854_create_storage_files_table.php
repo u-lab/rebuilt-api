@@ -15,7 +15,7 @@ class CreateStorageFilesTable extends Migration
     {
         Schema::create('storage_files', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('storage_id');
+            $table->unsignedBigInteger('storage_id')->index();
             $table->string('url', '255')->comment('URL');
             $table->string('extension', '50')->comment('拡張子');
             $table->softDeletes();
