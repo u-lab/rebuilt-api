@@ -25,8 +25,9 @@ class StoreSubImageService
     public function store(int $storage_id, $request)
     {
         $image_ids = [];
-        foreach ($request->file('storage_sub_images') as $key => $step) {
-            $image_id = $this->_service->store_imageFile($request->file('storage_sub_images')[$key], 'storage_sub_images.tmp.' . $key, '/storages/sub_image/');
+        // foreach ($request->file('storage_sub_images') as $key => $step) {
+        foreach ($request->file('storage_sub_images') as $file) {
+            $image_id = $this->_service->store_imageFile($file, 'storage_sub_images', '/storages/sub_image/');
             $image_ids[] = $image_id;
         }
 
