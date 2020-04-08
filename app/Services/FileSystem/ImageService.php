@@ -21,15 +21,15 @@ class ImageService
         $this->_imageRepository = $imageRepository;
     }
 
-    public function store($file, string $name, string $path)
+    public function store($file, string $name, string $path, string $image_id = null)
     {
         $urls = $this->store_image($file, $path);
         $inserts = $urls;
-        $inserts['id'] = Str::uuid();
+        $inserts['id'] = $image_id ?? Str::uuid();
         $inserts['title'] = $name;
         $inserts['extension'] = $this->_service->get_extension($file);
 
-        $imageModel = $this->_imageRepository->create($inserts);
+        $imageModel = $this->_imageRepository->updateOrCreate($inserts, $image_id);
         return $imageModel->id;
     }
 

@@ -21,4 +21,14 @@ class ImageRepository implements ImageRepositoryInterface
     {
         return $this->_image->create($inserts);
     }
+
+    public function updateOrCreate(array $inserts, string $id = null)
+    {
+        $attributes = [];
+        if (isset($id)) {
+            $attributes['id'] = $id;
+        }
+
+        return $this->_image->updateOrCreate($attributes, $inserts);
+    }
 }
