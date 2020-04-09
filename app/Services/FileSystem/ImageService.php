@@ -51,7 +51,7 @@ class ImageService
         // オリジナル画像の保存
         $original_url = $this->store_original_image($image, $path, $filename, $ext);
 
-        $sizes = [];
+        $sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
         // 画像をまとめてリサイズする
         $imageArr = $this->resizing_in_bulk($image, $ext, $sizes);
 
