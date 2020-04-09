@@ -109,6 +109,7 @@ class ImageService
                 $retArr[] = $this->image_resize($image, $extension, $size, $quality);
             }
         }
+
         return $retArr;
     }
 
