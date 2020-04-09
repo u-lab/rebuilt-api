@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -13,7 +12,6 @@ return [
     |
     */
 
-    'failed'   => 'Estas credenciales no coinciden con nuestros registros.',
-    'throttle' => 'Demasiados intentos de acceso. Por favor intente nuevamente en :seconds segundos.',
-
+    'failed'   => '認証情報と一致するレコードがありません。',
+    'throttle' => 'ログインの試行回数が多すぎます。:seconds 秒後にお試しください。',
 ];

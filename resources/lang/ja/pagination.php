@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Pagination Language Lines
@@ -13,7 +12,6 @@ return [
     |
     */
 
-    'previous' => '&laquo; Anterior',
-    'next'     => 'Siguiente &raquo;',
-
+    'previous' => '&laquo; 前',
+    'next'     => '次 &raquo;',
 ];
