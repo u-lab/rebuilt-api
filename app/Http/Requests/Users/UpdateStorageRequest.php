@@ -57,8 +57,8 @@ class UpdateStorageRequest extends FormRequest
             'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
             'eyecatch_image_id'  => ['string', 'uuid', 'nullable'],
             'web_address'        => ['string', 'url', 'max:255', 'nullable'],
-            'storage_sub_images'   => ['array', 'nullable'],
-            'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
+            // 'storage_sub_images'   => ['array', 'nullable'],
+            // 'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
     }
 

@@ -116,8 +116,6 @@ class FileSystemService
             // Modelに挿入
             $imageModel = $this->_imageRepository->create($inserts);
 
-            \Log::debug($imageModel);
-
             // uuidを返す
             return $imageModel->id;
         }
@@ -230,6 +228,7 @@ class FileSystemService
 
         // 作りたい画像のサイズ
         $sizes = $this->_sizes;
+        rsort($sizes);
 
         // それぞれのサイズの画像を作成
         foreach ($sizes as $size) {

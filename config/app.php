@@ -87,8 +87,7 @@ return [
     'locales' => [
         'ja' => '日本語',
         'en' => 'EN',
-        'zh-CN' => '中文',
-        'es' => 'ES',
+        'zh-CN' => '中文'
     ],
 
     /*
