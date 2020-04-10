@@ -18,7 +18,7 @@ class StoragePagination extends ResourceCollection
     {
         return [
             "data" => StorageResource::collection($this->collection),
-            "user" => new PageResource($this->collection[0]->user)
+            // "user" => new PageResource($this->collection[0]->user)
         ];
     }
 }
