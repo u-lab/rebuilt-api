@@ -77,9 +77,7 @@ class StorageRepository implements StorageRepositoryInterface
                 'user.user_release.release',
                 'eyecatch_image',
                 'release',
-                'storage_file',
-                'storage_sub_image',
-                'storage_sub_image.image'
+                'storage_file'
             ])->whereHas('release', function ($query) {
                 $query->where('release_level', '=', 100);
             })->whereHas('user.user_role.role', function ($query) {
@@ -105,8 +103,7 @@ class StorageRepository implements StorageRepositoryInterface
                 'user',
                 'user.user_sns_accounts',
                 'eyecatch_image',
-                'storage_file',
-                'storage_sub_image'
+                'storage_file'
             ])
             ->where('storage_id', '=', $storage_id)
             ->whereHas('release', function ($query) {
@@ -131,11 +128,10 @@ class StorageRepository implements StorageRepositoryInterface
     {
         $storage = $this->_storage
             ->with([
-            'user',
-            'release',
-            'eyecatch_image',
-            'storage_file',
-            'storage_sub_image'
+                'user',
+                'release',
+                'eyecatch_image',
+                'storage_file'
             ])
             ->where('storage_id', '=', $storage_id)
             ->whereHas('release', function ($query) {
@@ -160,10 +156,22 @@ class StorageRepository implements StorageRepositoryInterface
     public function get_user_all_storages(int $user_id, int $per_page = 15): LengthAwarePaginator
     {
         $storage = $this->_storage
-                ->with(['release', 'eyecatch_image', 'storage_file', 'storage_sub_image'])
                 ->whereUserId($user_id)
+                ->with([
+                    'release',
+                    // 'user.user_profile.background_image',
+                    // 'user.user_profile.icon_image',
+                    // 'user.user_portfolio.storage',
+                    'eyecatch_image',
+                    'storage_file'
+                ])
                 ->whereHas('release', function ($query) { // banされているやつは除外
                     $query->where('release_level', '>', 5);
+                })
+                ->whereHas('user.user_role.role', function ($query) {
+                    $query->where('role_level', '>=', 10);
+                })->whereHas('user.user_release.release', function ($query) {
+                    $query->where('release_level', '=', 100);
                 })
                 ->orderBy('updated_at', 'desc')
                 ->paginate($per_page);

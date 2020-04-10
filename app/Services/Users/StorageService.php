@@ -99,11 +99,6 @@ class StorageService
             $request_except[] = 'eyecatch_image_id';
         }
 
-        if (isset($request->storage_sub_images)) {
-            $this->_storeSubImageService->store($storage_id, $request->storage_sub_images);
-            $request_except[] = 'storage_sub_images';
-        }
-
         // DBに保存するデータの作成
         if (isset($request_except)) {
             $inserts = $request->except($request_except);
@@ -174,10 +169,6 @@ class StorageService
         // 作品の保存
         $this->_fileSystemService
                             ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
-
-        if (isset($request->storage_sub_images)) {
-            $this->_storeSubImageService->store($storage->id, $request);
-        }
 
         return new StorageResource($storage);
     }
