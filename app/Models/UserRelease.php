@@ -65,6 +65,6 @@ class UserRelease extends Model
      */
     public function release(): HasOne
     {
-        return $this->hasOne(Release::class, 'id', 'user_id');
+        return $this->hasOne(Release::class, 'id', 'release_id');
     }
 }
