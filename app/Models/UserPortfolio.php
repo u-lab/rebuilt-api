@@ -7,6 +7,7 @@ use App\Models\Storage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserPortfolio
@@ -30,6 +31,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class UserPortfolio extends Model
 {
+    use LogsActivity;
+
     /**
      * テーブルの主キー
      *
@@ -43,6 +46,17 @@ class UserPortfolio extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
+        'masterpiece_storage_id',
+        'long_comment'
+    ];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
         'user_id',
         'masterpiece_storage_id',
         'long_comment'

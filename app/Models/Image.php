@@ -5,6 +5,7 @@ namespace App\Models;
 use Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Image
@@ -49,7 +50,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 */
 class Image extends Model
 {
-    use SoftDeletes;
+    use LogsActivity, SoftDeletes;
 
     /**
      * 複数代入する属性
@@ -57,6 +58,25 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
+        'title',
+        'url',
+        'url_80',
+        'url_160',
+        'url_320',
+        'url_640',
+        'url_1024',
+        'url_1280',
+        'url_1920',
+        'url_2580'
+    ];
+
+        /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
         'id',
         'title',
         'url',

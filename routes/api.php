@@ -81,7 +81,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('email/verify/{user}', 'Auth\VerificationController@verify')->name('verification.verify');
         Route::post('email/resend', 'Auth\VerificationController@resend');
 
-        Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
-        Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
+        // Route::post('oauth/{driver}', 'Auth\OAuthController@redirectToProvider');
+        // Route::get('oauth/{driver}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
     });
 });

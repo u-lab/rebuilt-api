@@ -16,7 +16,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -57,9 +58,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read int|null $user_career_count
  * @property-read \App\Models\UserRelease $user_release
  */
-class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -69,6 +70,13 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['id', 'name'];
 
     /**
      * The attributes that should be hidden for arrays.

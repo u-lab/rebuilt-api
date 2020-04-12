@@ -16,7 +16,7 @@ class PasswordController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'password' => 'required|confirmed|min:8',
+            'password' => 'required|confirmed|min:8|max:100|regex:/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}+\z/',
         ]);
 
         $request->user()->update([

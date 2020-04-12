@@ -7,6 +7,7 @@ use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserRole
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class UserRole extends Model
 {
+    use LogsActivity;
+
     /**
      * テーブルの主キー
      *
@@ -41,6 +44,16 @@ class UserRole extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'role_id'];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
+        'user_id',
+        'role_id'
+    ];
 
     /**
      * ネイティブなタイプへキャストする属性
