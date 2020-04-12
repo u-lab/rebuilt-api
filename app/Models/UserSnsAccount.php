@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserSnsAccount
@@ -40,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class UserSnsAccount extends Model
 {
-    use SoftDeletes;
+    use LogsActivity, SoftDeletes;
 
     /**
      * 複数代入する属性
@@ -48,6 +49,13 @@ class UserSnsAccount extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'sns_id', 'sns_url'];
+
+        /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['id', 'user_id', 'sns_id', 'sns_url'];
 
     /**
      * ネイティブなタイプへキャストする属性

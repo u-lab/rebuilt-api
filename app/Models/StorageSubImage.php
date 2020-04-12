@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\StorageSubImage
@@ -36,7 +37,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class StorageSubImage extends Model
 {
-    use SoftDeletes;
+    use LogsActivity, SoftDeletes;
 
     /**
      * 複数代入する属性
@@ -44,6 +45,17 @@ class StorageSubImage extends Model
      * @var array
      */
     protected $fillable = [
+        'storage_id',
+        'image_id'
+    ];
+
+        /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
+        'id',
         'storage_id',
         'image_id'
     ];

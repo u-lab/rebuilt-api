@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Release
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Release extends Model
 {
-    use SoftDeletes;
+    use LogsActivity ,SoftDeletes;
 
     /**
      * 複数代入する属性
@@ -43,6 +44,13 @@ class Release extends Model
         'release_name',
         'release_level',
     ];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['id', 'release_name', 'release_level'];
 
     /**
      * ネイティブなタイプへキャストする属性

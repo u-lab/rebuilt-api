@@ -7,6 +7,7 @@ use App\Models\Release;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserRelease
@@ -28,12 +29,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class UserRelease extends Model
 {
+    use LogsActivity;
+
     /**
      * 複数代入する属性
      *
      * @var array
      */
     protected $fillable = [
+        'user_id',
+        'release_id'
+    ];
+
+        /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
         'user_id',
         'release_id'
     ];

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\Role
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Role extends Model
 {
-    use SoftDeletes;
+    use LogsActivity, SoftDeletes;
 
     /**
      * 複数代入する属性
@@ -40,6 +41,13 @@ class Role extends Model
      * @var array
      */
     protected $fillable = ['role_name', 'role_level'];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['id', 'role_name', 'role_level'];
 
     /**
      * 日付へキャストする属性

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserProfile
@@ -41,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class UserProfile extends Model
 {
+    use LogsActivity;
+
     /**
      * テーブルの主キー
      *
@@ -54,6 +57,22 @@ class UserProfile extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
+        'nick_name',
+        'job_name',
+        'hobby',
+        'description',
+        'icon_image_id',
+        'background_image_id',
+        'web_address'
+    ];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
         'user_id',
         'nick_name',
         'job_name',

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\UserInfo
@@ -41,6 +42,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class UserInfo extends Model
 {
+    use LogsActivity;
+
     /**
      * テーブルの主キー
      *
@@ -54,6 +57,24 @@ class UserInfo extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
+        'first_name',
+        'last_name',
+        'first_kana',
+        'last_kana',
+        'school_name',
+        'birthday',
+        'prefecture',
+        'city',
+        'street'
+    ];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
         'user_id',
         'first_name',
         'last_name',

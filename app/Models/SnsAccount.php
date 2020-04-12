@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * App\Models\SnsAccount
@@ -32,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class SnsAccount extends Model
 {
-    use SoftDeletes;
+    use LogsActivity, SoftDeletes;
 
     /**
      * テーブルの主キー
@@ -47,6 +48,13 @@ class SnsAccount extends Model
      * @var array
      */
     protected $fillable = ['sns_name', 'sns_top_url'];
+
+    /**
+     * Log出力するか
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['id', 'sns_name', 'sns_top_url'];
 
     /**
      * ネイティブなタイプへキャストする属性
