@@ -49,7 +49,7 @@ class StorageSubImage extends Model
         'image_id'
     ];
 
-        /**
+    /**
      * Log出力するか
      *
      * @var array
