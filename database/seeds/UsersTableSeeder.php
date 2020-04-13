@@ -106,7 +106,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'admin',
                 'email'                  => 'admin@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '山田',
                 'first_name'             => '太郎',
                 'school_name'            => '東京大学',
@@ -134,7 +134,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'aaa',
                 'email'                  => 'aaa@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '佐藤',
                 'first_name'             => '健太郎',
                 'school_name'            => '宇都宮大学',
@@ -162,7 +162,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'bbb',
                 'email'                  => 'bbb@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '高橋',
                 'first_name'             => '拓哉',
                 'school_name'            => '栃木大学',

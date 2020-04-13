@@ -55,7 +55,7 @@ class UpdateStorageRequest extends FormRequest
                 new ExtObj($this->file('storage'))
             ],
             'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
-            'eyecatch_image_id'  => ['string', 'uuid', 'nullable'],
+            'eyecatch_image_id'  => ['integer', 'nullable'],
             'web_address'        => ['string', 'url', 'max:255', 'nullable'],
             // 'storage_sub_images'   => ['array', 'nullable'],
             // 'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
