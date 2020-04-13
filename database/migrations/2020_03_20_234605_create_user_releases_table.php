@@ -14,6 +14,7 @@ class CreateUserReleasesTable extends Migration
     public function up()
     {
         Schema::create('user_releases', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('release_id');
             $table->timestamps();

@@ -20,8 +20,8 @@ class CreateUserProfilesTable extends Migration
             $table->string('job_name', '50')->nullable()->comment('肩書き');
             $table->string('hobby', '50')->nullable()->comment('趣味');
             $table->string('description', '50')->nullable()->comment('一言コメント');
-            $table->uuid('icon_image_id')->nullable()->comment('ユーザーアイコンID');
-            $table->uuid('background_image_id')->nullable()->comment('背景画像');
+            $table->unsignedBigInteger('icon_image_id')->nullable()->comment('ユーザーアイコンID');
+            $table->unsignedBigInteger('background_image_id')->nullable()->comment('背景画像');
             $table->string('web_address', '255')->nullable()->comment('ユーザーサイト');
             $table->timestamps();
         });
