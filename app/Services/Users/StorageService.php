@@ -16,6 +16,7 @@ use App\Repositories\Storage\StorageRepositoryInterface;
 use App\Http\Resources\Users\Storage as StorageResource;
 use App\Http\Resources\Users\StoragePagination as StoragePaginationResource;
 use App\Services\FileSystemService;
+use App\Services\FileSystem\ImageService;
 use App\Services\Storages\StoreSubImageService;
 
 class StorageService
@@ -29,14 +30,18 @@ class StorageService
 
     private $_fileSystemService;
 
+    private $_imageService;
+
     public function __construct(
         StorageRepositoryInterface $storageRepository,
         StoreSubImageService $storeSubImageService,
-        FileSystemService $fileSystemService
+        FileSystemService $fileSystemService,
+        ImageService $imageService
     ) {
         $this->_storageRepository = $storageRepository;
         $this->_storeSubImageService = $storeSubImageService;
         $this->_fileSystemService = $fileSystemService;
+        $this->_imageService = $imageService;
     }
 
     /**
@@ -93,10 +98,14 @@ class StorageService
         $release_id = 1;
 
         // アイキャッチ画像の保存
-        $eyecatch_image_id = $this->_fileSystemService
-                                ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch');
-        if (isset($eyecatch_image_id)) {
-            $request_except[] = 'eyecatch_image_id';
+        // postされたfileがアップロードできているか確認
+        if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')) {
+            $eyecatch_image_id = $this->_imageService
+                ->store($request->eyecatch_image, 'eyecatch_image', '/storages/eyecatch');
+
+            if (isset($eyecatch_image_id)) {
+                $request_except[] = 'eyecatch_image_id';
+            }
         }
 
         // DBに保存するデータの作成
@@ -116,7 +125,7 @@ class StorageService
 
         // 作品の保存
         $this->_fileSystemService
-                            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
+            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
 
 
         return new StorageResource($storage);
@@ -139,10 +148,12 @@ class StorageService
 
         // アイキャッチ画像の保存
         try {
-            $eyecatch_image_id = $this->_fileSystemService
-                                    ->store_requestImage($request, 'eyecatch_image', '/storages/eyecatch/');
-            if (isset($eyecatch_image_id)) {
-                $request_except[] = 'eyecatch_image_id';
+            if ($request->hasFile('eyecatch_image') && $request->file('eyecatch_image')) {
+                $eyecatch_image_id = $this->_imageService
+                    ->store($request->file('eyecatch_image'), 'eyecatch_image', '/storages/eyecatch');
+                if (isset($eyecatch_image_id)) {
+                    $request_except[] = 'eyecatch_image_id';
+                }
             }
         } catch (FailedUploadImage $e) {
             \Log::error($e);
@@ -168,7 +179,7 @@ class StorageService
 
         // 作品の保存
         $this->_fileSystemService
-                            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
+            ->store_requestStorage($request, $storage->id, 'storage', '/storages/storage/');
 
         return new StorageResource($storage);
     }
