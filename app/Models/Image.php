@@ -71,7 +71,7 @@ class Image extends Model
         'url_2580'
     ];
 
-        /**
+    /**
      * Log出力するか
      *
      * @var array
@@ -91,31 +91,9 @@ class Image extends Model
     ];
 
     /**
-     * IDが自動増分されるか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * 自動増分IDの「タイプ」
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
-
-    /**
      * 日付へキャストする属性
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
-
-    // public function __construct(array $attributes = [])
-    // {
-    //     parent::__construct($attributes);
-
-    //     // newした時に自動的にuuidを設定する。
-    //     $this->attributes['id'] = Str::uuid();
-    // }
 }
