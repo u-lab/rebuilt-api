@@ -12,6 +12,13 @@ class ResetPassword extends Notification implements ShouldQueue
     use Queueable;
 
     /**
+     * 最大試行回数
+     *
+     * @var int
+     */
+    public $tries = 5;
+
+    /**
      * Build the mail representation of the notification.
      *
      * @param  mixed  $notifiable

@@ -114,7 +114,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function sendPasswordResetNotification($token): void
     {
-        $when = now()->addSecond(3);
+        $when = now()->addSecond(1);
         $this->notify((new ResetPassword($token))->delay($when));
     }
 
@@ -125,7 +125,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function sendEmailVerificationNotification(): void
     {
-        $when = now()->addSecond(3);
+        $when = now()->addSecond(1);
         $this->notify((new VerifyEmail)->delay($when));
     }
 
