@@ -13,4 +13,6 @@ interface UserCareerRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function updateOrCreate(array $inserts, int $user_id, ?int $id = null);
+
+    public function delete(int $user_id, int $id);
 }

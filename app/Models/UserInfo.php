@@ -65,8 +65,7 @@ class UserInfo extends Model
         'school_name',
         'birthday',
         'prefecture',
-        'city',
-        'street'
+        'city'
     ];
 
     /**

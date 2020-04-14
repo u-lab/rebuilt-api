@@ -36,7 +36,8 @@ class UsersTableSeeder extends Seeder
             $user = User::create([
                 'name'     => $insert['name'],
                 'email'    => $insert['email'],
-                'password' => $insert['password']
+                'password' => $insert['password'],
+                'email_verified_at' => now()
             ]);
 
             UserInfo::create([
@@ -105,7 +106,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'admin',
                 'email'                  => 'admin@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '山田',
                 'first_name'             => '太郎',
                 'school_name'            => '東京大学',
@@ -119,7 +120,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => '天才Unityエンジニア',
                 'hobby'                  => '建築モデルづくり',
                 'description'            => $this->description(),
-                'icon_image_id'          => "868de826-9d9f-45f5-9a29-94dee6d3be96",
+                'icon_image_id'          => 5,
                 'web_address'            => "https://github.com/u-lab/rebuilt-api",
                 'role_id'                => "3",
                 'user_career_name'       => '宇都宮大学入学',
@@ -133,7 +134,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'aaa',
                 'email'                  => 'aaa@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '佐藤',
                 'first_name'             => '健太郎',
                 'school_name'            => '宇都宮大学',
@@ -147,7 +148,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => 'HENTAI-WEB Enginner',
                 'hobby'                  => '読書',
                 'description'            => $this->description(),
-                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
+                'icon_image_id'         => 6,
                 'web_address'            => "https://github.com/u-lab/rebuilt",
                 'role_id'                => "2",
                 'user_career_name'       => '宇都宮大学入学',
@@ -161,7 +162,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'                   => 'bbb',
                 'email'                  => 'bbb@example.com',
-                'password'               => bcrypt("password"),
+                'password'               => bcrypt("Password1"),
                 'last_name'              => '高橋',
                 'first_name'             => '拓哉',
                 'school_name'            => '栃木大学',
@@ -175,7 +176,7 @@ class UsersTableSeeder extends Seeder
                 'job_name'               => '人生の夏休み中',
                 'hobby'                  => 'ゲーム',
                 'description'            => $this->description(),
-                'icon_image_id'         => "868de826-9d9f-45f5-9a29-94dee6d3be96",
+                'icon_image_id'         => 6,
                 'web_address'            => "https://github.com/u-lab",
                 'role_id'                => "2",
                 'user_career_name'       => '栃木大学入学',

@@ -51,10 +51,9 @@ class FileSystemService
         $this->_imageRepository = $imageRepository;
         $this->_storageFileRepository = $storageFileRepository;
         $this->_localDisk = Storage::disk('local');
-        $this->_publicDisk = Storage::disk('public');
+        $this->_publicDisk = Storage::disk();
         $this->_sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
         $this->_inserts = [
-            'id'       => Str::uuid(),
             'title'    => null,
             'url'      => null,
             'url_80'   => null,
@@ -138,7 +137,6 @@ class FileSystemService
 
         // ファイルに追加
         $inserts = $this->store_image($img, $path, $filename, $extension);
-        $inserts['id'] = Str::uuid();
         $inserts['title'] = $image_name;
 
         if (isset($inserts['url'])) {
@@ -222,7 +220,7 @@ class FileSystemService
         $image->orientate();
 
         // originalの保存
-        $this->_publicDisk->put($path.$filename, (string)$image->encode($extension), 'public');
+        $this->_publicDisk->put($path.$filename, (string)$image->encode($extension));
         $store_sizes = [];
         $inserts = $this->_inserts;
 
@@ -236,7 +234,6 @@ class FileSystemService
                 $this->_publicDisk->put(
                     $path.$size.'-'.$filename,
                     (string)$this->image_resize($image, $size, $extension),
-                    'public'
                 );
                 $store_sizes[] = $size;
             }

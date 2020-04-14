@@ -50,7 +50,7 @@ class UserSnsAccount extends Model
      */
     protected $fillable = ['user_id', 'sns_id', 'sns_url'];
 
-        /**
+    /**
      * Log出力するか
      *
      * @var array

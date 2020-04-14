@@ -41,7 +41,7 @@ class UserRelease extends Model
         'release_id'
     ];
 
-        /**
+    /**
      * Log出力するか
      *
      * @var array

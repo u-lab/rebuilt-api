@@ -16,7 +16,7 @@ class CreateStorageSubImagesTable extends Migration
         Schema::create('storage_sub_images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('storage_id')->index();
-            $table->uuid('image_id');
+            $table->unsignedBigInteger('image_id');
             $table->softDeletes();
             $table->timestamps();
         });

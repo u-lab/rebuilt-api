@@ -25,7 +25,6 @@ class ImageService
     {
         $urls = $this->store_image($file, $path);
         $inserts = $urls;
-        $inserts['id'] = $image_id ?? Str::uuid();
         $inserts['title'] = $name;
         $inserts['extension'] = $this->_service->get_extension($file);
 
