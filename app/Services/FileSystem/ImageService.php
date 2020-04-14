@@ -86,6 +86,7 @@ class ImageService
         $urls = $this->store_resize_image($image, $ext, $path, $filename);
 
         $inserts = $urls;
+        $inserts['extension'] = $ext;
 
         $this->_imageRepository->updateOrCreate($inserts, $image_id);
     }
