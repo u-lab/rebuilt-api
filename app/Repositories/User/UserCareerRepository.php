@@ -27,17 +27,23 @@ class UserCareerRepository implements UserCareerRepositoryInterface
      */
     public function updateOrCreate(array $inserts, int $user_id, ?int $id = null)
     {
-        $check = ['user_id' => $user_id];
+        $inserts['user_id'] = $user_id;
         if (isset($id)) {
-            $check['id'] = $id;
+            return $this->_userCareer
+                ->whereId($id)
+                ->whereUserId($user_id)
+                ->update($inserts);
         }
 
-        $userCareer = $this->_userCareer
-            ->updateOrCreate(
-                $check,
-                $inserts
-            );
-
+        $userCareer = $this->_userCareer->create($inserts);
         return $userCareer;
+    }
+
+    public function delete(int $user_id, int $id)
+    {
+        return $this->_userCareer
+            ->whereId($id)
+            ->whereUserId($user_id)
+            ->delete();
     }
 }

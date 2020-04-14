@@ -2,13 +2,14 @@
 
 namespace App\Services\Users;
 
-use App\Services\FileSystemService;
 use App\Http\Requests\Users\ShowProfileRequest;
 use App\Http\Requests\Users\UpdateProfileRequest;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Http\Resources\Users\Profile as ProfileResource;
 use App\Repositories\User\UserCareerRepositoryInterface;
+use App\Services\FileSystem\ImageService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Carbon;
 
 class ProfileService
 {
@@ -16,16 +17,16 @@ class ProfileService
 
     private $_userCareerRepository;
 
-    private $_fileSystemService;
+    private $_imageService;
 
     public function __construct(
         UserProfileRepositoryInterface $userProfileRepository,
         UserCareerRepositoryInterface $userCareerRepository,
-        FileSystemService $fileSystemService
+        ImageService $imageService
     ) {
         $this->_userProfileRepository = $userProfileRepository;
         $this->_userCareerRepository = $userCareerRepository;
-        $this->_fileSystemService = $fileSystemService;
+        $this->_imageService = $imageService;
     }
 
     /**
@@ -62,40 +63,60 @@ class ProfileService
         $insert = [];
 
         // 送信されたファイルをストレージに保存
-        $icon_image_id = $this->_fileSystemService
-                                ->store_requestImage($request, 'icon_image', '/user/icon');
-
-        if (isset($icon_image_id)) {
-            $insert = $request->except(['icon_image', 'icon_image_id']);
-            $insert['icon_image_id'] = $icon_image_id;
+        if ($request->hasFile('icon_image') && $request->file('icon_image')) {
+            $icon_image_id = $this->_imageService
+                ->store($request->file('icon_image'), 'icon_image', '/user/icon');
+            if (isset($icon_image_id)) {
+                $insert = $request->except(['icon_image', 'icon_image_id']);
+                $insert['icon_image_id'] = $icon_image_id;
+            }
         }
 
-        // 送信されたファイルをストレージに保存
-        $background_image_id = $this->_fileSystemService
-                                ->store_requestImage($request, 'background_image', '/user/background');
 
-        if (isset($background_image_id)) {
-            $insert = $request->except(['background_image', 'background_image_id']);
-            $insert['background_image_id'] = $background_image_id;
+        // 送信されたファイルをストレージに保存
+        if ($request->hasFile('background_image') && $request->file('background_image')) {
+            $background_image_id = $this->_imageService
+                ->store($request->file('background_image'), 'background_image', '/user/background');
+            if (isset($background_image_id)) {
+                $insert = $request->except(['background_image', 'background_image_id']);
+                $insert['background_image_id'] = $background_image_id;
+            }
         }
 
         $insert = $insert ?? $request->except(['icon_image', 'background_image']);
 
         // user_careerの挿入
         // TODO: バルクインサートにしたい
-        foreach ($request->user_career as $insert_user_career) {
-            if (isset($insert_user_career->id)) {
+        for ($idx = 0; $idx < count($request->user_career); $idx += 3) {
+            $insert_user_career = [
+                $request->user_career[$idx],
+                $request->user_career[$idx + 1],
+                $request->user_career[$idx + 2]
+            ];
+            $insert_user_career = \Arr::collapse($insert_user_career);
+            $insert_data = [
+                'date' => new Carbon($insert_user_career['date']),
+                'name' => $insert_user_career['name']
+            ];
+            if (isset($insert_user_career['id'])) {
+                $insert_data['id'] = $insert_user_career['id'];
                 $this->_userCareerRepository
-                        ->updateOrCreate($insert_user_career, $request->user_id, $insert_user_career->id);
+                    ->updateOrCreate($insert_data, $user->id, $insert_user_career['id']);
             } else {
                 $this->_userCareerRepository
-                        ->updateOrCreate($insert_user_career, $request->user_id);
+                        ->updateOrCreate($insert_data, $user->id);
+            }
+        }
+
+        if (isset($request->user_career_did)) {
+            foreach ($request->user_career_did as $id) {
+                $this->_userCareerRepository->delete($user->id, $id);
             }
         }
 
         // ユーザープロフィールを変更か更新をする。
         $user_profile = $this->_userProfileRepository
-                                ->updateOrCreate_user_profile($user->id, $insert);
+                            ->updateOrCreate_user_profile($user->id, $insert);
         return new ProfileResource($user_profile);
     }
 }
