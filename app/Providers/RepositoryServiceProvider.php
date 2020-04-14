@@ -7,6 +7,8 @@ use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Image\ImageRepository;
 use App\Repositories\Image\ImageRepositoryInterface;
+use App\Repositories\Release\ReleaseRepository;
+use App\Repositories\Release\ReleaseRepositoryInterface;
 use App\Repositories\Storage\StorageFileRepository;
 use App\Repositories\Storage\StorageFileRepositoryInterface;
 use App\Repositories\Storage\StorageSubImageRepository;
@@ -81,6 +83,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             ImageRepositoryInterface::class,
             ImageRepository::class
+        );
+
+        $this->app->bind(
+            ReleaseRepositoryInterface::class,
+            ReleaseRepository::class
         );
     }
 
