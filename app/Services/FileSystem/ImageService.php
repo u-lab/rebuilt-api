@@ -2,6 +2,7 @@
 
 namespace App\Services\FileSystem;
 
+use App\Events\ResizeImageDetectionEvent;
 use App\Exceptions\FileSystem\FailedStoreFile;
 use App\Repositories\Image\ImageRepositoryInterface;
 use App\Services\FileSystem\FileSystemService;
@@ -23,12 +24,16 @@ class ImageService
 
     public function store($file, string $name, string $path, string $image_id = null)
     {
-        $urls = $this->store_image($file, $path);
-        $inserts = $urls;
+        $filename = $this->_service->create_tmp($file); // 一時ファイルの作成
+        $url = $this->store_image($file, $path, $filename);
+        $ext = $this->_service->get_extension($file);
+        $inserts = ['url' => $url];
         $inserts['title'] = $name;
-        $inserts['extension'] = $this->_service->get_extension($file);
+        $inserts['extension'] = $ext;
 
         $imageModel = $this->_imageRepository->updateOrCreate($inserts, $image_id);
+
+        event(new ResizeImageDetectionEvent($url, $path, $imageModel->id, $filename));
         return $imageModel->id;
     }
 
@@ -39,34 +44,16 @@ class ImageService
      * @param string $path
      * @return array
      */
-    public function store_image($file, string $path): array
+    public function store_image($file, string $path, $filename): string
     {
         $path = $this->_service->format_path($path);
         $ext = $this->_service->get_extension($file);
-        $filename = $this->_service->create_tmp($file); // 一時ファイルの作成
-
         $image = Image::make($file);
 
         // オリジナル画像の保存
         $original_url = $this->store_original_image($image, $path, $filename, $ext);
 
-        $sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
-        // 画像をまとめてリサイズする
-        $imageArr = $this->resizing_in_bulk($image, $ext, $sizes);
-
-        $urls = [];
-        $urls['url'] = $original_url;
-        // リサイズした画像を保存する
-        foreach ($imageArr as $_image) {
-            $_filename = $path.$_image->width().'-'.$filename;
-            $this->_service->_disk->put($_filename, (string)$_image);
-            $urls['url_'.$_image->width()] = $this->_service->_disk->url($_filename);
-        }
-
-        // 一時ファイルを削除
-        $this->_service->_localDisk->delete('tmp/'.$filename);
-
-        return $urls;
+        return $original_url;
     }
 
     /**
@@ -88,6 +75,45 @@ class ImageService
 
         throw new FailedStoreFile();
     }
+
+    public function store_resize_image_repository($url, $path, $image_id, $filename)
+    {
+        \Log::debug($url);
+        \Log::debug($path);
+        \Log::debug($filename);
+
+        $file = $this->_service->_disk->get('.'.$path.'/'.$filename);
+        $path = $this->_service->format_path($path);
+        $ext = \File::extension($file);
+        \Log::debug($ext);
+        $image = Image::make($file);
+
+        $urls = $this->store_resize_image($image, $ext, $path, $filename);
+
+        $inserts = $urls;
+
+        $this->_imageRepository->updateOrCreate($inserts, $image_id);
+    }
+
+    public function store_resize_image(ImageImage $image, string $ext, string $path, string $filename)
+    {
+        $sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
+        // 画像をまとめてリサイズする
+        $imageArr = $this->resizing_in_bulk($image, $ext, $sizes);
+
+        $urls = [];
+        // リサイズした画像を保存する
+        foreach ($imageArr as $_image) {
+            $_filename = $path.$_image->width().'-'.$filename;
+            $this->_service->_disk->put($_filename, (string)$_image);
+            $urls['url_'.$_image->width()] = $this->_service->_disk->url($_filename);
+        }
+
+        // 一時ファイルを削除
+        $this->_service->_localDisk->delete('tmp/'.$filename);
+        return $urls;
+    }
+
 
     /**
      * 画像をまとめてリサイズする
