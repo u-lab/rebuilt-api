@@ -2,10 +2,10 @@
 
 namespace App\Services\FileSystem;
 
+use App\Events\ResizeImageDetectionEvent;
 use App\Exceptions\FileSystem\FailedStoreFile;
 use App\Repositories\Image\ImageRepositoryInterface;
 use App\Services\FileSystem\FileSystemService;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\Image as ImageImage;
 
@@ -23,12 +23,17 @@ class ImageService
 
     public function store($file, string $name, string $path, string $image_id = null)
     {
-        $urls = $this->store_image($file, $path);
-        $inserts = $urls;
+        $filename = $this->_service->create_tmp($file); // 一時ファイルの作成
+        $url = $this->store_image($file, $path, $filename);
+        $ext = \File::extension($url); // TODO: 拡張子を取得する
+        $inserts = ['url' => $url];
         $inserts['title'] = $name;
-        $inserts['extension'] = $this->_service->get_extension($file);
+        $inserts['extension'] = $ext;
 
         $imageModel = $this->_imageRepository->updateOrCreate($inserts, $image_id);
+
+        // 画像をリサイズするイベントの発行
+        event(new ResizeImageDetectionEvent($url, $path, $imageModel->id, $filename));
         return $imageModel->id;
     }
 
@@ -39,34 +44,16 @@ class ImageService
      * @param string $path
      * @return array
      */
-    public function store_image($file, string $path): array
+    public function store_image($file, string $path, $filename): string
     {
         $path = $this->_service->format_path($path);
         $ext = $this->_service->get_extension($file);
-        $filename = $this->_service->create_tmp($file); // 一時ファイルの作成
-
         $image = Image::make($file);
 
         // オリジナル画像の保存
         $original_url = $this->store_original_image($image, $path, $filename, $ext);
 
-        $sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
-        // 画像をまとめてリサイズする
-        $imageArr = $this->resizing_in_bulk($image, $ext, $sizes);
-
-        $urls = [];
-        $urls['url'] = $original_url;
-        // リサイズした画像を保存する
-        foreach ($imageArr as $_image) {
-            $_filename = $path.$_image->width().'-'.$filename;
-            $this->_service->_disk->put($_filename, (string)$_image);
-            $urls['url_'.$_image->width()] = $this->_service->_disk->url($_filename);
-        }
-
-        // 一時ファイルを削除
-        $this->_service->_localDisk->delete('tmp/'.$filename);
-
-        return $urls;
+        return $original_url;
     }
 
     /**
@@ -89,6 +76,40 @@ class ImageService
         throw new FailedStoreFile();
     }
 
+    public function store_resize_image_repository($url, $path, $image_id, $filename)
+    {
+        $file = $this->_service->_disk->get('.'.$path.'/'.$filename);
+        $path = $this->_service->format_path($path);
+        $ext = \File::extension($url);
+        $image = Image::make($file);
+
+        $urls = $this->store_resize_image($image, $ext, $path, $filename);
+
+        $inserts = $urls;
+
+        $this->_imageRepository->updateOrCreate($inserts, $image_id);
+    }
+
+    public function store_resize_image(ImageImage $image, string $ext, string $path, string $filename)
+    {
+        $sizes = [80, 160, 320, 640, 1024, 1280, 1920, 2580];
+        // 画像をまとめてリサイズする
+        [$imageArr, $newSizes] = $this->resizing_in_bulk($image, $ext, $sizes);
+
+        $urls = [];
+        // リサイズした画像を保存する
+        for ($i = 0; $i < count($imageArr); $i++) {
+            $_filename = $path.$newSizes[$i].'-'.$filename;
+            $this->_service->_disk->put($_filename, (string)$imageArr[$i]);
+            $urls['url_'.$newSizes[$i]] = $this->_service->_disk->url($_filename);
+        }
+
+        // 一時ファイルを削除
+        $this->_service->_localDisk->delete('tmp/'.$filename);
+        return $urls;
+    }
+
+
     /**
      * 画像をまとめてリサイズする
      *
@@ -101,15 +122,17 @@ class ImageService
     public function resizing_in_bulk(ImageImage $image, string $extension, array $sizes, int $quality = 70): array
     {
         $retArr = [];
+        $retSizes = [];
         rsort($sizes); // 数値の大きい順にソート
         // それぞれのサイズの画像を作成
         foreach ($sizes as $size) {
             if ($image->width() > $size) {
+                $retSizes[] = $size;
                 $retArr[] = $this->image_resize($image, $extension, $size, $quality);
             }
         }
 
-        return $retArr;
+        return [$retArr, $retSizes];
     }
 
     /**
@@ -125,7 +148,6 @@ class ImageService
     {
         $image->orientate(); // 回転の補正
         return $image->resize($width, null, function ($constraint) {
-            $constraint->upsize();
             $constraint->aspectRatio();
         })->encode($extension, $quality);
     }

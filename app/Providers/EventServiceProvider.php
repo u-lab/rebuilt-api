@@ -29,6 +29,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\ModelNotFoundRecordListener',
         ],
 
+        // 画像のリサイズをするイベント
+        'App\Events\ResizeImageDetectionEvent' => [
+            'App\Listeners\ResizeImageRecordListener',
+        ],
+
         // メンテナンスモードに入ったことを知らせるイベント
         'App\Events\MaintainModeDetectionEvent' => [
             'App\Listeners\MaintainModeRecordListener',

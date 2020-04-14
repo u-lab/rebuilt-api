@@ -76,7 +76,6 @@ class StorageController extends Controller
      */
     public function destroy(DestroyStorageRequest $request, string $storage_id)
     {
-        \Log::debug('dddestroy');
         return $this->_service->destory($request, $storage_id);
     }
 }
