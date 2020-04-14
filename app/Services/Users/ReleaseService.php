@@ -2,6 +2,7 @@
 
 namespace App\Services\Users;
 
+use App\Http\Resources\Util\Release as ReleaseResource;
 use App\Repositories\Release\ReleaseRepositoryInterface;
 
 class ReleaseService
@@ -15,6 +16,6 @@ class ReleaseService
 
     public function get_release()
     {
-        return $this->_releaseRepository->get_release();
+        return ReleaseResource::collection($this->_releaseRepository->get_release());
     }
 }
