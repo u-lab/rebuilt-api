@@ -14,6 +14,11 @@ class ReleaseRepository implements ReleaseRepositoryInterface
         $this->_release = $release;
     }
 
+    /**
+     * リリースの一覧を取得する
+     *
+     * @return mixed
+     */
     public function get_release()
     {
         return $this->_release
