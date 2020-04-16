@@ -8,6 +8,7 @@ info:
 
 servers:
   - url: http://localhost:8000/api/v1
+  - url: http://example.com/api/v1
 
 tags:
   - name: open
@@ -359,6 +360,38 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         422:
           description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /release:
+    get:
+      tags:
+        - user
+      summary: "公開設定の一覧API"
+      security:
+        - ApiToken: []
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoragesResponse'
+        401:
+          description: "Unauthenticated"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        403:
+          description: "Unauthenticated"
           content:
             application/json:
               schema:

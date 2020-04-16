@@ -13,6 +13,13 @@ class VerifyEmail extends Notification implements ShouldQueue
     use Queueable;
 
     /**
+     * 最大試行回数
+     *
+     * @var int
+     */
+    public $tries = 5;
+
+    /**
      * Get the verification URL for the given notifiable.
      *
      * @param  mixed  $notifiable

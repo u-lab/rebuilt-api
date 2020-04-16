@@ -14,7 +14,14 @@ class ResizeImageRecordListener implements ShouldQueue
      *
      * @var int
      */
-    public $delay = 3;
+    public $delay = 1;
+
+    /**
+     * 最大試行回数
+     *
+     * @var int
+     */
+    public $tries = 5;
 
     protected $_imageService;
 

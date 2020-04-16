@@ -43,6 +43,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('profiles', 'Pages\ProfileController@index')->name('pages.profile.index');
         // ストレージ一覧
         Route::get('storages', 'Pages\StorageController@all')->name('pages.storage.all');
+        // リリースの属性一覧
+        Route::get('release', 'Users\ReleaseController@index')->name('release.index');
 
         Route::group(['prefix' => 'users'], function () {
             // ユーザー削除
