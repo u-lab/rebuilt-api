@@ -37,6 +37,7 @@ class StoreStorageRequest extends FormRequest
             ],
             'eyecatch_image' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
             'web_address'    => ['string', 'nullable', 'url' , 'max:255'],
+            'release_id'         => ['required', 'integer', 'min:1', 'max:3']
             // 'storage_sub_images'   => ['array', 'nullable'],
             // 'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];

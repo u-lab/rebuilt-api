@@ -95,7 +95,6 @@ class StorageService
         $request_except = ['user_id', 'storage_id', 'release_id'];
         $user_id = $user->id;
         $storage_id = MyStorage::generateID();
-        $release_id = 1;
 
         // アイキャッチ画像の保存
         // postされたfileがアップロードできているか確認
@@ -144,7 +143,6 @@ class StorageService
         $user = $request->user();
         // requestでexceptを指定するもの。
         $request_except = ['release_id'];
-        $release_id = 1;
 
         // アイキャッチ画像の保存
         try {

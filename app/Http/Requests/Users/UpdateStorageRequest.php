@@ -44,7 +44,12 @@ class UpdateStorageRequest extends FormRequest
     {
         return [
             'user_id'           => ['required', 'integer', 'exists:App\User,id'],
-            'storage_id'        => ['required', 'string', new StorageID, 'exists:App\Models\Storage,storage_id'],
+            'storage_id'        => [
+                'required',
+                'string',
+                new StorageID,
+                // 'exists:App\Models\Storage,storage_id'
+            ],
             'title'             => ['required', 'string', 'max:50'],
             'description'       => ['string', 'max:50', 'nullable'],
             'long_comment'      => ['string', 'max:100000', 'nullable'],
@@ -57,6 +62,7 @@ class UpdateStorageRequest extends FormRequest
             'eyecatch_image'     => ['file', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048', 'nullable'],
             'eyecatch_image_id'  => ['integer', 'nullable'],
             'web_address'        => ['string', 'url', 'max:255', 'nullable'],
+            'release_id'         => ['required', 'integer', 'min:1', 'max:3']
             // 'storage_sub_images'   => ['array', 'nullable'],
             // 'storage_sub_images.*' => ['file', 'image', 'nullable', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
