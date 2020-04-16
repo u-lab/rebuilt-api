@@ -48,10 +48,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name'     => 'required|string|min:4|max:100|unique:users|regex:/\A[a-z\d]{4,100}+\z/i',
+            'name'     => 'required|string|alpha_num|min:4|max:100|unique:users',
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|string|min:8|max:100|confirmed|regex:/\A(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[a-zA-Z\d]{8,100}+\z/',
-        ],[
+        ], [
             'name.regex'     => '半角英数字で入力してください',
             'password.regex' => '半角英小文字大文字数字をそれぞれ1種類以上含んでください'
         ]);

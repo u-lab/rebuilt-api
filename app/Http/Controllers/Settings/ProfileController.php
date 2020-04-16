@@ -18,9 +18,9 @@ class ProfileController extends Controller
         $user = $request->user();
 
         $this->validate($request, [
-            'name' => 'required|string|max:100|regex:/\A[a-z\d]{4,100}+\z/i|unique:users,name,'.$user->id,
+            'name' => 'required|string|max:100|alpha_num|unique:users,name,'.$user->id,
             'email' => 'required|max:255|email|unique:users,email,'.$user->id,
-        ],[
+        ], [
             'name.regex'     => '半角英数字で入力してください',
         ]);
 
