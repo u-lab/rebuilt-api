@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Notifications\VerifyEmail;
 use App\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
@@ -12,6 +13,14 @@ use Tests\TestCase;
 
 class VerificationTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(
+            ThrottleRequests::class
+        );
+    }
+
     /** @test */
     public function can_verify_email()
     {
@@ -45,7 +54,7 @@ class VerificationTest extends TestCase
     {
         $user = factory(User::class)->create(['email_verified_at' => null]);
 
-        $this->postJson("/api/email/verify/{$user->id}")
+        $this->postJson("/api/v1/email/verify/{$user->id}")
             ->assertStatus(400)
             ->assertJsonFragment(['status' => 'The verification link is invalid.']);
     }
@@ -57,7 +66,7 @@ class VerificationTest extends TestCase
 
         Notification::fake();
 
-        $this->postJson('/api/email/resend', ['email' => $user->email])
+        $this->postJson('/api/v1/email/resend', ['email' => $user->email])
             ->assertSuccessful();
 
         Notification::assertSentTo($user, VerifyEmail::class);
@@ -66,7 +75,7 @@ class VerificationTest extends TestCase
     /** @test */
     public function can_not_resend_verification_notification_if_email_does_not_exist()
     {
-        $this->postJson('/api/email/resend', ['email' => 'foo@bar.com'])
+        $this->postJson('/api/v1/email/resend', ['email' => 'foo@bar.com'])
             ->assertStatus(422)
             ->assertJsonFragment(['errors' => ['email' => ['We can\'t find a user with that e-mail address.']]]);
     }
@@ -78,7 +87,7 @@ class VerificationTest extends TestCase
 
         Notification::fake();
 
-        $this->postJson('/api/email/resend', ['email' => $user->email])
+        $this->postJson('/api/v1/email/resend', ['email' => $user->email])
             ->assertStatus(422)
             ->assertJsonFragment(['errors' => ['email' => ['The email is already verified.']]]);
 

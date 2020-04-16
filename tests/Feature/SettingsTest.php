@@ -22,8 +22,8 @@ class SettingsTest extends TestCase
     public function update_profile_info()
     {
         $this->actingAs($this->user)
-            ->patchJson('/api/settings/profile', [
-                'name' => 'Test User',
+            ->patchJson('/api/v1/settings/profile', [
+                'name' => 'TestUser',
                 'email' => 'test@test.app',
             ])
             ->assertSuccessful()
@@ -31,7 +31,7 @@ class SettingsTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'id' => $this->user->id,
-            'name' => 'Test User',
+            'name' => 'TestUser',
             'email' => 'test@test.app',
         ]);
     }
@@ -40,12 +40,12 @@ class SettingsTest extends TestCase
     public function update_password()
     {
         $this->actingAs($this->user)
-            ->patchJson('/api/settings/password', [
-                'password' => 'updated1',
-                'password_confirmation' => 'updated1',
+            ->patchJson('/api/v1/settings/password', [
+                'password' => 'Updated1',
+                'password_confirmation' => 'Updated1',
             ])
             ->assertSuccessful();
 
-        $this->assertTrue(Hash::check('updated1', $this->user->password));
+        $this->assertTrue(Hash::check('Updated1', $this->user->password));
     }
 }
