@@ -92,6 +92,8 @@ $ php artisan up:n
 
 - 作品一覧 GET (/api/v1/storages)
 
+- 公開設定の一覧 GET (/api/v1/release)
+
 ### ユーザー系
 
 - ユーザー削除 DELETE (/api/v1/users)
