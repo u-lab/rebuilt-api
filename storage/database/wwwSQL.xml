@@ -38,7 +38,7 @@
             <type label="Bit" length="0" sql="bit" quote=""/>
         </group>
     </datatypes>
-    <table x="851" y="210" name="users">
+    <table x="849" y="220" name="users">
         <row name="id" null="1" autoincrement="1">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -191,12 +191,12 @@
             <default>NULL</default>
         </row>
         <row name="icon_image_id" null="1" autoincrement="0">
-            <datatype>VARCHAR(255)</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
             <relation table="images" row="id" />
         </row>
         <row name="background_image_id" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
             <relation table="images" row="id" />
         </row>
@@ -253,8 +253,8 @@
             <default>NULL</default>
         </row>
         <row name="eyecatch_image_id" null="0" autoincrement="0">
-            <datatype>VARCHAR(255)</datatype>
-            <default>'NULL'</default>
+            <datatype>BIGINT</datatype>
+            <default>NULL</default>
             <relation table="images" row="id" />
         </row>
         <row name="web_address" null="1" autoincrement="0">
@@ -453,9 +453,9 @@
             <part>sns_id</part>
         </key>
     </table>
-    <table x="1067" y="378" name="images">
+    <table x="1053" y="404" name="images">
         <row name="id" null="1" autoincrement="1">
-            <datatype>VARCHAR</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
         </row>
         <row name="title" null="1" autoincrement="0">
@@ -463,23 +463,27 @@
             <default>NULL</default>
         </row>
         <row name="url" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>VARCHAR(255)</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="url_80" null="1" autoincrement="0">
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="url_160" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="url_320" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="url_640" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="url_1024" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="url_1280" null="1" autoincrement="0">
@@ -487,12 +491,12 @@
             <default>NULL</default>
         </row>
         <row name="url_1920" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>VARCHAR(255)</datatype>
             <default>NULL</default>
             <comment>フルハイビジョン画像</comment>
         </row>
         <row name="url_2560" null="1" autoincrement="0">
-            <datatype>INTEGER</datatype>
+            <datatype>INTEGER(255)</datatype>
             <default>NULL</default>
         </row>
         <row name="created_at" null="1" autoincrement="0">
@@ -558,7 +562,7 @@
             <part>user_id</part>
         </key>
     </table>
-    <table x="852" y="13" name="user_carrers">
+    <table x="848" y="0" name="user_carrers">
         <row name="id" null="1" autoincrement="0">
             <datatype>BIGINT</datatype>
             <default>NULL</default>
@@ -573,6 +577,10 @@
         </row>
         <row name="name" null="1" autoincrement="0">
             <datatype>VARCHAR</datatype>
+            <default>NULL</default>
+        </row>
+        <row name="type" null="1" autoincrement="0">
+            <datatype>VARCHAR(50)</datatype>
             <default>NULL</default>
         </row>
         <row name="deleted_at" null="1" autoincrement="0">
@@ -601,7 +609,7 @@
             <default>NULL</default>
         </row>
         <row name="image_id" null="1" autoincrement="0">
-            <datatype>VARCHAR</datatype>
+            <datatype>BIGINT</datatype>
             <default>NULL</default>
             <relation table="images" row="id" />
         </row>
