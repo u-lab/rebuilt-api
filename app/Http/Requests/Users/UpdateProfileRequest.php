@@ -37,6 +37,7 @@ class UpdateProfileRequest extends FormRequest
             'user_career.*.id' => ['integer', 'nullable'],
             'user_career.*.date' => ['date'],
             'user_career.*.name' => ['string', 'max:50'],
+            'user_career.*.type' => ['string', 'max:50'],
             'user_career_did' => ['array', 'nullable'],
             'user_career_did.*' => ['integer']
         ];

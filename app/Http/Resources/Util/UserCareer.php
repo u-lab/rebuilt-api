@@ -17,7 +17,8 @@ class UserCareer extends Resource
         return [
             'id'   => $this->id,
             'date' => $this->date,
-            'name' => $this->name
+            'name' => $this->name,
+            'type' => $this->type
         ];
     }
 }

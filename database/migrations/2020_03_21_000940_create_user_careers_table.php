@@ -16,8 +16,10 @@ class CreateUserCareersTable extends Migration
         Schema::create('user_careers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->index();
-            $table->date('date')->comment('日付');
+            $table->date('date')->nullable()->comment('日付');
             $table->string('name', '100')->comment('名前');
+            $table->string('type', '50')->nullable()->comment('キャリアタイプ');
+
             $table->softDeletes();
             $table->timestamps();
         });
