@@ -19,6 +19,32 @@ class ResetPassword extends Notification implements ShouldQueue
     public $tries = 5;
 
     /**
+     * Get the notification's channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array|string
+     */
+    public function via($notifiable)
+    {
+        return ['mail', 'database'];
+    }
+
+    /**
+     * Build the Database representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return void
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'action' => $this->resetUrl($notifiable),
+            'email' => $notifiable->email,
+            'subject' => __('Reset Password Notification')
+        ];
+    }
+
+    /**
      * Build the mail representation of the notification.
      *
      * @param  mixed  $notifiable

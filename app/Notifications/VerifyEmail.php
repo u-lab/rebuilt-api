@@ -20,6 +20,33 @@ class VerifyEmail extends Notification implements ShouldQueue
     public $tries = 5;
 
     /**
+     * Get the notification's channels.
+     *
+     * @param  mixed  $notifiable
+     * @return array|string
+     */
+    public function via($notifiable)
+    {
+        return ['mail', 'database'];
+    }
+
+    /**
+     * Build the Database representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return void
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'action' => $this->verificationUrl($notifiable),
+            'email' => $notifiable->email,
+            'user' => $notifiable->id,
+            'subject' => __('Reset Password Notification')
+        ];
+    }
+
+    /**
      * Get the verification URL for the given notifiable.
      *
      * @param  mixed  $notifiable
