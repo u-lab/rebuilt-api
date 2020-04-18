@@ -261,6 +261,52 @@ paths:
       responses:
         200:
           description: "OK"
+  /password/email:
+    post:
+      tags:
+        - auth
+      summary: "パスワード変更フォームを受け取る"
+      description: |-
+        パスワード変更フォームを受け取る
+      responses:
+        200:
+          description: "OK"
+  /password/reset:
+    post:
+      tags:
+        - auth
+      summary: "パスワードの再発行"
+      description: |-
+        パスワードの再発行
+      responses:
+        200:
+          description: "OK"
+  /email/resend:
+    post:
+      tags:
+        - auth
+      summary: "メールアドレスに再送信"
+      description: |-
+        メールアドレスに再送信
+      responses:
+        200:
+          description: "OK"
+  /email/verify/{user}:
+    post:
+      tags:
+        - auth
+      summary: "メールアドレスを認証する"
+      description: |-
+        メールアドレスを認証する
+      parameters:
+        - in: "path"
+          name: "user"
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: "OK"
 
   /profiles:
     get:

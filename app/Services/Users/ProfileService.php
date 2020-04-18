@@ -87,24 +87,27 @@ class ProfileService
 
         // user_careerの挿入
         // TODO: バルクインサートにしたい
-        for ($idx = 0; $idx < count($request->user_career); $idx += 3) {
-            $insert_user_career = [
-                $request->user_career[$idx],
-                $request->user_career[$idx + 1],
-                $request->user_career[$idx + 2]
-            ];
-            $insert_user_career = \Arr::collapse($insert_user_career);
-            $insert_data = [
-                'date' => new Carbon($insert_user_career['date']),
-                'name' => $insert_user_career['name']
-            ];
-            if (isset($insert_user_career['id'])) {
-                $insert_data['id'] = $insert_user_career['id'];
-                $this->_userCareerRepository
+        if (count($request->user_career) % 4 === 0) {
+            for ($idx = 0; $idx < count($request->user_career); $idx += 4) {
+                $insert_user_career = \Arr::collapse([
+                    $request->user_career[$idx],
+                    $request->user_career[$idx + 1],
+                    $request->user_career[$idx + 2],
+                    $request->user_career[$idx + 3]
+                ]);
+                $insert_data = [
+                    'date' => new Carbon($insert_user_career['date']),
+                    'name' => $insert_user_career['name'],
+                    'type' => $insert_user_career['type'],
+                ];
+                if (isset($insert_user_career['id'])) {
+                    $insert_data['id'] = $insert_user_career['id'];
+                    $this->_userCareerRepository
                     ->updateOrCreate($insert_data, $user->id, $insert_user_career['id']);
-            } else {
-                $this->_userCareerRepository
+                } else {
+                    $this->_userCareerRepository
                         ->updateOrCreate($insert_data, $user->id);
+                }
             }
         }
 
