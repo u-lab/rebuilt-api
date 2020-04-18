@@ -58,6 +58,9 @@ $php artisan migrate:refresh --seed
 ## 重要なコマンド
 
 ``` bash
+//queueの実行
+$ php artisan queue:work
+
 // メンテナンスモードに入れる(Slack通知付き)
 $ php artisan down:n
 
