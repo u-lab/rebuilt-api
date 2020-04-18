@@ -92,7 +92,7 @@ class StorageService
     {
         $user = $request->user();
         // requestでexceptを指定するもの。
-        $request_except = ['user_id', 'storage_id', 'release_id'];
+        $request_except = ['user_id', 'storage_id'];
         $user_id = $user->id;
         $storage_id = MyStorage::generateID();
 
@@ -142,7 +142,7 @@ class StorageService
     {
         $user = $request->user();
         // requestでexceptを指定するもの。
-        $request_except = ['release_id'];
+        $request_except = [];
 
         // アイキャッチ画像の保存
         try {
