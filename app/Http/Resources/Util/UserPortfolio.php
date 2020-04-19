@@ -19,10 +19,9 @@ class UserPortfolio extends JsonResource
             "user_id"                => $this->user_id,
             "masterpiece_storage_id" => $this->masterpiece_storage_id,
             "masterpiece_storage"    => new StorageResource($this->storage),
-            "long_comment"           => $this->long_comment,
+            // "long_comment"           => $this->long_comment,
             "created_at"             => $this->created_at,
             "updated_at"             => $this->updated_at
         ];
     }
 }
-
