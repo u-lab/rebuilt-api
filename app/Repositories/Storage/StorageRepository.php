@@ -146,6 +146,34 @@ class StorageRepository implements StorageRepositoryInterface
     }
 
     /**
+     * ユーザーIDを用いないで作品を取得する
+     *
+     * @param string $storage_id
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
+    public function get_storage_no_user_id_all_release(string $storage_id)
+    {
+        $storage = $this->_storage
+            ->with([
+                'user',
+                'release',
+                'eyecatch_image',
+                'storage_file'
+            ])
+            ->where('storage_id', '=', $storage_id)
+            ->whereHas('release', function ($query) {
+                $query->where('release_level', '>', 5);
+            })->whereHas('user.user_role.role', function ($query) {
+                $query->where('role_level', '>=', 10);
+            })->whereHas('user.user_release.release', function ($query) {
+                $query->where('release_level', '=', 100);
+            })->firstOrFail();
+
+        return $storage;
+    }
+
+    /**
      * ユーザーの全作品を取得する
      *
      * @param integer $user_id
