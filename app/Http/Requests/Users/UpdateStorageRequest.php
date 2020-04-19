@@ -27,7 +27,7 @@ class UpdateStorageRequest extends FormRequest
     {
         try {
             $storage = $this->_storageRepository
-                            ->get_storage_no_user_id($this->storage_id);
+                            ->get_storage_no_user_id_all_release($this->storage_id);
             return $storage && $this->user()->can('update', $storage);
         } catch (ModelNotFoundException $e) {
             Log::error($e);
@@ -47,8 +47,7 @@ class UpdateStorageRequest extends FormRequest
             'storage_id'        => [
                 'required',
                 'string',
-                new StorageID,
-                // 'exists:App\Models\Storage,storage_id'
+                new StorageID
             ],
             'title'             => ['required', 'string', 'max:50'],
             'description'       => ['string', 'max:50', 'nullable'],
