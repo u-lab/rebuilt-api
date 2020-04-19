@@ -67,10 +67,21 @@ class StorageService
     public function get_user_storage(ShowStorageRequest $request, string $user, string $storage_id): StorageResource
     {
         try {
-            $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
+            $login_user = $request->user();
 
-            if (strcmp($storage->user->name, $user) !== 0) {
-                throw new UserIDNotEqualException();
+            if ($login_user) {
+                $storage = $this->_storageRepository->get_storage_no_user_id_all_release($storage_id);
+                if (
+                    strcmp($storage->user->name, $login_user->name) !== 0 ||
+                    strcmp($storage->user->name, $user) !== 0
+                ) {
+                    throw new UserIDNotEqualException();
+                }
+            } else {
+                $storage = $this->_storageRepository->get_storage_no_user_id($storage_id);
+                if (strcmp($storage->user->name, $user) !== 0) {
+                    throw new UserIDNotEqualException();
+                }
             }
 
             return new StorageResource($storage);
