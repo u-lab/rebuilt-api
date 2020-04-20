@@ -59,6 +59,7 @@ class UserProfile extends Model
     protected $fillable = [
         'user_id',
         'nick_name',
+        'kana',
         'job_name',
         'hobby',
         'description',
@@ -75,6 +76,7 @@ class UserProfile extends Model
     protected static $logAttributes = [
         'user_id',
         'nick_name',
+        'kana',
         'job_name',
         'hobby',
         'description',
@@ -91,6 +93,7 @@ class UserProfile extends Model
     protected $casts = [
         'user_id'             => 'integer',
         'nick_name'           => 'string',
+        'kana'                => 'string',
         'job_name'            => 'string',
         'hobby'               => 'string',
         'description'         => 'string',
@@ -131,6 +134,23 @@ class UserProfile extends Model
     public function setNickNameAttribute(string $value)
     {
         $this->attributes['nick_name'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * descriptionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setKanaAttribute(string $value)
+    {
+        $this->attributes['kana'] = mb_convert_kana($value, 'asK');
     }
 
     /**
