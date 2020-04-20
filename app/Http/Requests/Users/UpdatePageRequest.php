@@ -28,7 +28,7 @@ class UpdatePageRequest extends FormRequest
         return [
             'user_id'                => ['required', 'integer', 'exists:App\User,id'],
             'masterpiece_storage_id' => ['string', new StorageID, 'exists:App\Models\Storage,storage_id'],
-            'long_comment'           => ['string', 'max:100000', 'nullable']
+            // 'long_comment'           => ['string', 'max:100000', 'nullable']
         ];
     }
 }

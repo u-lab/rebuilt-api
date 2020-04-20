@@ -20,6 +20,7 @@ class UserProfile extends JsonResource
             'user_id'             => $this->user_id,
             'nick_name'           => $this->nick_name,
             'job_name'            => $this->job_name,
+            'kana'                => $this->kana,
             // 'hobby'               => $this->hobby,
             'description'         => $this->description,
             // 'icon_image_id'       => $this->icon_image_id,

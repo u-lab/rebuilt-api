@@ -60,15 +60,15 @@ class ProfileService
         $user = $request->user();
 
         // Modelにinsert用の配列を宣言
-        $insert = [];
+        $inserts = [];
+        $request_except = [];
 
         // 送信されたファイルをストレージに保存
         if ($request->hasFile('icon_image') && $request->file('icon_image')) {
             $icon_image_id = $this->_imageService
                 ->store($request->file('icon_image'), 'icon_image', '/user/icon');
             if (isset($icon_image_id)) {
-                $insert = $request->except(['icon_image', 'icon_image_id']);
-                $insert['icon_image_id'] = $icon_image_id;
+                $request_except[] = 'icon_image_id';
             }
         }
 
@@ -78,12 +78,22 @@ class ProfileService
             $background_image_id = $this->_imageService
                 ->store($request->file('background_image'), 'background_image', '/user/background');
             if (isset($background_image_id)) {
-                $insert = $request->except(['background_image', 'background_image_id']);
-                $insert['background_image_id'] = $background_image_id;
+                $request_except[] = 'background_image_id';
             }
         }
 
-        $insert = $insert ?? $request->except(['icon_image', 'background_image']);
+        // DBに保存するデータの作成
+        if (isset($request_except)) {
+            $inserts = $request->except($request_except);
+
+            // $inserts['hoge'] = $hoge 可変変数の使用をしている。
+            foreach ($request_except as $insert_data) {
+                $inserts[$insert_data] = ${$insert_data};
+            }
+        }
+
+        // 挿入するデータが何もなかったら、$request->allする
+        $inserts = $inserts ?? $request->all();
 
         // user_careerの挿入
         // TODO: バルクインサートにしたい
@@ -119,7 +129,7 @@ class ProfileService
 
         // ユーザープロフィールを変更か更新をする。
         $user_profile = $this->_userProfileRepository
-                            ->updateOrCreate_user_profile($user->id, $insert);
+                            ->updateOrCreate_user_profile($user->id, $inserts);
         return new ProfileResource($user_profile);
     }
 }

@@ -48,7 +48,8 @@ class UserCareer extends Model
     protected $fillable = [
         'user_id',
         'date',
-        'name'
+        'name',
+        'type'
     ];
 
     /**
@@ -60,7 +61,8 @@ class UserCareer extends Model
         'id',
         'user_id',
         'date',
-        'name'
+        'name',
+        'type'
     ];
 
     /**
@@ -73,6 +75,7 @@ class UserCareer extends Model
         'user_id' => 'integer',
         'date'    => 'date',
         'name'    => 'string',
+        'type'    => 'string'
     ];
 
     /**

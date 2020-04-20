@@ -3,8 +3,7 @@
 namespace App\Http\Resources\Pages;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Util\UserInfo as UserInfoResource;
-use App\Http\Resources\Util\UserCareer as UserCareerResource;
+// use App\Http\Resources\Util\UserInfo as UserInfoResource;
 use App\Http\Resources\Util\UserProfile as UserProfileResource;
 use App\Http\Resources\Util\UserPortfolio as UserPortfolioResource;
 
