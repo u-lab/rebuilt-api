@@ -33,21 +33,6 @@ class UserProfileRepository implements UserProfileRepositoryInterface
     }
 
     /**
-     * ユーザープロフィール一覧をページネーションでとってくる
-     *
-     * @param integer $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     * @throws \InvalidArgumentException
-     */
-    public function get_user_profiles_by_pagination(int $perPage = 10): LengthAwarePaginator
-    {
-        return $this->_userProfile
-                    ->with('user')
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate($perPage);
-    }
-
-    /**
      * ユーザープロフィールをUpdateかCreateする
      *
      * @param string $user_id

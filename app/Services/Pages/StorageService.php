@@ -16,6 +16,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Pages\StoragePagination as StoragePaginationResource;
 use App\Http\Resources\Pages\AllStoragesPagination as AllStoragesPaginationResouce;
+use Cache;
 
 class StorageService
 {
@@ -47,8 +48,13 @@ class StorageService
     {
         try {
             $per_page = $request->query('per_page') ?? '15';
+            $page = $request->query('page') ?? 1;
 
-            $pagination = $this->_storageRepository->get_all_storages($per_page);
+            $pagination = Cache::remember('users_sotrages_' . $per_page . '_page_' . $page, 30, function () use ($per_page) {
+                $pagination = $this->_storageRepository->get_all_storages($per_page);
+                return $pagination;
+            });
+
             return new AllStoragesPaginationResouce($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
@@ -108,7 +114,14 @@ class StorageService
             $per_page = $request->query('per_page') ?? '15';
 
             $user_id = $this->_userRepository->get_user_id($user);
-            $pagination = $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+            $pagination = Cache::remember(
+                'get_user_all_storages_' . $user_id. 'per' . $per_page,
+                30,
+                function () use ($user_id, $per_page) {
+                    $pagination = $this->_storageRepository->get_user_all_storages($user_id, $per_page);
+                    return $pagination;
+                }
+            );
             return new StoragePaginationResource($pagination);
         } catch (InvalidArgumentException $e) {
             Log::error($e);
