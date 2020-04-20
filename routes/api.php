@@ -34,10 +34,8 @@ Route::group(['prefix' => 'v1'], function () {
         // ログアウト
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-        // TODO 必要ないと判断できたら削除
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
+        // userデータの取得
+        Route::get('/user', 'Users\UserController@get');
 
         // プロフィール一覧
         Route::get('profiles', 'Pages\ProfileController@index')->name('pages.profile.index');

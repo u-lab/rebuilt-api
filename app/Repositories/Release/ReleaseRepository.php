@@ -4,6 +4,7 @@ namespace App\Repositories\Release;
 
 use App\Models\Release;
 use App\Repositories\Release\ReleaseRepositoryInterface;
+use Cache;
 
 class ReleaseRepository implements ReleaseRepositoryInterface
 {
@@ -21,8 +22,10 @@ class ReleaseRepository implements ReleaseRepositoryInterface
      */
     public function get_release()
     {
-        return $this->_release
+        return Cache::remember('get_release_ReleaseRepository', 600, function () {
+            return $this->_release
                 ->where('release_level', '>=', 20)
                 ->get();
+        });
     }
 }

@@ -16,6 +16,11 @@ class UserController extends Controller
         $this->_service = $service;
     }
 
+    public function get(Request $request)
+    {
+        return $request->user();
+    }
+
     /**
      * Remove the specified resource from storage.
      *

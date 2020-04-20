@@ -17,15 +17,6 @@ interface UserProfileRepositoryInterface
     public function get_user_profile_by_id(string $user_id);
 
     /**
-     * ユーザープロフィール一覧をページネーションでとってくる
-     *
-     * @param integer $perPage
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     * @throws \InvalidArgumentException
-     */
-    public function get_user_profiles_by_pagination(int $perPage = 10): LengthAwarePaginator;
-
-    /**
      * ユーザープロフィールをUpdateかCreateする
      *
      * @param string $user_id

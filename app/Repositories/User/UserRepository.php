@@ -4,6 +4,7 @@ namespace App\Repositories\User;
 
 use App\User;
 use App\Repositories\User\UserRepositoryInterface;
+use Cache;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
@@ -50,8 +51,10 @@ class UserRepository implements UserRepositoryInterface
      */
     public function get_user_by_name(string $user_name)
     {
-        $user = $this->_user->whereName($user_name)->firstOrFail();
-        return $user;
+        return Cache::remember('get_user_by_name' . $user_name, 600, function () use ($user_name) {
+            $user = $this->_user->whereName($user_name)->firstOrFail();
+            return $user;
+        });
     }
 
     /**
@@ -75,9 +78,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function get_user_profiles_by_pagination(int $perPage = 15): LengthAwarePaginator
     {
-        return $this->_user
+        return Cache::remember('get_user_profiles_by_pagination_' . $perPage, 600, function () use ($perPage) {
+            return $this->_user
                     ->with('user_profile')
                     ->orderBy('updated_at', 'desc')
                     ->paginate($perPage);
+        });
     }
 }
