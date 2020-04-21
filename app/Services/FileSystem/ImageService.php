@@ -129,7 +129,7 @@ class ImageService
         foreach ($sizes as $size) {
             if ($image->width() > $size) {
                 $retSizes[] = $size;
-                $retArr[] = $this->image_resize($image, $extension, $size, $quality);
+                $retArr[] = $this->image_resize(clone $image, $extension, $size, $quality);
             }
         }
 
