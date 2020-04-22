@@ -86,6 +86,40 @@ class UserCareer extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * nameを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setNameAttribute(string $value)
+    {
+        $this->attributes['name'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
+     * typeを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setTypeAttribute(string $value)
+    {
+        $this->attributes['type'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
      * Userへのリレーションシップ
      *
      * @return BelongsTo
