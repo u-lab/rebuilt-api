@@ -83,6 +83,23 @@ class StorageFile extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * extensionを修正。
+     *
+     * 「全角」英数字を「半角」
+     *
+     * 「全角」スペースを「半角」に変換
+     *
+     * 「半角カタカナ」を「全角カタカナ」に変換
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setExtensionAttribute(string $value)
+    {
+        $this->attributes['extension'] = mb_convert_kana($value, 'asK');
+    }
+
+    /**
      * Undocumented function
      *
      * @return BelongsTo

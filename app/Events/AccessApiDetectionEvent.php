@@ -22,6 +22,13 @@ class AccessApiDetectionEvent
     public $ip;
 
     /**
+     * ログインしているか
+     *
+     * @var boolean
+     */
+    public $isLogin;
+
+    /**
      * ログに書き込むメッセージ
      *
      * @var string
@@ -33,9 +40,10 @@ class AccessApiDetectionEvent
      *
      * @return void
      */
-    public function __construct(string $ip, string $route)
+    public function __construct(string $ip, bool $isLogin, string $route)
     {
         $this->ip = $ip;
+        $this->isLogin = $isLogin;
         $this->message = $route;
     }
 

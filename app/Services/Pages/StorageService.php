@@ -50,7 +50,7 @@ class StorageService
             $per_page = $request->query('per_page') ?? '15';
             $page = $request->query('page') ?? 1;
 
-            $pagination = Cache::remember('users_sotrages_' . $per_page . '_page_' . $page, 30, function () use ($per_page) {
+            $pagination = Cache::remember('users_sotrages_' . $per_page . '_page_' . $page, 60 * 10, function () use ($per_page) {
                 $pagination = $this->_storageRepository->get_all_storages($per_page);
                 return $pagination;
             });

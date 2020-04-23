@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Events\AccessApiDetectionEvent;
+use Auth;
 use Closure;
 
 class RecordIpAndRoute
@@ -16,7 +17,7 @@ class RecordIpAndRoute
      */
     public function handle($request, Closure $next)
     {
-        event(new AccessApiDetectionEvent($request->ip(), $request->method().':'.$request->fullUrl()));
+        event(new AccessApiDetectionEvent($request->ip(), Auth::check(), $request->method().':'.$request->fullUrl()));
         return $next($request);
     }
 }

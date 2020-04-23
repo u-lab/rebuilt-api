@@ -39,6 +39,6 @@ class AccessIpAndRouteRecordListener implements ShouldQueue
      */
     public function handle(AccessApiDetectionEvent $event)
     {
-        $this->_service->record($event->ip, $event->message);
+        $this->_service->record($event->ip, $event->isLogin, $event->message);
     }
 }
