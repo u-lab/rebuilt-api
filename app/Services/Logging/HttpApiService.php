@@ -16,9 +16,9 @@ class HttpApiService
      * @param array $context
      * @return void
      */
-    public function record(string $ip, string $message, array $context = []): void
+    public function record(string $ip, bool $isLogin, string $message, array $context = []): void
     {
-        logs('dailyHttpApi')->notice($this->getMessage($ip, $message), $context);
+        logs('dailyHttpApi')->notice($this->getMessage($ip, $isLogin, $message), $context);
     }
 
     /**
@@ -28,8 +28,8 @@ class HttpApiService
      * @param string $message
      * @return string
      */
-    protected function getMessage(string $ip, string $message): string
+    protected function getMessage(string $ip, bool $isLogin, string $message): string
     {
-        return 'ip: ' . $ip . ',' . $message;
+        return 'ip: ' . $ip . ',' . 'login済みか: ' . (string)$isLogin . ',' . $message;
     }
 }
