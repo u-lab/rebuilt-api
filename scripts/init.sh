@@ -17,7 +17,7 @@ composer update
 
 php artisan view:cache
 php artisan config:cache
-composer install --optimize-autoloader --no-dev
+# composer install --optimize-autoloader --no-dev # 入れたいけど、migrationできなくなるので、切っておく
 php artisan route:cache
 # php artisan migrate:refresh --seed
 
