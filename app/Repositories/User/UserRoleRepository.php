@@ -3,8 +3,9 @@
 namespace App\Repositories\User;
 
 use App\Models\UserRole;
+use App\Repositories\User\UserRoleRepositoryInterface;
 
-class UserRoleRepository
+class UserRoleRepository implements UserRoleRepositoryInterface
 {
     protected $_userRole;
 
