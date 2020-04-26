@@ -114,9 +114,11 @@ class UserProfile extends Model
      * @param string $value
      * @return void
      */
-    public function setDescriptionAttribute(string $value)
+    public function setDescriptionAttribute(?string $value)
     {
-        $this->attributes['description'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['description'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
@@ -131,9 +133,11 @@ class UserProfile extends Model
      * @param string $value
      * @return void
      */
-    public function setNickNameAttribute(string $value)
+    public function setNickNameAttribute(?string $value)
     {
-        $this->attributes['nick_name'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['nick_name'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
@@ -148,9 +152,11 @@ class UserProfile extends Model
      * @param string $value
      * @return void
      */
-    public function setKanaAttribute(string $value)
+    public function setKanaAttribute(?string $value)
     {
-        $this->attributes['kana'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['kana'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
@@ -165,9 +171,11 @@ class UserProfile extends Model
      * @param string $value
      * @return void
      */
-    public function setHobbyAttribute(string $value)
+    public function setHobbyAttribute(?string $value)
     {
-        $this->attributes['hobby'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['hobby'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
@@ -182,9 +190,11 @@ class UserProfile extends Model
      * @param string $value
      * @return void
      */
-    public function setJobNameAttribute(string $value)
+    public function setJobNameAttribute(?string $value)
     {
-        $this->attributes['job_name'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['job_name'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**

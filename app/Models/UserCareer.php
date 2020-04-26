@@ -97,9 +97,11 @@ class UserCareer extends Model
      * @param string $value
      * @return void
      */
-    public function setNameAttribute(string $value)
+    public function setNameAttribute(?string $value)
     {
-        $this->attributes['name'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['name'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
@@ -114,9 +116,11 @@ class UserCareer extends Model
      * @param string $value
      * @return void
      */
-    public function setTypeAttribute(string $value)
+    public function setTypeAttribute(?string $value)
     {
-        $this->attributes['type'] = mb_convert_kana($value, 'asK');
+        if (isset($value)) {
+            $this->attributes['type'] = mb_convert_kana($value, 'asK');
+        }
     }
 
     /**
