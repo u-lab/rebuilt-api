@@ -97,7 +97,7 @@ class ProfileService
 
         // user_careerの挿入
         // TODO: バルクインサートにしたい
-        if (count($request->user_career) % 4 === 0) {
+        if (isset($request->user_career) && count($request->user_career) % 4 === 0) {
             for ($idx = 0; $idx < count($request->user_career); $idx += 4) {
                 $insert_user_career = \Arr::collapse([
                     $request->user_career[$idx],
