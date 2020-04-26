@@ -15,7 +15,7 @@ class StoreStorageRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', Storage::class);
+        return $this->user()->can('store', Storage::class);
     }
 
     /**

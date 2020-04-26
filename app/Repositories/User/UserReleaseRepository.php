@@ -18,6 +18,18 @@ class UserReleaseRepository implements UserReleaseRepositoryInterface
     }
 
     /**
+     * UserReleaseの作成
+     *
+     * @param integer $user_id
+     * @param integer $release_id
+     * @return App\Models\UserRelease
+     */
+    public function create(int $user_id, int $release_id)
+    {
+        return $this->_userRelease->create(['user_id' => $user_id, 'release_id' => $release_id]);
+    }
+
+    /**
      * UserCareerを更新か作成する
      *
      * @param array $inserts

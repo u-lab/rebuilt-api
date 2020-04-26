@@ -24,11 +24,11 @@ class UserPolicy
      *
      * @param User $user
      * @param mixed $ability
-     * @return boolean
+     * @return boolean|null
      */
-    public function before(User $user, $ability): bool
+    public function before(User $user, $ability): ?bool
     {
-        return $user->user_role->role->is_admin();
+        return $user->user_role->role->is_admin() ? true : null;
     }
 
     /**

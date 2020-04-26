@@ -25,6 +25,8 @@ use App\Repositories\User\UserProfileRepository;
 use App\Repositories\User\UserProfileRepositoryInterface;
 use App\Repositories\User\UserReleaseRepository;
 use App\Repositories\User\UserReleaseRepositoryInterface;
+use App\Repositories\User\UserRoleRepository;
+use App\Repositories\User\UserRoleRepositoryInterface;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -58,6 +60,11 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(
             UserReleaseRepositoryInterface::class,
             UserReleaseRepository::class
+        );
+
+        $this->app->bind(
+            UserRoleRepositoryInterface::class,
+            UserRoleRepository::class
         );
 
         $this->app->bind(
