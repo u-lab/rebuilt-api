@@ -45,7 +45,7 @@ class StoragesTableSeeder extends Seeder
 
         StorageFile::create([
             'storage_id' => $storage->id,
-            'url'        => $this->_fileDisk->url('storages/example/bunny.obj'),
+            'url'        => $this->_fileDisk->url('example/bunny.obj'),
             'extension'  => 'obj'
         ]);
 
@@ -62,7 +62,7 @@ class StoragesTableSeeder extends Seeder
 
         StorageFile::create([
             'storage_id' => $storage->id,
-            'url'        => $this->_fileDisk->url('storages/example/home_v1.obj'),
+            'url'        => $this->_fileDisk->url('example/home_v1.obj'),
             'extension'  => 'obj'
         ]);
 
@@ -79,7 +79,7 @@ class StoragesTableSeeder extends Seeder
 
         StorageFile::create([
             'storage_id' => $storage->id,
-            'url'        => $this->_fileDisk->url('storages/example/home_v1.fbx'),
+            'url'        => $this->_fileDisk->url('example/home_v1.obj'),
             'extension'  => 'fbx'
         ]);
 
@@ -96,7 +96,7 @@ class StoragesTableSeeder extends Seeder
 
         StorageFile::create([
             'storage_id' => $storage->id,
-            'url'        => $this->_fileDisk->url('storages/example/ウサギ.stl'),
+            'url'        => $this->_fileDisk->url('example/home_v1.obj'),
             'extension'  => 'stl'
         ]);
 
@@ -114,7 +114,7 @@ class StoragesTableSeeder extends Seeder
 
         StorageFile::create([
             'storage_id' => $storage->id,
-            'url'        => $this->_fileDisk->url('storages/example/home_v1.stl'),
+            'url'        => $this->_fileDisk->url('example/home_v1.obj'),
             'extension'  => 'stl'
         ]);
     }
