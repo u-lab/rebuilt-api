@@ -15,6 +15,4 @@ Route::group(['middleware' => ['develop']], function () {
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 });
 
-// Route::get('{path}', function () {
-//     return file_get_contents(public_path('_nuxt/index.html'));
-// })->where('path', '(.*)');
+Route::get('storage/example/{name}', 'Storage\StorageController@get');
