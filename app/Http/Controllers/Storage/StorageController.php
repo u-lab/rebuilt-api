@@ -10,8 +10,6 @@ class StorageController extends Controller
 {
     public function get($name)
     {
-        // $path = $request->name;
-        \Log::debug($name);
         return Storage::disk('local')->get('example/'.$name);
     }
 }
